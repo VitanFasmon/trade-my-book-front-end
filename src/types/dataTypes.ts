@@ -1,9 +1,9 @@
 type UserData = {
   name: string;
   email: string;
-  phone_number: string;
+  phoneNumber: string;
   password: string;
-  location_id: number;
+  locationId: number;
 };
 
 type LoginData = {
@@ -12,11 +12,13 @@ type LoginData = {
 };
 
 type BookData = {
-  user_id: number;
-  google_books_api_id: string;
-  condition: number;
-  picture: string;
-  trade_status: "available" | "pending" | "traded";
+  title: string;
+  author: string;
+  description: string;
+  isbn: string;
+  google_books_id: string;
+  cover_url: string;
+  book_condition: number;
 };
 
 type ApiResponse<T = any> = {

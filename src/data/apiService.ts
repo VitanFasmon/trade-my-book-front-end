@@ -74,6 +74,7 @@ async function loginUser(userData: LoginData): Promise<ApiResponse> {
   const result = await postRequest(url, userData);
   if (result.token) {
     token = result.token; // Store JWT token on successful login
+    localStorage.setItem("token", token);
   }
   return result;
 }

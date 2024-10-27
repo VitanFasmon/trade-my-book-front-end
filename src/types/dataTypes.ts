@@ -13,6 +13,13 @@ type PublicUserData = {
   location_id: number;
 };
 
+type UserStore = {
+  user: PublicUserData | null;
+  isAuthenticated: boolean;
+  login: (userData: PublicUserData) => void;
+  logout: () => void;
+};
+
 type LoginData = {
   email: string;
   password: string;
@@ -35,4 +42,11 @@ type ApiResponse<T = any> = {
   token?: string;
   data?: T;
 };
-export type { UserData, LoginData, BookData, ApiResponse, PublicUserData };
+export type {
+  UserData,
+  LoginData,
+  BookData,
+  ApiResponse,
+  PublicUserData,
+  UserStore,
+};

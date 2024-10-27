@@ -1,9 +1,16 @@
 type UserData = {
   name: string;
   email: string;
-  phoneNumber: string;
+  phone_number: string;
   password: string;
-  locationId: number;
+  location_id: number;
+};
+
+type PublicUserData = {
+  name: string;
+  email: string;
+  phone_number?: string;
+  location_id: number;
 };
 
 type LoginData = {
@@ -12,13 +19,15 @@ type LoginData = {
 };
 
 type BookData = {
-  title: string;
+  added_by_user?: string;
   author: string;
+  book_condition: number;
+  book_id?: number;
+  title: string;
   description: string;
   isbn: string;
   google_books_id: string;
   cover_url: string;
-  book_condition: number;
 };
 
 type ApiResponse<T = any> = {
@@ -26,4 +35,4 @@ type ApiResponse<T = any> = {
   token?: string;
   data?: T;
 };
-export type { UserData, LoginData, BookData, ApiResponse };
+export type { UserData, LoginData, BookData, ApiResponse, PublicUserData };

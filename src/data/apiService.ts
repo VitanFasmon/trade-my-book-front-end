@@ -1,10 +1,14 @@
-import { ApiResponse, BookData, LoginData, UserData } from "../types/dataTypes";
+import {
+  ApiResponse,
+  BookData,
+  LoginData,
+  PublicUserData,
+  UserData,
+} from "../types/dataTypes";
 
-// Set API URL and token
 const API_URL = "http://localhost:3000/api";
 let token: string | null = null;
 
-// Helper function for making POST requests
 async function postRequest<T>(
   url: string,
   data: any,
@@ -37,7 +41,6 @@ async function postRequest<T>(
   }
 }
 
-// Helper function for making GET requests
 async function getRequest<T>(
   url: string,
   auth = false
@@ -62,13 +65,11 @@ async function getRequest<T>(
   }
 }
 
-// API: Register a new user
 async function registerUser(userData: UserData): Promise<ApiResponse> {
   const url = `${API_URL}/register`;
   return postRequest(url, userData);
 }
 
-// API: Log in an existing user
 async function loginUser(userData: LoginData): Promise<ApiResponse> {
   const url = `${API_URL}/login`;
   const result = await postRequest(url, userData);
@@ -79,18 +80,38 @@ async function loginUser(userData: LoginData): Promise<ApiResponse> {
   return result;
 }
 
-// API: Add a new book
 async function addBook(bookData: BookData): Promise<ApiResponse> {
   const url = `${API_URL}/books`;
-  return postRequest(url, bookData, true); // Requires authentication
+  return postRequest(url, bookData, true);
 }
 
-// API: Get books by location ID
 async function getBooksByLocation(
   location_id: number
 ): Promise<ApiResponse<BookData[]>> {
   const url = `${API_URL}/books/location/${location_id}`;
-  return getRequest(url, true); // Requires authentication
+  return getRequest(url, true);
+}
+async function getBooksByUserId(): Promise<ApiResponse<BookData[]>> {
+  const url = `${API_URL}/books/user`;
+  return getRequest(url, true);
 }
 
-export { registerUser, loginUser, addBook, getBooksByLocation };
+async function fetchUserData(): Promise<ApiResponse<PublicUserData>> {
+  const url = `${API_URL}/user`;
+  return getRequest(url, true);
+}
+async function fetchUserDataByEmail(
+  email: string
+): Promise<ApiResponse<PublicUserData>> {
+  const url = `${API_URL}/user/email/${email}`;
+  return getRequest(url, true);
+}
+export {
+  registerUser,
+  loginUser,
+  addBook,
+  getBooksByLocation,
+  getBooksByUserId,
+  fetchUserData,
+  fetchUserDataByEmail,
+};

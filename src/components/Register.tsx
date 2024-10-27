@@ -6,9 +6,9 @@ const Register = () => {
   const [formData, setFormData] = useState<UserData>({
     name: "Jane Doe",
     email: `${Math.floor(Math.random() * 1000)}john@example.com`,
-    phoneNumber: "123456789",
+    phone_number: "123456789",
     password: "password123",
-    locationId: 1,
+    location_id: 1,
   });
 
   const [message, setMessage] = useState<string>("");
@@ -60,7 +60,7 @@ const Register = () => {
           <input
             type="text"
             name="phoneNumber"
-            value={formData.phoneNumber}
+            value={formData.phone_number}
             onChange={handleChange}
           />
         </div>
@@ -79,7 +79,7 @@ const Register = () => {
           <input
             type="number"
             name="locationId"
-            value={formData.locationId}
+            value={formData.location_id}
             onChange={handleChange}
             required
           />

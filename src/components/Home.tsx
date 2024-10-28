@@ -1,9 +1,11 @@
 import Button from "./Button";
+import Hero from "./Hero";
 import Typography from "./Typography";
 
 const Home = () => {
   return (
-    <section className="p-4">
+    <section className="bg-lightGray">
+      <Hero />
       <section className="flex gap-2">
         BUTTONS
         <Button type="primary" className="text-primary ">

@@ -9,13 +9,18 @@ const Navbar = () => {
   const { isAuthenticated, user } = useAuthStore();
 
   return (
-    <nav className="flex flex-row gap-2 justify-between p-4">
-      <div className="flex flex-row gap-2 justify-center items-center">
+    <nav className="flex flex-row gap-2 justify-between p-4  items-center">
+      <Button
+        type="planePrimary"
+        link
+        href={Routes.Home}
+        className="flex flex-row gap-2 justify-center items-center"
+      >
         <img src={logo} alt="logo" className="w-12 " />
         <Typography as="p" variant="h3" className="font-bold">
           TradeMyBook
         </Typography>
-      </div>
+      </Button>
       <ul className="flex flex-row gap-2">
         <li>
           <Button type="planePrimary" link href={Routes.Home}>

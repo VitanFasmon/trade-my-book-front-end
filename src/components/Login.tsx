@@ -4,6 +4,8 @@ import { loginUser } from "../data/apiService";
 import useAuthStore from "../store/useAuthStore";
 import { useNavigate } from "react-router";
 import { Routes } from "../navigation/routes";
+import Typography from "./Typography";
+import Button from "./Button";
 
 const Login: React.FC = () => {
   const [formData, setFormData] = useState<LoginData>({
@@ -11,6 +13,7 @@ const Login: React.FC = () => {
     password: "password123",
   });
   const [message, setMessage] = useState<string>("");
+  const [errors, setErrors] = useState<Record<string, string>>({});
   const { login } = useAuthStore();
   const navigate = useNavigate();
 
@@ -20,46 +23,75 @@ const Login: React.FC = () => {
       ...prevData,
       [name]: value,
     }));
+
+    // Clear error messages when the user starts typing
+    setErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
+  };
+
+  const validateForm = () => {
+    const newErrors: Record<string, string> = {};
+    if (!formData.email) newErrors.email = "Email is required.";
+    if (!formData.password) newErrors.password = "Password is required.";
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0; // Return true if no errors
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!validateForm()) return; // Validate form before submission
+
     loginUser(formData)
       .then((response) => {
-        setMessage("User logged in:" + response);
+        setMessage("User logged in: " + response);
         login(response.data, response.token || "");
         navigate(Routes.Home);
       })
-      .then(() => {})
-      .catch((err) => setMessage("Login failed:" + err));
+      .catch((err) => setMessage("Login failed: " + err));
   };
 
   return (
-    <section>
-      <h2>Login</h2>
-      <form onSubmit={handleSubmit}>
+    <section className="flex flex-col gap-8 items-center">
+      <Typography as="h2" variant="h2">
+        Login
+      </Typography>
+      <form
+        onSubmit={handleSubmit}
+        className="flex flex-col gap-2 max-w-[300px] w-full"
+      >
         <div>
-          <label>Email:</label>
           <input
             type="email"
             name="email"
             value={formData.email}
             onChange={handleChange}
             required
+            placeholder="Email"
+            aria-label="Email"
+            className="border border-primary p-2 rounded-md w-full"
           />
+          {errors.email && <p className="text-red-500">{errors.email}</p>}
         </div>
         <div>
-          <label>Password:</label>
           <input
             type="password"
             name="password"
             value={formData.password}
             onChange={handleChange}
             required
+            placeholder="Password"
+            aria-label="Password"
+            className="border border-primary p-2 rounded-md w-full"
           />
+          {errors.password && <p className="text-red-500">{errors.password}</p>}
         </div>
-        <button type="submit">Submit</button>
+        <Button type="primary" className="text-primary">
+          <Typography as="p" variant="p" className="font-bold">
+            Submit
+          </Typography>
+        </Button>
       </form>
+      {message && <p className="text-green-500">{message}</p>}
     </section>
   );
 };

@@ -2,21 +2,21 @@ import { useEffect, useState } from "react";
 import { PublicUserData } from "../types/dataTypes";
 import { fetchUserData, fetchUserDataByEmail } from "../data/apiService";
 import UsersBooks from "./UsersBooks";
-interface UserInfoProps {
-  email: string;
-}
+import { useParams } from "react-router";
 
-const UserProfile = ({ email }: UserInfoProps) => {
+const UserProfile = () => {
   const [userData, setUserData] = useState<PublicUserData | undefined>(
     undefined
   );
+  const { email } = useParams();
+
   useEffect(() => {
     loadUserData();
   }, []);
   const loadUserData = async () => {
     try {
-      const response = await fetchUserDataByEmail(email);
-      setUserData(response.data);
+      const response = email && (await fetchUserDataByEmail(email));
+      response && setUserData(response.data);
     } catch (error) {
       console.error("Error fetching user data:", error);
     }

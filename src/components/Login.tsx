@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { LoginData } from "../types/dataTypes";
 import { loginUser } from "../data/apiService";
 import useAuthStore from "../store/useAuthStore";
+import { Navigate } from "react-router";
 
 const Login: React.FC = () => {
   const [formData, setFormData] = useState<LoginData>({
@@ -25,8 +26,8 @@ const Login: React.FC = () => {
       .then((response) => {
         setMessage("User logged in:" + response);
         console.log(response.data);
-        login(response.data);
-        //redirect to main page
+        login(response.data, response.token || "");
+        //Navigate("/");
       })
       .then(() => {})
       .catch((err) => setMessage("Login failed:" + err));

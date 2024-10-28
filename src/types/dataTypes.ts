@@ -14,9 +14,10 @@ type PublicUserData = {
 };
 
 type UserStore = {
+  token: string | null;
   user: PublicUserData | null;
   isAuthenticated: boolean;
-  login: (userData: PublicUserData) => void;
+  login: (userData: PublicUserData, token: string) => void;
   logout: () => void;
 };
 

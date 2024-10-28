@@ -3,6 +3,7 @@ import Logout from "./Logout";
 
 const Navbar = () => {
   const { isAuthenticated, user } = useAuthStore();
+
   return (
     <nav className="flex flex-row gap-2 justify-between p-4">
       <ul className="flex flex-row gap-2">

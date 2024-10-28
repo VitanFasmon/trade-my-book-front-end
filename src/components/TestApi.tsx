@@ -24,7 +24,6 @@ const TestApi = () => {
       <Register />
       <Login />
       <AddBook />
-      {user?.email && <UserProfile email={user.email} />}
       <button onClick={onGetBooksByLocationClick}>
         Test get books by location API
       </button>

@@ -1,3 +1,4 @@
+import useAuthStore from "../store/useAuthStore";
 import {
   ApiResponse,
   BookData,
@@ -7,7 +8,8 @@ import {
 } from "../types/dataTypes";
 
 const API_URL = "http://localhost:3000/api";
-let token: string | null = null;
+//let token: string | null = null;
+const token = useAuthStore.getState().token;
 
 async function postRequest<T>(
   url: string,
@@ -74,8 +76,8 @@ async function loginUser(userData: LoginData): Promise<ApiResponse> {
   const url = `${API_URL}/login`;
   const result = await postRequest(url, userData);
   if (result.token) {
-    token = result.token; // Store JWT token on successful login
-    localStorage.setItem("token", token);
+    //token = result.token;
+    localStorage.setItem("token", result.token);
   }
   return result;
 }

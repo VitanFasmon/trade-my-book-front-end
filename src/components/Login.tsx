@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { LoginData } from "../types/dataTypes";
 import { loginUser } from "../data/apiService";
 import useAuthStore from "../store/useAuthStore";
-import { Navigate } from "react-router";
+import { useNavigate } from "react-router";
+import { Routes } from "../navigation/routes";
 
 const Login: React.FC = () => {
   const [formData, setFormData] = useState<LoginData>({
@@ -11,6 +12,7 @@ const Login: React.FC = () => {
   });
   const [message, setMessage] = useState<string>("");
   const { login } = useAuthStore();
+  const navigate = useNavigate();
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -25,9 +27,8 @@ const Login: React.FC = () => {
     loginUser(formData)
       .then((response) => {
         setMessage("User logged in:" + response);
-        console.log(response.data);
         login(response.data, response.token || "");
-        //Navigate("/");
+        navigate(Routes.Home);
       })
       .then(() => {})
       .catch((err) => setMessage("Login failed:" + err));
@@ -57,9 +58,8 @@ const Login: React.FC = () => {
             required
           />
         </div>
-        <button type="submit">Login</button>
+        <button type="submit">Submit</button>
       </form>
-      {message && <p>{message}</p>}
     </section>
   );
 };

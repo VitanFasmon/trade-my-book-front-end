@@ -14,8 +14,10 @@ interface ButtonProps {
   href?: string;
 }
 const ButtonTypesClassNames = {
-  primary: "bg-secondary rounded-lg text-white hover:bg-opacity-70",
-  secondary: "bg-primary rounded-lg text-white hover:bg-opacity-70 ",
+  primary:
+    "bg-secondary border border-2 border-secondary  rounded-lg text-white hover:bg-opacity-70",
+  secondary:
+    "bg-primary border-primary  border-2 border rounded-lg text-white hover:bg-opacity-70 ",
   outlinedPrimary:
     "rounded-lg text-primary border border-2 border-primary  hover:text-opacity-70 hover:border-opacity-70 ",
   outlinedSecondary:

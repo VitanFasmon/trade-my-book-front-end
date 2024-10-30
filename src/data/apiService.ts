@@ -11,11 +11,11 @@ import {
 
 const API_URL = "http://localhost:3000/api";
 
-async function postRequest<T>(
+const postRequest = async <T>(
   url: string,
   data: any,
   auth = false
-): Promise<ApiResponse<T>> {
+): Promise<ApiResponse<T>> => {
   try {
     const headers: Record<string, string> = {
       "Content-Type": "application/json",
@@ -43,12 +43,12 @@ async function postRequest<T>(
     console.error("Error:", error.message);
     throw error;
   }
-}
+};
 
-async function getRequest<T>(
+const getRequest = async <T>(
   url: string,
   auth = false
-): Promise<ApiResponse<T>> {
+): Promise<ApiResponse<T>> => {
   try {
     const headers: Record<string, string> = {};
     if (auth) {
@@ -69,14 +69,14 @@ async function getRequest<T>(
     console.error("Error:", error.message);
     throw error;
   }
-}
+};
 
-async function registerUser(userData: UserData): Promise<ApiResponse> {
+const registerUser = async (userData: UserData): Promise<ApiResponse> => {
   const url = `${API_URL}/register`;
   return postRequest(url, userData);
-}
+};
 
-async function loginUser(userData: LoginData): Promise<ApiResponse> {
+const loginUser = async (userData: LoginData): Promise<ApiResponse> => {
   const url = `${API_URL}/login`;
   const result = await postRequest(url, userData);
   if (result.token) {
@@ -84,36 +84,36 @@ async function loginUser(userData: LoginData): Promise<ApiResponse> {
     localStorage.setItem("token", result.token);
   }
   return result;
-}
+};
 
-async function addBook(bookData: BookData): Promise<ApiResponse> {
+const addBook = async (bookData: BookData): Promise<ApiResponse> => {
   const url = `${API_URL}/books`;
   return postRequest(url, bookData, true);
-}
+};
 
-async function getBooksByLocation(
+const getBooksByLocation = async (
   location_id: number
-): Promise<ApiResponse<BookData[]>> {
+): Promise<ApiResponse<BookData[]>> => {
   const url = `${API_URL}/books/location/${location_id}`;
   return getRequest(url, true);
-}
+};
 
-async function getBooksByUserId(): Promise<ApiResponse<BookData[]>> {
+const getBooksByUserId = async (): Promise<ApiResponse<BookData[]>> => {
   const url = `${API_URL}/books/user`;
   return getRequest(url, true);
-}
+};
 
-async function fetchUserData(): Promise<ApiResponse<PublicUserData>> {
+const fetchUserData = async (): Promise<ApiResponse<PublicUserData>> => {
   const url = `${API_URL}/user`;
   return getRequest(url, true);
-}
+};
 
-async function fetchUserDataByEmail(
+const fetchUserDataByEmail = async (
   email: string
-): Promise<ApiResponse<PublicUserData>> {
+): Promise<ApiResponse<PublicUserData>> => {
   const url = `${API_URL}/user/email/${email}`;
   return getRequest(url, true);
-}
+};
 
 const addLocation = async (
   locationData: LocationData

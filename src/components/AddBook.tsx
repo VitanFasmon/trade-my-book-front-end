@@ -1,4 +1,5 @@
 import { addBook } from "../data/apiService";
+import SearchGoogleBooks from "./SearchBooks/SearchGoogleBooks";
 
 const AddBook = () => {
   const onAddBookClick = () => {
@@ -19,6 +20,7 @@ const AddBook = () => {
 
   return (
     <section>
+      <SearchGoogleBooks />
       <button onClick={onAddBookClick}>Add Book</button>
     </section>
   );

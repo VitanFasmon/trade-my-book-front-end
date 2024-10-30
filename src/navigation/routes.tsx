@@ -3,7 +3,7 @@ import Home from "../components/Home";
 import Login from "../components/Login";
 import ProtectedRoute from "../components/ProtectedRoutes";
 import Register from "../components/Register";
-import SearchBooks from "../components/SearchBooks";
+import SearchBooks from "../components/SearchBooks/SearchBooks";
 import UserProfile from "../components/UserProfile";
 
 export const Routes = {

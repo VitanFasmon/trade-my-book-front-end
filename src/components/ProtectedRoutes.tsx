@@ -10,7 +10,6 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   redirectPath = "/login",
 }) => {
   const { isAuthenticated } = useAuthStore();
-  console.log("isAuthenticated:", isAuthenticated);
 
   return isAuthenticated ? <Outlet /> : <Navigate to={redirectPath} replace />;
 };

@@ -8,14 +8,13 @@ import {
 import MapHandler from "./MapHandler";
 import PlaceAutocomplete from "./PlaceAutocomplete";
 import useLocationStore from "../../store/useLocationStore";
-import { LocationData } from "../../types/dataTypes";
 const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY as string;
 
 const MapParent = () => {
   const [selectedPlace, setSelectedPlace] =
     useState<google.maps.places.PlaceResult | null>(null);
   const [markerRef, marker] = useAdvancedMarkerRef();
-  const { setLocationData, locationData } = useLocationStore();
+  const { setLocationData } = useLocationStore();
 
   useEffect(() => {
     if (selectedPlace?.formatted_address) {

@@ -3,9 +3,10 @@ import { registerUser, addLocation } from "../data/apiService";
 import { UserData } from "../types/dataTypes";
 import Typography from "./Typography";
 import Button from "./Button";
-import { fetchLocationData } from "../data/locationApiService";
 import { useNavigate } from "react-router";
 import { Routes } from "../navigation/routes";
+import MapParent from "./GooglePlacesAutocomplete/MapParent";
+import useLocationStore from "../store/useLocationStore";
 
 const Register = () => {
   const [formData, setFormData] = useState<UserData>({
@@ -15,10 +16,9 @@ const Register = () => {
     password: "",
     location_id: null,
   });
-  const [address, setAddress] = useState("");
-  const [latLng, setLatLng] = useState<{ lat: number; lng: number } | null>(
-    null
-  );
+
+  const { setLocationData, locationData } = useLocationStore();
+
   const [repeatPassword, setRepeatPassword] = useState<string>("");
   const [message, setMessage] = useState<string>("");
   const [errors, setErrors] = useState<Record<string, string>>({});
@@ -46,29 +46,10 @@ const Register = () => {
     }));
   };
 
-  const handleAddressChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setAddress(e.target.value);
-  };
-
-  const handleLocationSubmit = async (event: React.FormEvent) => {
-    event.preventDefault();
-    try {
-      const location = await fetchLocationData(address);
-      if (location) {
-        setLatLng({ lat: location.lat, lng: location.lng });
-        setMessage("Address confirmed. Ready for next step.");
-      } else {
-        setMessage("Unable to confirm address. Please try again.");
-      }
-    } catch (error) {
-      console.error("Error fetching location:", error);
-      setMessage("Address lookup failed.");
-    }
-  };
-
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
-    if (step === 1 && !address) newErrors.address = "Address is required.";
+    if (step === 1 && !locationData)
+      newErrors.address = "Please enter a location.";
     if (step === 2) {
       if (!formData.name) newErrors.name = "Name is required.";
       if (!formData.email) newErrors.email = "Email is required.";
@@ -85,29 +66,26 @@ const Register = () => {
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
-    if (!validateForm() || !latLng) {
+
+    if (!validateForm()) {
       setMessage("Please complete the form and confirm your address.");
       return;
     }
 
     try {
-      const locationRes = await addLocation({
-        address,
-        lat: latLng.lat,
-        lon: latLng.lng,
+      const locationRes = locationData ? await addLocation(locationData) : null;
+
+      const userRes = await registerUser({
+        ...formData,
+        location_id: locationRes?.data?.location_id || null,
       });
-      if (locationRes.data?.location_id) {
-        const userRes = await registerUser({
-          ...formData,
-          location_id: locationRes.data.location_id,
-        });
-        setMessage(
-          `Registration successful! Welcome, ${formData.name}. Redirecting to login...`
-        );
-        setTimeout(() => {
-          navigate(Routes.Login);
-        }, 3000);
-      }
+      setMessage(
+        `Registration successful! Welcome, ${formData.name}. Redirecting to login...`
+      );
+
+      setTimeout(() => {
+        navigate(Routes.Login);
+      }, 3000);
     } catch (error) {
       setMessage(
         `Registration failed: ${(error as Error).message || "Server error"}`
@@ -131,38 +109,25 @@ const Register = () => {
       <Typography as="h2" variant="h2">
         Registration Form
       </Typography>
-      <form className="flex flex-col gap-2 max-w-[300px] w-full">
+      <form className="flex flex-col gap-2 max-w-[800px] w-full justify-center align-center items-center">
         {step === 1 && (
-          <>
-            {/* Location Step */}
-            <input
-              type="text"
-              value={address}
-              onChange={handleAddressChange}
-              required
-              placeholder="Enter address"
-              aria-label="Address"
-              className="border border-primary p-2 rounded-md w-full"
-            />
+          <div className=" max-w-[800px] flex flex-col gap-2  justify-center align-center items-center">
+            <Typography as="p" variant="p">
+              We need your location in order to show you books near you. You can
+              be as specific as you would like.
+            </Typography>
+            <div className="w-full flex justify-center">
+              <MapParent />
+            </div>
             {errors.address && <p className="text-red-500">{errors.address}</p>}
-
-            <Button type="secondary" onClick={handleLocationSubmit}>
-              Confirm Address
-            </Button>
-            {latLng && (
-              <div className="text-green-500">
-                <p>Latitude: {latLng.lat}</p>
-                <p>Longitude: {latLng.lng}</p>
-              </div>
-            )}
             <Button type="primary" onClick={handleNextStep}>
               Next Step
             </Button>
-          </>
+          </div>
         )}
 
         {step === 2 && (
-          <>
+          <div className=" max-w-[300px] flex flex-col gap-2 w-full">
             <input
               type="text"
               name="name"
@@ -228,15 +193,23 @@ const Register = () => {
               <p className="text-red-500">{errors.repeatPassword}</p>
             )}
 
-            <div className="flex justify-between">
-              <Button type="secondary" onClick={handleBack}>
+            <div className="flex ">
+              <Button
+                type="secondary"
+                onClick={handleBack}
+                className="w-full rounded-r-none"
+              >
                 Back
               </Button>
-              <Button type="primary" onClick={handleSubmit}>
+              <Button
+                type="primary"
+                onClick={handleSubmit}
+                className="w-full rounded-l-none"
+              >
                 Register
               </Button>
             </div>
-          </>
+          </div>
         )}
       </form>
       {message && (

@@ -1,4 +1,5 @@
 import Button from "./Button";
+import MapParent from "./GooglePlacesAutocomplete/MapParent";
 import Hero from "./Hero";
 import Typography from "./Typography";
 
@@ -6,6 +7,9 @@ const Home = () => {
   return (
     <section className="bg-lightGray">
       <Hero />
+      <div className="w-full flex justify-center">
+        <MapParent />
+      </div>
       <section className="flex gap-2">
         BUTTONS
         <Button type="primary" className="text-primary ">

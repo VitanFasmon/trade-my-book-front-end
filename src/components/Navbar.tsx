@@ -72,7 +72,7 @@ const Navbar = () => {
             <li>
               <Button type="outlinedSecondary" link href={Routes.Registration}>
                 <Typography as="p" variant="p" className="font-bold">
-                  Sugn up
+                  Sign up
                 </Typography>
               </Button>
             </li>

@@ -47,10 +47,15 @@ type ApiResponse<T = any> = {
 type LocationData = {
   address: string;
   lat: number;
-  lon: number;
+  lng: number;
 };
 type LocationResponse = {
   location_id: number;
+};
+
+type LocationStore = {
+  locationData: LocationData | null;
+  setLocationData: (locationData: LocationData | null) => void;
 };
 
 export type {
@@ -62,4 +67,5 @@ export type {
   UserStore,
   LocationData,
   LocationResponse,
+  LocationStore,
 };

@@ -22,27 +22,31 @@ const Navbar = () => {
         </Typography>
       </Button>
       <ul className="flex flex-row gap-2">
-        <li>
-          <Button type="planePrimary" link href={Routes.Home}>
-            <Typography as="p" variant="p" className="font-bold">
-              Home
-            </Typography>
-          </Button>
-        </li>
-        <li>
-          <Button type="planePrimary" link href={Routes.SearchBooks}>
-            <Typography as="p" variant="p" className="font-bold">
-              Search books
-            </Typography>
-          </Button>
-        </li>
-        <li>
-          <Button type="planePrimary" link href={Routes.AddBook}>
-            <Typography as="p" variant="p" className="font-bold">
-              Add book
-            </Typography>
-          </Button>
-        </li>
+        {isAuthenticated && (
+          <>
+            <li>
+              <Button type="planePrimary" link href={Routes.Home}>
+                <Typography as="p" variant="p" className="font-bold">
+                  Home
+                </Typography>
+              </Button>
+            </li>
+            <li>
+              <Button type="planePrimary" link href={Routes.SearchBooks}>
+                <Typography as="p" variant="p" className="font-bold">
+                  Search books
+                </Typography>
+              </Button>
+            </li>
+            <li>
+              <Button type="planePrimary" link href={Routes.AddBook}>
+                <Typography as="p" variant="p" className="font-bold">
+                  Add book
+                </Typography>
+              </Button>
+            </li>
+          </>
+        )}
       </ul>
       <ul className="flex flex-row gap-2">
         {isAuthenticated ? (

@@ -2,14 +2,14 @@ import useAuthStore from "../store/useAuthStore";
 import {
   ApiResponse,
   BookData,
+  LocationData,
+  LocationResponse,
   LoginData,
   PublicUserData,
   UserData,
 } from "../types/dataTypes";
 
 const API_URL = "http://localhost:3000/api";
-//let token: string | null = null;
-const token = useAuthStore.getState().token;
 
 async function postRequest<T>(
   url: string,
@@ -20,23 +20,25 @@ async function postRequest<T>(
     const headers: Record<string, string> = {
       "Content-Type": "application/json",
     };
-    if (auth && token) {
-      headers["Authorization"] = `Bearer ${token}`;
+    if (auth) {
+      const token =
+        useAuthStore.getState().token || localStorage.getItem("token");
+      if (token) headers["Authorization"] = `Bearer ${token}`;
     }
 
     const response = await fetch(url, {
       method: "POST",
-      headers: headers,
+      headers,
       body: JSON.stringify(data),
     });
 
-    const result: ApiResponse<T> = await response.json();
-
     if (!response.ok) {
-      throw new Error(result.message || "Something went wrong");
+      // Throw an error if status is not OK to handle in catch block
+      const errorResponse: ApiResponse<T> = await response.json();
+      throw new Error(errorResponse.message || "Something went wrong");
     }
 
-    return result;
+    return await response.json();
   } catch (error: any) {
     console.error("Error:", error.message);
     throw error;
@@ -49,18 +51,20 @@ async function getRequest<T>(
 ): Promise<ApiResponse<T>> {
   try {
     const headers: Record<string, string> = {};
-    if (auth && token) {
-      headers["Authorization"] = `Bearer ${token}`;
+    if (auth) {
+      const token =
+        useAuthStore.getState().token || localStorage.getItem("token");
+      if (token) headers["Authorization"] = `Bearer ${token}`;
     }
 
     const response = await fetch(url, { headers });
-    const result: ApiResponse<T> = await response.json();
 
     if (!response.ok) {
-      throw new Error(result.message || "Something went wrong");
+      const errorResponse: ApiResponse<T> = await response.json();
+      throw new Error(errorResponse.message || "Something went wrong");
     }
 
-    return result;
+    return await response.json();
   } catch (error: any) {
     console.error("Error:", error.message);
     throw error;
@@ -76,7 +80,7 @@ async function loginUser(userData: LoginData): Promise<ApiResponse> {
   const url = `${API_URL}/login`;
   const result = await postRequest(url, userData);
   if (result.token) {
-    //token = result.token;
+    useAuthStore.setState({ token: result.token });
     localStorage.setItem("token", result.token);
   }
   return result;
@@ -93,6 +97,7 @@ async function getBooksByLocation(
   const url = `${API_URL}/books/location/${location_id}`;
   return getRequest(url, true);
 }
+
 async function getBooksByUserId(): Promise<ApiResponse<BookData[]>> {
   const url = `${API_URL}/books/user`;
   return getRequest(url, true);
@@ -102,12 +107,21 @@ async function fetchUserData(): Promise<ApiResponse<PublicUserData>> {
   const url = `${API_URL}/user`;
   return getRequest(url, true);
 }
+
 async function fetchUserDataByEmail(
   email: string
 ): Promise<ApiResponse<PublicUserData>> {
   const url = `${API_URL}/user/email/${email}`;
   return getRequest(url, true);
 }
+
+const addLocation = async (
+  locationData: LocationData
+): Promise<ApiResponse<LocationResponse>> => {
+  const url = `${API_URL}/location`;
+  return postRequest(url, locationData, true);
+};
+
 export {
   registerUser,
   loginUser,
@@ -116,4 +130,5 @@ export {
   getBooksByUserId,
   fetchUserData,
   fetchUserDataByEmail,
+  addLocation,
 };

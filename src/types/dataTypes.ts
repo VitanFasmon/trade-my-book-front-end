@@ -3,7 +3,7 @@ type UserData = {
   email: string;
   phone_number: string;
   password: string;
-  location_id: number;
+  location_id: number | null;
 };
 
 type PublicUserData = {
@@ -43,6 +43,16 @@ type ApiResponse<T = any> = {
   token?: string;
   data?: T;
 };
+
+type LocationData = {
+  address: string;
+  lat: number;
+  lon: number;
+};
+type LocationResponse = {
+  location_id: number;
+};
+
 export type {
   UserData,
   LoginData,
@@ -50,4 +60,6 @@ export type {
   ApiResponse,
   PublicUserData,
   UserStore,
+  LocationData,
+  LocationResponse,
 };

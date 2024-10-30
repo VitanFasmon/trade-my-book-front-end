@@ -7,7 +7,7 @@ interface ButtonProps {
     | "outlinedSecondary"
     | "planePrimary"
     | "planeSecondary";
-  onClick?: () => void;
+  onClick?: (e?: any) => void;
   className?: string;
   disabled?: boolean;
   link?: boolean;

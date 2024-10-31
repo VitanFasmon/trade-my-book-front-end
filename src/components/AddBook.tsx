@@ -19,7 +19,7 @@ const AddBook = () => {
   };
 
   return (
-    <section>
+    <section className="flex flex-col gap-2 p-2 items-center w-full">
       <SearchGoogleBooks />
       <button onClick={onAddBookClick}>Add Book</button>
     </section>

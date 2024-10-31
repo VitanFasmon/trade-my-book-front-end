@@ -14,7 +14,7 @@ const SearchGoogleBooks = () => {
   };
 
   return (
-    <section className="flex flex-col gap-2 p-2 max-w-[800px]">
+    <section className="flex flex-col gap-2 p-2 max-w-[800px] md:w-[800px]">
       <input
         type="search"
         value={searchQuery}

@@ -6,12 +6,14 @@ interface ButtonProps {
     | "outlinedPrimary"
     | "outlinedSecondary"
     | "planePrimary"
-    | "planeSecondary";
+    | "planeSecondary"
+    | "danger";
   onClick?: (e?: any) => void;
   className?: string;
   disabled?: boolean;
   link?: boolean;
   href?: string;
+  target?: string;
 }
 const ButtonTypesClassNames = {
   primary:
@@ -26,6 +28,8 @@ const ButtonTypesClassNames = {
     "rounded-lg text-primary  hover:text-opacity-70 hover:border-opacity-70 ",
   planeSecondary:
     "rounded-lg text-secondary  hover:text-opacity-70 hover:border-opacity-70 ",
+  danger:
+    "bg-red-700 border border-2 border-secondary  rounded-lg text-white hover:bg-opacity-70",
 };
 const Button = ({
   children,
@@ -35,12 +39,13 @@ const Button = ({
   link,
   href,
   disabled,
+  target,
 }: ButtonProps) => {
   const classNames = `${ButtonTypesClassNames[type]} ${className} font-bold px-4 py-2 transition-colors duration-300 flex items-center align-center justify-center `;
   return (
     <>
       {link ? (
-        <a className={classNames} href={href || ""}>
+        <a className={classNames} href={href || ""} target={target}>
           {children}
         </a>
       ) : (

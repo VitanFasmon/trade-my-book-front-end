@@ -27,36 +27,22 @@ type LoginData = {
 };
 
 type BookData = {
-  added_by_user?: string;
-  author: string;
-  book_condition: number;
   book_id?: number;
+  added_by_user?: string;
   title: string;
+  subtitle: string;
+  author: string;
+  language: string;
+  published_date: string;
+  categories: string[];
   description: string;
   isbn: string;
   google_books_id: string;
   cover_url: string;
+  book_condition: number;
+  tradable: boolean;
 };
 
-type ApiResponse<T = any> = {
-  message?: string;
-  token?: string;
-  data?: T;
-};
-
-type LocationData = {
-  address: string;
-  lat: number;
-  lng: number;
-};
-type LocationResponse = {
-  location_id: number;
-};
-
-type LocationStore = {
-  locationData: LocationData | null;
-  setLocationData: (locationData: LocationData | null) => void;
-};
 type GoogleBook = {
   kind: string;
   id: string;
@@ -120,6 +106,25 @@ type GoogleBook = {
   };
 };
 
+type ApiResponse<T = any> = {
+  message?: string;
+  token?: string;
+  data?: T;
+};
+
+type LocationData = {
+  address: string;
+  lat: number;
+  lng: number;
+};
+type LocationResponse = {
+  location_id: number;
+};
+
+type LocationStore = {
+  locationData: LocationData | null;
+  setLocationData: (locationData: LocationData | null) => void;
+};
 export type {
   UserData,
   LoginData,

@@ -70,12 +70,73 @@ const getRequest = async <T>(
     throw error;
   }
 };
+const deleteRequest = async <T>(
+  url: string,
+  auth = false
+): Promise<ApiResponse<T>> => {
+  try {
+    const headers: Record<string, string> = {};
+    if (auth) {
+      const token =
+        useAuthStore.getState().token || localStorage.getItem("token");
+      if (token) headers["Authorization"] = `Bearer ${token}`;
+    }
+
+    const response = await fetch(url, {
+      method: "DELETE",
+      headers,
+    });
+
+    if (!response.ok) {
+      const errorResponse: ApiResponse<T> = await response.json();
+      throw new Error(errorResponse.message || "Failed to delete item");
+    }
+
+    return await response.json();
+  } catch (error: any) {
+    console.error("Error:", error.message);
+    throw error;
+  }
+};
+const patchRequest = async <T>(
+  url: string,
+  data: any,
+  auth = false
+): Promise<ApiResponse<T>> => {
+  try {
+    const headers: Record<string, string> = {
+      "Content-Type": "application/json",
+    };
+    if (auth) {
+      const token =
+        useAuthStore.getState().token || localStorage.getItem("token");
+      if (token) headers["Authorization"] = `Bearer ${token}`;
+    }
+
+    const response = await fetch(url, {
+      method: "PATCH",
+      headers,
+      body: JSON.stringify(data),
+    });
+
+    if (!response.ok) {
+      const errorResponse: ApiResponse<T> = await response.json();
+      throw new Error(errorResponse.message || "Failed to update item");
+    }
+
+    return await response.json();
+  } catch (error: any) {
+    console.error("Error:", error.message);
+    throw error;
+  }
+};
 
 const registerUser = async (userData: UserData): Promise<ApiResponse> => {
   const url = `${API_URL}/register`;
   return postRequest(url, userData);
 };
 
+//USER REQUESTS
 const loginUser = async (userData: LoginData): Promise<ApiResponse> => {
   const url = `${API_URL}/login`;
   const result = await postRequest(url, userData);
@@ -86,6 +147,18 @@ const loginUser = async (userData: LoginData): Promise<ApiResponse> => {
   return result;
 };
 
+const fetchUserData = async (): Promise<ApiResponse<PublicUserData>> => {
+  const url = `${API_URL}/user`;
+  return getRequest(url, true);
+};
+
+const fetchUserDataByEmail = async (
+  email: string
+): Promise<ApiResponse<PublicUserData>> => {
+  const url = `${API_URL}/user/email/${email}`;
+  return getRequest(url, true);
+};
+//BOOK REQUESTS
 const addBook = async (bookData: BookData): Promise<ApiResponse> => {
   const url = `${API_URL}/books`;
   return postRequest(url, bookData, true);
@@ -102,19 +175,19 @@ const getBooksByUserId = async (): Promise<ApiResponse<BookData[]>> => {
   const url = `${API_URL}/books/user`;
   return getRequest(url, true);
 };
-
-const fetchUserData = async (): Promise<ApiResponse<PublicUserData>> => {
-  const url = `${API_URL}/user`;
-  return getRequest(url, true);
+const deleteBookByBookId = async (bookId: number): Promise<ApiResponse> => {
+  const url = `${API_URL}/books/${bookId}`;
+  return deleteRequest(url, true);
+};
+const toggleBookTradability = async (
+  bookId: number,
+  tradable: boolean
+): Promise<ApiResponse> => {
+  const url = `${API_URL}/books/tradable/${bookId}/${tradable}`;
+  return patchRequest(url, {}, true);
 };
 
-const fetchUserDataByEmail = async (
-  email: string
-): Promise<ApiResponse<PublicUserData>> => {
-  const url = `${API_URL}/user/email/${email}`;
-  return getRequest(url, true);
-};
-
+//LOCATION REQUESTS
 const addLocation = async (
   locationData: LocationData
 ): Promise<ApiResponse<LocationResponse>> => {
@@ -131,4 +204,6 @@ export {
   fetchUserData,
   fetchUserDataByEmail,
   addLocation,
+  deleteBookByBookId,
+  toggleBookTradability,
 };

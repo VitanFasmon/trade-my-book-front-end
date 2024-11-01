@@ -45,6 +45,13 @@ const Navbar = () => {
                 </Typography>
               </Button>
             </li>
+            <li>
+              <Button type="planePrimary" link href={Routes.MyBooks}>
+                <Typography as="p" variant="p" className="font-bold">
+                  My books
+                </Typography>
+              </Button>
+            </li>
           </>
         )}
       </ul>
@@ -54,17 +61,13 @@ const Navbar = () => {
             <li>
               <Button type="outlinedSecondary" link href={Routes.Profile}>
                 <Typography as="p" variant="p" className="font-bold">
-                  Welcome, {user?.name}
+                  {user?.name}
                 </Typography>
               </Button>
             </li>
 
             <li>
-              <Button type="secondary">
-                <Typography as="p" variant="p" className="font-bold">
-                  <Logout />
-                </Typography>
-              </Button>
+              <Logout />
             </li>
           </>
         ) : (

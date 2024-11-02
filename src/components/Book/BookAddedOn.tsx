@@ -1,5 +1,5 @@
 import React from "react";
-import Typography from "./Typography";
+import Typography from "../Typography";
 
 interface AddedOnProps {
   date: Date;
@@ -31,7 +31,7 @@ const AddedOn: React.FC<AddedOnProps> = ({ date }) => {
     <Typography
       as="span"
       variant="span"
-      className="p-2 border border-primary rounded-lg flex justify-center items-center"
+      className="p-2 border border-secondary rounded-lg flex justify-center items-center font-bold"
     >
       {getTimeDifference(date)}
     </Typography>

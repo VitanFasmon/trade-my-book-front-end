@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { PublicUserData } from "../../types/dataTypes";
-import { fetchUserData, fetchUserDataByEmail } from "../../data/apiService";
-import UsersBooks from "../UsersBooks";
+import { fetchUserDataByEmail } from "../../data/apiService";
 import { useParams } from "react-router";
 
 const UserProfile = () => {
@@ -28,7 +27,6 @@ const UserProfile = () => {
       <p>Email: {userData?.email}</p>
       <p>Phone Number: {userData?.phone_number}</p>
       <p>Location: {userData?.location_id}</p>
-      <UsersBooks />
     </div>
   );
 };

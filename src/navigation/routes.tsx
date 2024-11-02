@@ -4,7 +4,6 @@ import Login from "../components/pages/Login";
 import MyBooks from "../components/pages/MyBooks";
 import ProtectedRoute from "../components/ProtectedRoutes";
 import Register from "../components/pages/Register";
-import SearchBooks from "../components/SearchBooks/SearchBooks";
 import UserProfile from "../components/pages/UserProfile";
 
 export const Routes = {
@@ -12,7 +11,6 @@ export const Routes = {
   Registration: "/register",
   Login: "/login",
   Profile: "/profile",
-  SearchBooks: "/search",
   AddBook: "/add-book",
   MyBooks: "/my-books",
 };
@@ -25,11 +23,6 @@ const routerChildren = [
     path: Routes.Profile,
     element: <ProtectedRoute />,
     children: [{ path: Routes.Profile, element: <UserProfile /> }],
-  },
-  {
-    path: Routes.SearchBooks,
-    element: <ProtectedRoute />,
-    children: [{ path: Routes.SearchBooks, element: <SearchBooks /> }],
   },
   {
     path: Routes.AddBook,

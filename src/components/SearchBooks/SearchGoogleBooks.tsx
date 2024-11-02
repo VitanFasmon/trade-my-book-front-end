@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { getGoogleBooksByQuery } from "../../data/googleBooksApiService";
 import { GoogleBook } from "../../types/dataTypes";
-import SmallBook from "../book/SmallGoogleBook";
+import SmallBook from "../Book/SmallGoogleBook";
 interface SearchGoogleBooksProps {
   onSelectBookClick: (book: GoogleBook) => void;
 }

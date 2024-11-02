@@ -3,8 +3,6 @@ import useAuthStore from "../store/useAuthStore";
 import AddBook from "./pages/AddBook";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
-import UserProfile from "./pages/UserProfile";
-import UsersBooks from "./UsersBooks";
 
 const TestApi = () => {
   const { user } = useAuthStore();

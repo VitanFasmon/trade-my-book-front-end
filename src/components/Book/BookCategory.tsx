@@ -8,7 +8,7 @@ const BookCategory = ({ category }: BookCategoryProps) => {
     <Typography
       as="p"
       variant="p"
-      className="p-2 bg-lightSecondary rounded-xl w-fit font-bold"
+      className="p-2 bg-lightSecondary border border-secondary rounded-xl w-fit font-bold "
       key={crypto.randomUUID()}
     >
       {category}

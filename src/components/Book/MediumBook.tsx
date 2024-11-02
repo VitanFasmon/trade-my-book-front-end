@@ -6,8 +6,9 @@ import bookIcon from "../../assets/icons/book-512x512.png";
 import { useState } from "react";
 import { toggleBookTradability } from "../../data/apiService";
 import ToggleButton from "../Buttons/ToggleButton";
-import AddedOn from "../AddedOn";
+import AddedOn from "./BookAddedOn";
 import Button from "../Buttons/Button";
+import Condition from "./BookCondition";
 
 interface MediumBookProps {
   bookData: BookData;
@@ -67,15 +68,16 @@ const MediumBook = ({ bookData, onDeleteBookButtonClick }: MediumBookProps) => {
           {bookData.date_added && (
             <AddedOn date={new Date(bookData.date_added)} />
           )}
-          <Button type={"primary"} onClick={() => {}}>
-            Edit
-          </Button>
+          <Condition condition={bookData.book_condition} />
           <ToggleButton
             textTrue="Tradable"
             textFalse="Tradable"
             checked={tradable}
             setChecked={onToggleTradabilityClick}
           />
+          <Button type={"primary"} onClick={() => {}}>
+            Edit
+          </Button>
           <Button
             type={"danger"}
             onClick={() => onDeleteBookButtonClick(bookData.book_id)}

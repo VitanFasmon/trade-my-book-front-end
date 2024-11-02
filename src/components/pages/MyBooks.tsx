@@ -1,12 +1,16 @@
 import { useEffect, useState } from "react";
 import { deleteBookByBookId, getBooksByUserId } from "../../data/apiService";
 import { BookData } from "../../types/dataTypes";
-import MediumBook from "../book/MediumBook";
+import MediumBook from "../Book/MediumBook";
+import Separator from "../Separator";
+import Sort from "../Sort";
+import SearchBooks from "../SearchBooks/SearchBooks";
 
 const MyBooks = () => {
   const [books, setBooks] = useState<BookData[] | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
-  const [sortOption, setSortOption] = useState("title");
+  const [sortOption, setSortOption] = useState("date_added");
+  const [sortDirection, setSortDirection] = useState<"desc" | "asc">("asc");
   const [filteredBooks, setFilteredBooks] = useState<BookData[] | null>(null);
 
   const getBooks = () => {
@@ -29,7 +33,16 @@ const MyBooks = () => {
       }
 
       updatedBooks.sort((a, b) => {
+        if (sortDirection === "desc") {
+          const c = a;
+          a = b;
+          b = c;
+        }
         switch (sortOption) {
+          case "date_added":
+            if (!a.date_added || !b.date_added) return 0;
+            return b.date_added.localeCompare(a.date_added);
+
           case "title":
             return a.title.localeCompare(b.title);
           case "author":
@@ -48,7 +61,7 @@ const MyBooks = () => {
 
       setFilteredBooks(updatedBooks);
     }
-  }, [books, searchTerm, sortOption]);
+  }, [books, searchTerm, sortOption, sortDirection]);
 
   useEffect(() => {
     getBooks();
@@ -63,39 +76,27 @@ const MyBooks = () => {
 
   return (
     <section className="w-full flex justify-center ">
-      <div className="flex flex-col gap-2 p-2 max-w-[1200px] items-center">
-        <div className="flex flex-row gap-4">
-          <div className="mb-4">
-            <input
-              type="text"
-              placeholder="Search books by title, author, or category"
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="border border-gray-300 p-2 rounded w-full"
-            />
-          </div>
-
-          <div className="mb-4">
-            <select
-              value={sortOption}
-              onChange={(e) => setSortOption(e.target.value)}
-              className="border border-gray-300 p-2 rounded"
-              aria-label="sort by"
-            >
-              <option value="title">Title</option>
-              <option value="author">Author</option>
-              <option value="published_date">Published Date</option>
-              <option value="condition">Condition</option>
-            </select>
-          </div>
+      <div className="flex flex-col gap-8 p-2 max-w-[1200px] items-center">
+        <div className="flex flex-row gap-2 items-center w-full">
+          <SearchBooks searchTerm={searchTerm} setSearchTerm={setSearchTerm} />
+          <Sort
+            sortOption={sortOption}
+            setSortOption={setSortOption}
+            sortDirection={sortDirection}
+            setSortDirection={setSortDirection}
+          />
         </div>
+
         <div className="flex flex-col gap-8">
-          {filteredBooks?.map((book) => (
-            <MediumBook
-              key={crypto.randomUUID()}
-              bookData={book}
-              onDeleteBookButtonClick={onDeleteBookButtonClick}
-            />
+          {filteredBooks?.map((book, index) => (
+            <>
+              <MediumBook
+                key={crypto.randomUUID()}
+                bookData={book}
+                onDeleteBookButtonClick={onDeleteBookButtonClick}
+              />
+              {index < filteredBooks.length - 1 && <Separator />}
+            </>
           ))}
         </div>
       </div>

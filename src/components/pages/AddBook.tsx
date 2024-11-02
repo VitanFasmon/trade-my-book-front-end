@@ -4,7 +4,7 @@ import { GoogleBook } from "../../types/dataTypes";
 import SearchGoogleBooks from "../SearchBooks/SearchGoogleBooks";
 import Typography from "../Typography";
 import bookIcon from "../../assets/icons/book-512x512.png";
-import BookCategory from "../book/BookCategory";
+import BookCategory from "../Book/BookCategory";
 import ToggleButton from "../Buttons/ToggleButton";
 import Button from "../Buttons/Button";
 

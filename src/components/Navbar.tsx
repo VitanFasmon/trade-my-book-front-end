@@ -32,13 +32,6 @@ const Navbar = () => {
               </Button>
             </li>
             <li>
-              <Button type="planePrimary" link href={Routes.SearchBooks}>
-                <Typography as="p" variant="p" className="font-bold">
-                  Search books
-                </Typography>
-              </Button>
-            </li>
-            <li>
               <Button type="planePrimary" link href={Routes.AddBook}>
                 <Typography as="p" variant="p" className="font-bold">
                   Add book

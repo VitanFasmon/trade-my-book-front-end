@@ -29,6 +29,7 @@ type LoginData = {
 type BookData = {
   book_id?: number;
   added_by_user?: string;
+  date_added?: string;
   title: string;
   subtitle: string;
   author: string;

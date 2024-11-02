@@ -1,4 +1,4 @@
-import Typography from "./Typography";
+import Typography from "../Typography";
 
 interface ToggleButtonProps {
   checked: boolean;
@@ -13,7 +13,7 @@ const ToggleButton = ({
   textFalse,
 }: ToggleButtonProps) => {
   return (
-    <label className="flex gap-2 items-center cursor-pointer">
+    <label className="flex flex-col gap-2 items-center cursor-pointer border border-secondary rounded-lg p-2 justify-center text-center">
       <input
         type="checkbox"
         value=""

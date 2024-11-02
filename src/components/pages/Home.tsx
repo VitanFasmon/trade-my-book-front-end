@@ -1,7 +1,7 @@
-import Button from "./Button";
-import MapParent from "./GooglePlacesAutocomplete/MapParent";
-import Hero from "./Hero";
-import Typography from "./Typography";
+import Button from "../Buttons/Button";
+import MapParent from "../GooglePlacesAutocomplete/MapParent";
+import Hero from "../Hero";
+import Typography from "../Typography";
 
 const Home = () => {
   return (

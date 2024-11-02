@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { deleteBookByBookId, getBooksByUserId } from "../data/apiService";
-import { BookData } from "../types/dataTypes";
-import MediumBook from "./book/MediumBook";
+import { deleteBookByBookId, getBooksByUserId } from "../../data/apiService";
+import { BookData } from "../../types/dataTypes";
+import MediumBook from "../book/MediumBook";
 
 const MyBooks = () => {
   const [books, setBooks] = useState<BookData[] | null>(null);
@@ -62,39 +62,42 @@ const MyBooks = () => {
   };
 
   return (
-    <section className="flex flex-col gap-2 p-2 max-w-[1200px] items-center">
-      <div className="mb-4">
-        <input
-          type="text"
-          placeholder="Search books by title, author, or category"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          className="border border-gray-300 p-2 rounded w-full"
-        />
-      </div>
+    <section className="w-full flex justify-center ">
+      <div className="flex flex-col gap-2 p-2 max-w-[1200px] items-center">
+        <div className="flex flex-row gap-4">
+          <div className="mb-4">
+            <input
+              type="text"
+              placeholder="Search books by title, author, or category"
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="border border-gray-300 p-2 rounded w-full"
+            />
+          </div>
 
-      <div className="mb-4">
-        <label className="mr-2">Sort by:</label>
-        <select
-          value={sortOption}
-          onChange={(e) => setSortOption(e.target.value)}
-          className="border border-gray-300 p-2 rounded"
-        >
-          <option value="title">Title</option>
-          <option value="author">Author</option>
-          <option value="published_date">Published Date</option>
-          <option value="condition">Condition</option>
-        </select>
-      </div>
-
-      <div className="flex flex-col gap-8">
-        {filteredBooks?.map((book) => (
-          <MediumBook
-            key={crypto.randomUUID()}
-            bookData={book}
-            onDeleteBookButtonClick={onDeleteBookButtonClick}
-          />
-        ))}
+          <div className="mb-4">
+            <select
+              value={sortOption}
+              onChange={(e) => setSortOption(e.target.value)}
+              className="border border-gray-300 p-2 rounded"
+              aria-label="sort by"
+            >
+              <option value="title">Title</option>
+              <option value="author">Author</option>
+              <option value="published_date">Published Date</option>
+              <option value="condition">Condition</option>
+            </select>
+          </div>
+        </div>
+        <div className="flex flex-col gap-8">
+          {filteredBooks?.map((book) => (
+            <MediumBook
+              key={crypto.randomUUID()}
+              bookData={book}
+              onDeleteBookButtonClick={onDeleteBookButtonClick}
+            />
+          ))}
+        </div>
       </div>
     </section>
   );

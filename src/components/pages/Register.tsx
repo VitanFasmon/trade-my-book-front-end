@@ -1,12 +1,12 @@
 import React, { useState } from "react";
-import { registerUser, addLocation } from "../data/apiService";
-import { UserData } from "../types/dataTypes";
-import Typography from "./Typography";
-import Button from "./Button";
+import { registerUser, addLocation } from "../../data/apiService";
+import { UserData } from "../../types/dataTypes";
+import Typography from "../Typography";
+import Button from "../Buttons/Button";
 import { useNavigate } from "react-router";
-import { Routes } from "../navigation/routes";
-import MapParent from "./GooglePlacesAutocomplete/MapParent";
-import useLocationStore from "../store/useLocationStore";
+import { Routes } from "../../navigation/routes";
+import MapParent from "../GooglePlacesAutocomplete/MapParent";
+import useLocationStore from "../../store/useLocationStore";
 
 const Register = () => {
   const [formData, setFormData] = useState<UserData>({

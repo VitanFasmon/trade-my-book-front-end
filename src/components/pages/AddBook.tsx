@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { addBook } from "../data/apiService";
-import { GoogleBook } from "../types/dataTypes";
-import SearchGoogleBooks from "./SearchBooks/SearchGoogleBooks";
-import Typography from "./Typography";
-import Button from "./Button";
-import bookIcon from "../assets/icons/book-512x512.png";
-import BookCategory from "./book/BookCategory";
-import ToggleButton from "./ToggleButton";
+import { addBook } from "../../data/apiService";
+import { GoogleBook } from "../../types/dataTypes";
+import SearchGoogleBooks from "../SearchBooks/SearchGoogleBooks";
+import Typography from "../Typography";
+import bookIcon from "../../assets/icons/book-512x512.png";
+import BookCategory from "../book/BookCategory";
+import ToggleButton from "../Buttons/ToggleButton";
+import Button from "../Buttons/Button";
 
 interface Message {
   message: string;

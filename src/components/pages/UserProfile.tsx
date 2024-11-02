@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
-import { PublicUserData } from "../types/dataTypes";
-import { fetchUserData, fetchUserDataByEmail } from "../data/apiService";
-import UsersBooks from "./UsersBooks";
+import { PublicUserData } from "../../types/dataTypes";
+import { fetchUserData, fetchUserDataByEmail } from "../../data/apiService";
+import UsersBooks from "../UsersBooks";
 import { useParams } from "react-router";
 
 const UserProfile = () => {

@@ -9,7 +9,7 @@ const Navbar = () => {
   const { isAuthenticated, user } = useAuthStore();
 
   return (
-    <nav className="flex flex-row gap-2 justify-between p-4  items-center">
+    <nav className="flex flex-row gap-2 justify-between p-4 border-b-2 border-secondary items-center">
       <Button
         type="planePrimary"
         link

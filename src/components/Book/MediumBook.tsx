@@ -32,7 +32,7 @@ const MediumBook = ({ bookData, onDeleteBookButtonClick }: MediumBookProps) => {
         alt={`${bookData.title} cover`}
         className="object-contain rounded-3xl h-full"
       />
-      <div className="w-full h-full flex flex-row justify-between gap-2">
+      <div className="w-full h-full flex flex-row justify-between gap-8">
         <div className="flex flex-col gap-2 h-full">
           <div className="flex flex-row justify-between">
             <div className="flex flex-row gap-2 flex-wrap">

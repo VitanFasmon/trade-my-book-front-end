@@ -1,5 +1,5 @@
-import bookshelf from "../assets/images/bookshelf.jpg";
-import Typography from "./Typography";
+import bookshelf from "../../assets/images/bookshelf.jpg";
+import Typography from "../Typography";
 const Hero = () => {
   return (
     <section

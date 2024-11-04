@@ -1,9 +1,9 @@
-import useAuthStore from "../store/useAuthStore";
-import Logout from "./Logout";
-import logo from "../assets/icons/logo-192x192.png";
-import Button from "./Buttons/Button";
-import Typography from "./Typography";
-import { Routes } from "../navigation/routes";
+import useAuthStore from "../../store/useAuthStore";
+import Logout from "../Logout";
+import logo from "../../assets/icons/logo-192x192.png";
+import Button from "../Buttons/Button";
+import Typography from "../Typography";
+import { Routes } from "../../navigation/routes";
 
 const Navbar = () => {
   const { isAuthenticated, user } = useAuthStore();

@@ -3,6 +3,7 @@ import smallBookIcon from "../../assets/icons/book-32x32.png";
 
 interface SmallBookProps {
   title: string;
+  authors: string;
   publishedDate: string;
   thumbnail: string;
   onClick?: () => void;
@@ -11,7 +12,7 @@ interface SmallBookProps {
 const SmallBook = ({
   title,
   publishedDate,
-
+  authors,
   thumbnail,
   onClick,
 }: SmallBookProps) => {
@@ -28,6 +29,9 @@ const SmallBook = ({
       <div>
         <Typography as="h3" variant="h3">
           {`${title} ${publishedDate ? `(${publishedDate})` : ""}`}
+        </Typography>
+        <Typography as="h4" variant="h4">
+          {authors}
         </Typography>
       </div>
     </div>

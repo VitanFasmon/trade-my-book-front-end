@@ -4,14 +4,20 @@ const API_KEY = "AIzaSyAz2ZZrl9tFP_0VaBrNXYVSmzyl2fB68UM";
 const getGoogleBooksByQuery = async (
   intitle?: string,
   inauthor?: string,
-  isbn?: string,
-  limit: number = 10
+  limit: number = 10,
+  offset: number = 0
 ) => {
+  const query = [
+    intitle ? `intitle:${intitle}` : "",
+    inauthor ? `inauthor:${inauthor}` : "",
+  ]
+    .filter(Boolean)
+    .join(" ");
+
   const params = new URLSearchParams({
-    q: `${intitle ? `intitle:${intitle}` : ""} ${
-      inauthor ? `inauthor:${inauthor}` : ""
-    } ${isbn ? `isbn:${isbn}` : ""}`.trim(),
+    q: query,
     maxResults: limit.toString(),
+    startIndex: offset.toString(),
     key: API_KEY,
   });
 

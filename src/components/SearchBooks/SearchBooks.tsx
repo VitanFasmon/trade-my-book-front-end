@@ -9,7 +9,7 @@ const SearchBooks = ({ searchTerm, setSearchTerm }: SearchBooksProps) => {
       placeholder="Search books by title, author, or category"
       value={searchTerm}
       onChange={(e) => setSearchTerm(e.target.value)}
-      className="border-2 border-secondary rounded-lg p-2 w-full h-full text-secondary font-bold placeholder:text-gray placeholder:font-bold"
+      className="border-2 border-secondary rounded-lg p-2 w-full h-full text-primary font-bold placeholder:text-gray placeholder:font-bold bg-lightGray"
     />
   );
 };

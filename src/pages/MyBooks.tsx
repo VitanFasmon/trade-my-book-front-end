@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import { deleteBookByBookId, getBooksByUserId } from "../../data/apiService";
-import { BookData } from "../../types/dataTypes";
-import MediumBook from "../Book/MediumBook";
-import Separator from "../Separator";
-import Sort from "../Sort";
-import SearchBooks from "../SearchBooks/SearchBooks";
+import { deleteBookByBookId, getBooksByUserId } from "../data/apiService";
+import { BookData } from "../types/dataTypes";
+import MediumBook from "../components/Book/MediumBook";
+import Separator from "../components/Separator";
+import Sort from "../components/Sort";
+import SearchBooks from "../components/SearchBooks/SearchBooks";
 
 const MyBooks = () => {
   const [books, setBooks] = useState<BookData[] | null>(null);

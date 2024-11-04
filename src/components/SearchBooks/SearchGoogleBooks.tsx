@@ -1,7 +1,10 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback, useRef } from "react";
 import { getGoogleBooksByQuery } from "../../data/googleBooksApiService";
 import { GoogleBook } from "../../types/dataTypes";
 import SmallBook from "../Book/SmallGoogleBook";
+import LoadingSpinner from "../LoadingSpinner";
+import Button from "../Buttons/Button";
+import Typography from "../Typography";
 
 interface SearchGoogleBooksProps {
   onSelectBookClick: (book: GoogleBook) => void;
@@ -10,19 +13,23 @@ interface SearchGoogleBooksProps {
 const SearchGoogleBooks = ({ onSelectBookClick }: SearchGoogleBooksProps) => {
   const [title, setTitle] = useState("");
   const [author, setAuthor] = useState("");
-  const [isbn, setIsbn] = useState("");
   const [limit, setLimit] = useState(10);
+  const [offset, setOffset] = useState(0);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const [books, setBooks] = useState<GoogleBook[] | null>(null);
+  const [books, setBooks] = useState<GoogleBook[]>([]);
 
-  const handleSearch = async () => {
+  const listRef = useRef<HTMLUListElement>(null); // Reference to the ul element
+
+  const handleSearch = async (isLoadMore = false) => {
     setLoading(true);
     setError(null);
 
     try {
-      const results = await getGoogleBooksByQuery(title, author, isbn, limit);
-      setBooks(results);
+      const results = await getGoogleBooksByQuery(title, author, limit, offset);
+      setBooks((prevBooks) =>
+        isLoadMore ? [...prevBooks, ...results] : results
+      );
     } catch (err) {
       setError("An error occurred while fetching books.");
       console.error(err);
@@ -30,75 +37,106 @@ const SearchGoogleBooks = ({ onSelectBookClick }: SearchGoogleBooksProps) => {
       setLoading(false);
     }
   };
+
   const resetSearch = () => {
     setTitle("");
     setAuthor("");
-    setIsbn("");
-    setBooks(null);
+    setBooks([]);
+    setOffset(0);
   };
-  useEffect(() => {
-    // Debounce effect to prevent search on every keystroke
-    const delayDebounce = setTimeout(() => {
-      if (title || author || isbn) {
-        handleSearch();
-      } else {
-        setBooks(null); // Clear results if all fields are empty
-      }
-    }, 500);
 
-    return () => clearTimeout(delayDebounce); // Clean up debounce
-  }, [title, author, isbn, limit]); // Trigger search when these fields change
+  // Detect scroll on the ul element for infinite scroll
+  const handleScroll = useCallback(() => {
+    const listElement = listRef.current;
+
+    if (listElement) {
+      const bottom =
+        listElement.scrollHeight - listElement.scrollTop <=
+        listElement.clientHeight + 10;
+
+      if (bottom && !loading) {
+        setOffset((prevOffset) => prevOffset + limit);
+      }
+    }
+  }, [loading, limit]);
+
+  // Fetch more books when offset updates
+  useEffect(() => {
+    if (offset > 0) {
+      handleSearch(true);
+    }
+  }, [offset]);
+
+  useEffect(() => {
+    if (title || author) {
+      handleSearch();
+    }
+  }, [title, author, limit]);
+
+  // Attach the scroll event to the ul element
+  useEffect(() => {
+    const listElement = listRef.current;
+    if (listElement) {
+      listElement.addEventListener("scroll", handleScroll);
+    }
+    return () => {
+      if (listElement) {
+        listElement.removeEventListener("scroll", handleScroll);
+      }
+    };
+  }, [handleScroll]);
 
   const handleKeyPress = (event: React.KeyboardEvent) => {
     if (event.key === "Escape") {
-      setTitle("");
-      setAuthor("");
-      setIsbn("");
-      setBooks(null);
+      resetSearch();
     }
   };
 
   return (
     <section className="flex flex-col gap-2 p-2 max-w-[800px] md:w-[800px]">
-      <input
-        type="text"
-        placeholder="Title"
-        value={title}
-        onChange={(e) => setTitle(e.target.value)}
-        className="border p-2 rounded-md"
-        onKeyUp={handleKeyPress}
-      />
-      <input
-        type="text"
-        placeholder="Author"
-        value={author}
-        onChange={(e) => setAuthor(e.target.value)}
-        className="border p-2 rounded-md"
-        onKeyUp={handleKeyPress}
-      />
-      <input
-        type="text"
-        placeholder="ISBN"
-        value={isbn}
-        onChange={(e) => setIsbn(e.target.value)}
-        className="border p-2 rounded-md"
-        onKeyUp={handleKeyPress}
-      />
-      <input
-        type="number"
-        placeholder="Limit"
-        value={limit}
-        onChange={(e) => setLimit(parseInt(e.target.value, 10))}
-        className="border p-2 rounded-md"
-        onKeyUp={handleKeyPress}
-      />
-      {loading && <p>Loading...</p>}
-      {error && <p className="text-red-500">{error}</p>}
-      <ul className="flex flex-col gap-2 px-2">
-        {books?.map((book) => (
-          <li key={crypto.randomUUID()} className="">
+      <div className="flex flex-row gap-2">
+        <input
+          type="text"
+          placeholder="Author"
+          value={author}
+          onChange={(e) => setAuthor(e.target.value)}
+          className="w-1/3 border-2 bg-lightGray border-secondary rounded-lg p-2 text-primary font-bold placeholder:text-gray placeholder:font-bold"
+          onKeyUp={handleKeyPress}
+        />
+        <input
+          type="text"
+          placeholder="Book title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          className="border-2 bg-lightGray border-secondary rounded-lg p-2 w-full text-primary font-bold placeholder:text-gray placeholder:font-bold"
+          onKeyUp={handleKeyPress}
+        />
+        <Button
+          type="primary"
+          className="w-1/3"
+          onClick={() => {
+            resetSearch();
+            handleSearch();
+          }}
+        >
+          Search
+        </Button>
+      </div>
+      {loading && <LoadingSpinner />}
+      {error && (
+        <Typography as="p" variant="p" className="text-red-500">
+          {error}
+        </Typography>
+      )}
+      <ul
+        ref={listRef}
+        className="flex flex-col gap-2 px-2 h-[600px] overflow-auto"
+      >
+        {books.map((book) => (
+          <li key={book.id} className="">
             <SmallBook
               title={book.volumeInfo?.title}
+              authors={book.volumeInfo?.authors?.join(", ")}
               publishedDate={book.volumeInfo?.publishedDate}
               thumbnail={book.volumeInfo?.imageLinks?.thumbnail}
               onClick={() => {

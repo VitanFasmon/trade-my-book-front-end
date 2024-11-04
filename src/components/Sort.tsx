@@ -16,6 +16,7 @@ const Sort = ({
     <div className="flex flex-row gap-2">
       <Button
         type="outlinedSecondary"
+        className="bg-lightGray"
         onClick={() => {
           sortDirection == "desc"
             ? setSortDirection("asc")
@@ -27,7 +28,7 @@ const Sort = ({
       <select
         value={sortOption}
         onChange={(e) => setSortOption(e.target.value)}
-        className="border-2 border-secondary rounded-lg p-2 bg-white text-secondary font-bold"
+        className="border-2 border-secondary rounded-lg p-2 bg-lightGray text-secondary font-bold"
         aria-label="sort by"
       >
         <option className=" font-bold" value="title">

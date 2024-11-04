@@ -1,11 +1,11 @@
 import React, { useState } from "react";
-import { LoginData } from "../../types/dataTypes";
-import { loginUser } from "../../data/apiService";
-import useAuthStore from "../../store/useAuthStore";
+import { LoginData } from "../types/dataTypes";
+import { loginUser } from "../data/apiService";
+import useAuthStore from "../store/useAuthStore";
 import { useNavigate } from "react-router";
-import { Routes } from "../../navigation/routes";
-import Typography from "../Typography";
-import Button from "../Buttons/Button";
+import { Routes } from "../navigation/routes";
+import Typography from "../components/Typography";
+import Button from "../components/Buttons/Button";
 
 const Login: React.FC = () => {
   const [formData, setFormData] = useState<LoginData>({

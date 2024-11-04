@@ -1,10 +1,10 @@
-import AddBook from "../components/pages/AddBook";
-import Home from "../components/pages/Home";
-import Login from "../components/pages/Login";
-import MyBooks from "../components/pages/MyBooks";
 import ProtectedRoute from "../components/ProtectedRoutes";
-import Register from "../components/pages/Register";
-import UserProfile from "../components/pages/UserProfile";
+import AddBook from "../pages/AddBook";
+import Home from "../pages/Home";
+import Login from "../pages/Login";
+import MyBooks from "../pages/MyBooks";
+import Register from "../pages/Register";
+import UserProfile from "../pages/UserProfile";
 
 export const Routes = {
   Home: "/",

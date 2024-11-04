@@ -1,5 +1,5 @@
-import Hero from "../Hero";
-import Typography from "../Typography";
+import Hero from "../components/Hero";
+import Typography from "../components/Typography";
 
 const Home = () => {
   return (

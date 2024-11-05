@@ -93,6 +93,7 @@ const MyBooks = () => {
               <MediumBook
                 key={crypto.randomUUID()}
                 bookData={book}
+                ownedByUser
                 onDeleteBookButtonClick={onDeleteBookButtonClick}
               />
               {index < filteredBooks.length - 1 && <Separator />}

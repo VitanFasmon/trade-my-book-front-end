@@ -12,9 +12,14 @@ import Condition from "./BookCondition";
 
 interface MediumBookProps {
   bookData: BookData;
-  onDeleteBookButtonClick: (book_id: number | undefined) => void;
+  ownedByUser?: boolean;
+  onDeleteBookButtonClick?: (book_id: number | undefined) => void;
 }
-const MediumBook = ({ bookData, onDeleteBookButtonClick }: MediumBookProps) => {
+const MediumBook = ({
+  bookData,
+  ownedByUser,
+  onDeleteBookButtonClick,
+}: MediumBookProps) => {
   const [tradable, setTradable] = useState<boolean>(bookData.tradable || false);
   const onToggleTradabilityClick = () => {
     bookData.book_id &&
@@ -69,21 +74,27 @@ const MediumBook = ({ bookData, onDeleteBookButtonClick }: MediumBookProps) => {
             <AddedOn date={new Date(bookData.date_added)} />
           )}
           <Condition condition={bookData.book_condition} />
-          <ToggleButton
-            textTrue="Tradable"
-            textFalse="Tradable"
-            checked={tradable}
-            setChecked={onToggleTradabilityClick}
-          />
-          <Button type={"primary"} onClick={() => {}}>
-            Edit
-          </Button>
-          <Button
-            type={"danger"}
-            onClick={() => onDeleteBookButtonClick(bookData.book_id)}
-          >
-            Remove
-          </Button>
+          {ownedByUser && (
+            <>
+              <ToggleButton
+                textTrue="Tradable"
+                textFalse="Tradable"
+                checked={tradable}
+                setChecked={onToggleTradabilityClick}
+              />
+              <Button type={"primary"} onClick={() => {}}>
+                Edit
+              </Button>
+              {onDeleteBookButtonClick && (
+                <Button
+                  type={"danger"}
+                  onClick={() => onDeleteBookButtonClick(bookData.book_id)}
+                >
+                  Remove
+                </Button>
+              )}
+            </>
+          )}
         </div>
       </div>
     </div>

@@ -186,6 +186,32 @@ const toggleBookTradability = async (
   const url = `${API_URL}/books/tradable/${bookId}/${tradable}`;
   return patchRequest(url, {}, true);
 };
+const searchBooks = async (
+  searchParams: {
+    [key: string]: string | number | undefined;
+    title?: string;
+    author?: string;
+    conditionMin?: number;
+    conditionMax?: number;
+    lat?: number;
+    lon?: number;
+    radiusKm?: number;
+    sortField?: string;
+    sortOrder?: "ASC" | "DESC";
+    limit?: number;
+    offset?: number;
+  } = {}
+): Promise<ApiResponse<BookData[]>> => {
+  const url = new URL(`${API_URL}/books/search`);
+
+  Object.keys(searchParams).forEach((key) => {
+    if (searchParams[key] !== undefined) {
+      url.searchParams.append(key, String(searchParams[key]));
+    }
+  });
+
+  return getRequest(url.toString(), false);
+};
 
 //LOCATION REQUESTS
 const addLocation = async (
@@ -206,4 +232,5 @@ export {
   addLocation,
   deleteBookByBookId,
   toggleBookTradability,
+  searchBooks,
 };

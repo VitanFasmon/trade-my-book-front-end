@@ -1,32 +1,79 @@
-import { useEffect, useState } from "react";
-import { PublicUserData } from "../types/dataTypes";
-import { fetchUserDataByEmail } from "../data/apiService";
-import { useParams } from "react-router";
+import { useState } from "react";
+import Button from "../components/Buttons/Button";
+import MapParent from "../components/GooglePlacesAutocomplete/MapParent";
+import { addLocation, updateUserLocation } from "../data/apiService";
+import useAuthStore from "../store/useAuthStore";
+import useLocationStore from "../store/useLocationStore";
+import Typography from "../components/Typography";
 
 const UserProfile = () => {
-  const [userData, setUserData] = useState<PublicUserData | undefined>(
-    undefined
-  );
-  const { email } = useParams();
+  const { user, updateUserData } = useAuthStore();
+  const { locationData } = useLocationStore();
+  const [message, setMessage] = useState<string>("");
 
-  useEffect(() => {
-    loadUserData();
-  }, []);
-  const loadUserData = async () => {
+  const onUpdateLocationButtonClick = async (event: React.FormEvent) => {
+    event.preventDefault();
+    console.log(user);
+    if (!locationData) {
+      setMessage("Please choose a location.");
+      return;
+    }
+
     try {
-      const response = email && (await fetchUserDataByEmail(email));
-      response && setUserData(response.data);
+      const locationRes = locationData ? await addLocation(locationData) : null;
+      if (!locationRes?.data?.location_id) {
+        return;
+      }
+      const userRes = await updateUserLocation(locationRes?.data?.location_id);
+      userRes.data && updateUserData(userRes.data);
+      console.log(userRes);
+      setMessage(`Location updated successfully!`);
     } catch (error) {
-      console.error("Error fetching user data:", error);
+      setMessage(
+        `Location updating failed: ${
+          (error as Error).message || "Server error"
+        }`
+      );
     }
   };
+
   return (
     <div>
-      <h1>User Profile</h1>
-      <p>Name: {userData?.name}</p>
-      <p>Email: {userData?.email}</p>
-      <p>Phone Number: {userData?.phone_number}</p>
-      <p>Location: {userData?.location_id}</p>
+      <Typography as="h1" variant="h1">
+        {user?.name}
+      </Typography>
+      <Typography as="p" variant="p">
+        Email: {user?.email}
+      </Typography>
+      <Typography as="p" variant="p">
+        Phone Number: {user?.phone_number}
+      </Typography>
+      <Typography as="p" variant="p">
+        Location: {user?.location_id}
+      </Typography>
+      <div className="w-full flex flex-col justify-center items-center gap-2">
+        <Typography as="p" variant="p">
+          We need your location in order to show you books near you. You can be
+          as specific as you would like.
+        </Typography>
+        <MapParent />
+        <Button
+          type="primary"
+          onClick={onUpdateLocationButtonClick}
+          className="w-fit"
+        >
+          Update Location
+        </Button>
+        {message && (
+          <p
+            className={
+              message.includes("successful") ? "text-green-500" : "text-red-500"
+            }
+          >
+            {message}
+          </p>
+        )}
+      </div>
     </div>
   );
 };

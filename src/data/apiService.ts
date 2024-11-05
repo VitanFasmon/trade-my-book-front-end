@@ -158,6 +158,13 @@ const fetchUserDataByEmail = async (
   const url = `${API_URL}/user/email/${email}`;
   return getRequest(url, true);
 };
+const updateUserLocation = async (
+  locationId: number
+): Promise<ApiResponse<PublicUserData>> => {
+  const url = `${API_URL}/user/location`;
+  return patchRequest(url, { location_id: locationId }, true);
+};
+
 //BOOK REQUESTS
 const addBook = async (bookData: BookData): Promise<ApiResponse> => {
   const url = `${API_URL}/books`;
@@ -233,4 +240,5 @@ export {
   deleteBookByBookId,
   toggleBookTradability,
   searchBooks,
+  updateUserLocation,
 };

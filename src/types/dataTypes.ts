@@ -17,6 +17,7 @@ type UserStore = {
   token: string | null;
   user: PublicUserData | null;
   isAuthenticated: boolean;
+  updateUserData: (userData: PublicUserData) => void;
   login: (userData: PublicUserData, token: string) => void;
   logout: () => void;
 };
@@ -120,6 +121,9 @@ type LocationData = {
 };
 type LocationResponse = {
   location_id: number;
+  address: string;
+  lat: number;
+  lng: number;
 };
 
 type LocationStore = {

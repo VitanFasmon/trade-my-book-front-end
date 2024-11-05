@@ -17,7 +17,7 @@ const Register = () => {
     location_id: null,
   });
 
-  const { setLocationData, locationData } = useLocationStore();
+  const { locationData } = useLocationStore();
 
   const [repeatPassword, setRepeatPassword] = useState<string>("");
   const [message, setMessage] = useState<string>("");

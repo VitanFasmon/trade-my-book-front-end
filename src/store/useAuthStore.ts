@@ -15,6 +15,10 @@ const useAuthStore = create<UserStore>((set) => {
     user: initialUser,
     token: storedToken,
     isAuthenticated: isAuthenticated,
+    updateUserData: (userData: PublicUserData) => {
+      localStorage.setItem("user", JSON.stringify(userData));
+      set({ user: userData });
+    },
 
     login: (userData: PublicUserData, token: string) => {
       localStorage.setItem("user", JSON.stringify(userData));

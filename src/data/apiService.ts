@@ -164,6 +164,18 @@ const updateUserLocation = async (
   const url = `${API_URL}/user/location`;
   return patchRequest(url, { location_id: locationId }, true);
 };
+const updateUserName = async (
+  name: string
+): Promise<ApiResponse<PublicUserData>> => {
+  const url = `${API_URL}/user/name`;
+  return patchRequest(url, { name: name }, true);
+};
+const updateUserPhoneNumber = async (
+  phoneNumber: string
+): Promise<ApiResponse<PublicUserData>> => {
+  const url = `${API_URL}/user/phone`;
+  return patchRequest(url, { phone_number: phoneNumber }, true);
+};
 
 //BOOK REQUESTS
 const addBook = async (bookData: BookData): Promise<ApiResponse> => {
@@ -217,7 +229,7 @@ const searchBooks = async (
     }
   });
 
-  return getRequest(url.toString(), false);
+  return getRequest(url.toString(), true);
 };
 
 //LOCATION REQUESTS
@@ -227,7 +239,12 @@ const addLocation = async (
   const url = `${API_URL}/location`;
   return postRequest(url, locationData, true);
 };
-
+const getLocationById = async (
+  location_id: number
+): Promise<ApiResponse<LocationResponse>> => {
+  const url = `${API_URL}/location/${location_id}`;
+  return getRequest(url, true);
+};
 export {
   registerUser,
   loginUser,
@@ -241,4 +258,7 @@ export {
   toggleBookTradability,
   searchBooks,
   updateUserLocation,
+  getLocationById,
+  updateUserName,
+  updateUserPhoneNumber,
 };

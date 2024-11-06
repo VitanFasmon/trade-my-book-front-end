@@ -122,8 +122,8 @@ type LocationData = {
 type LocationResponse = {
   location_id: number;
   address: string;
-  lat: number;
-  lng: number;
+  latitude: number;
+  longitude: number;
 };
 
 type LocationStore = {

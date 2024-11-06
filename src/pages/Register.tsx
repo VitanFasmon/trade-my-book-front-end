@@ -7,6 +7,7 @@ import { useNavigate } from "react-router";
 import { Routes } from "../navigation/routes";
 import MapParent from "../components/GooglePlacesAutocomplete/MapParent";
 import useLocationStore from "../store/useLocationStore";
+import PhoneNumberInput from "../components/PhoneNumberInput";
 
 const Register = () => {
   const [formData, setFormData] = useState<UserData>({
@@ -32,6 +33,14 @@ const Register = () => {
       [name]: value,
     }));
     setErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
+  };
+
+  const setPhoneNumber = (value: string) => {
+    setFormData((prevData) => ({
+      ...prevData,
+      phone_number: value,
+    }));
+    setErrors((prevErrors) => ({ ...prevErrors, phone_number: "" }));
   };
 
   const handleRepeatPasswordChange = (
@@ -117,7 +126,7 @@ const Register = () => {
               be as specific as you would like.
             </Typography>
             <div className="w-full flex justify-center">
-              <MapParent />
+              <MapParent edit />
             </div>
             {errors.address && <p className="text-red-500">{errors.address}</p>}
             <Button type="primary" onClick={handleNextStep}>
@@ -127,7 +136,7 @@ const Register = () => {
         )}
 
         {step === 2 && (
-          <div className=" max-w-[300px] flex flex-col gap-2 w-full">
+          <div className=" max-w-[500px] flex flex-col gap-2 w-full">
             <input
               type="text"
               name="name"
@@ -152,14 +161,9 @@ const Register = () => {
             />
             {errors.email && <p className="text-red-500">{errors.email}</p>}
 
-            <input
-              type="text"
-              name="phone_number"
-              value={formData.phone_number}
-              onChange={handleChange}
-              placeholder="Phone number"
-              aria-label="Phone number"
-              className="border border-primary p-2 rounded-md w-full"
+            <PhoneNumberInput
+              phoneNumber={formData.phone_number}
+              setPhoneNumber={setPhoneNumber}
             />
             {errors.phone_number && (
               <p className="text-red-500">{errors.phone_number}</p>

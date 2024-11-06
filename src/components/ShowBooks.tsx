@@ -11,6 +11,8 @@ import useLocationStore from "../store/useLocationStore";
 import ConditionSlider from "./ConditionSlider";
 import MaxDistanceInput from "./MaxDistanceInput";
 import Typography from "./Typography";
+import { useNavigate } from "react-router";
+import { Routes } from "../navigation/routes";
 
 const ShowBooks = () => {
   const [books, setBooks] = useState<BookData[] | null>(null);
@@ -26,7 +28,7 @@ const ShowBooks = () => {
   const [filteredBooks, setFilteredBooks] = useState<BookData[] | null>(null);
   const { user } = useAuthStore();
   const { locationData, setLocationData } = useLocationStore();
-
+  const navigate = useNavigate();
   const getUserLocationByLocationId = async () => {
     if (!user?.location_id) {
       getBooks();
@@ -93,6 +95,9 @@ const ShowBooks = () => {
     }
   }, [books]);
 
+  const onTradeBookButtonClick = (bookData: BookData) => {
+    navigate(Routes.TradeBook, { state: { chosenBook: bookData } });
+  };
   return (
     <section className="w-full flex justify-center">
       <div className="flex flex-col gap-8 px-8 w-full items-center py-8">
@@ -109,7 +114,12 @@ const ShowBooks = () => {
           <div className="flex flex-col gap-8 max-w-[1200px]">
             {filteredBooks?.map((book, index) => (
               <>
-                <MediumBook bookData={book} key={crypto.randomUUID()} />
+                <MediumBook
+                  bookData={book}
+                  key={crypto.randomUUID()}
+                  goodToTrade={user ? true : false}
+                  sendBookDataToParent={onTradeBookButtonClick}
+                />
                 {index < filteredBooks.length - 1 && <Separator />}
               </>
             ))}

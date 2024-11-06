@@ -114,7 +114,7 @@ const Register = () => {
   };
 
   return (
-    <section className="flex flex-col gap-8 items-center">
+    <section className="flex flex-col gap-8 items-center h-full py-8">
       <Typography as="h2" variant="h2">
         Registration Form
       </Typography>
@@ -136,7 +136,7 @@ const Register = () => {
         )}
 
         {step === 2 && (
-          <div className=" max-w-[500px] flex flex-col gap-2 w-full">
+          <div className=" max-w-[500px] flex flex-col gap-2 w-full h-full">
             <input
               type="text"
               name="name"

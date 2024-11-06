@@ -51,7 +51,7 @@ const Login: React.FC = () => {
   };
 
   return (
-    <section className="flex flex-col gap-8 items-center">
+    <section className="flex flex-col gap-8 items-center h-full py-8">
       <Typography as="h2" variant="h2">
         Login
       </Typography>

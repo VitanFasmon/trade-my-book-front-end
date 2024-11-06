@@ -13,12 +13,16 @@ import Condition from "./BookCondition";
 interface MediumBookProps {
   bookData: BookData;
   ownedByUser?: boolean;
+  goodToTrade?: boolean;
   onDeleteBookButtonClick?: (book_id: number | undefined) => void;
+  sendBookDataToParent?: (bookData: BookData) => void;
 }
 const MediumBook = ({
   bookData,
   ownedByUser,
+  goodToTrade,
   onDeleteBookButtonClick,
+  sendBookDataToParent,
 }: MediumBookProps) => {
   const [tradable, setTradable] = useState<boolean>(bookData.tradable || false);
   const onToggleTradabilityClick = () => {
@@ -29,7 +33,9 @@ const MediumBook = ({
         })
         .catch((error) => console.error("Error toggling tradability:", error));
   };
-
+  const onTradeBookButtonClick = () => {
+    sendBookDataToParent && sendBookDataToParent(bookData);
+  };
   return (
     <div className="flex flex-row gap-8 w-full h-[300px] p-2">
       <img
@@ -94,6 +100,11 @@ const MediumBook = ({
                 </Button>
               )}
             </>
+          )}
+          {goodToTrade && (
+            <Button type={"primary"} onClick={onTradeBookButtonClick}>
+              Trade
+            </Button>
           )}
         </div>
       </div>

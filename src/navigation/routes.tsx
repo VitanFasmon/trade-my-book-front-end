@@ -4,6 +4,7 @@ import Home from "../pages/Home";
 import Login from "../pages/Login";
 import MyBooks from "../pages/MyBooks";
 import Register from "../pages/Register";
+import TradeBook from "../pages/TradeBook";
 import UserProfile from "../pages/UserProfile";
 
 export const Routes = {
@@ -13,6 +14,7 @@ export const Routes = {
   Profile: "/profile",
   AddBook: "/add-book",
   MyBooks: "/my-books",
+  TradeBook: "/trade-book",
 };
 
 const routerChildren = [
@@ -33,6 +35,11 @@ const routerChildren = [
     path: Routes.MyBooks,
     element: <ProtectedRoute />,
     children: [{ path: Routes.MyBooks, element: <MyBooks /> }],
+  },
+  {
+    path: Routes.TradeBook,
+    element: <ProtectedRoute />,
+    children: [{ path: Routes.TradeBook, element: <TradeBook /> }],
   },
 ];
 

@@ -54,7 +54,7 @@ const AddBook = () => {
     setMessage(null);
   };
   return (
-    <section className="flex flex-col items-center w-full">
+    <section className="flex flex-col items-center w-full h-full py-8">
       <section className="flex flex-col gap-2 p-2 items-center  max-w-[800px]">
         <Typography as="h1" variant="h2">
           Search for a book you want to add

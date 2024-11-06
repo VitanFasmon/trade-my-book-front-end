@@ -1,3 +1,4 @@
+import RoundedContainer from "../RoundedContainer";
 import Typography from "../Typography";
 interface BookCategoryProps {
   category: string;
@@ -5,14 +6,14 @@ interface BookCategoryProps {
 
 const BookCategory = ({ category }: BookCategoryProps) => {
   return (
-    <Typography
-      as="p"
-      variant="p"
-      className="p-2 bg-lightSecondary border border-secondary rounded-xl w-fit font-bold "
-      key={crypto.randomUUID()}
+    <RoundedContainer
+      borderWidth=""
+      className=" bg-lightSecondary w-fit font-bold p-2"
     >
-      {category}
-    </Typography>
+      <Typography as="p" variant="p" key={crypto.randomUUID()}>
+        {category}
+      </Typography>
+    </RoundedContainer>
   );
 };
 export default BookCategory;

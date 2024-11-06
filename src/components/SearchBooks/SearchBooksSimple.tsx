@@ -2,7 +2,7 @@ interface SearchBooksProps {
   searchTerm: string;
   setSearchTerm: (term: string) => void;
 }
-const SearchBooks = ({ searchTerm, setSearchTerm }: SearchBooksProps) => {
+const SearchBooksSimple = ({ searchTerm, setSearchTerm }: SearchBooksProps) => {
   return (
     <input
       type="text"
@@ -13,4 +13,4 @@ const SearchBooks = ({ searchTerm, setSearchTerm }: SearchBooksProps) => {
     />
   );
 };
-export default SearchBooks;
+export default SearchBooksSimple;

@@ -1,5 +1,6 @@
 import React from "react";
 import Typography from "../Typography";
+import RoundedContainer from "../RoundedContainer";
 
 interface AddedOnProps {
   date: Date;
@@ -28,13 +29,14 @@ const AddedOn: React.FC<AddedOnProps> = ({ date }) => {
   };
 
   return (
-    <Typography
-      as="span"
-      variant="span"
-      className="p-2 border border-secondary rounded-lg flex justify-center items-center font-bold"
+    <RoundedContainer
+      className="rounded-lg flex justify-center items-center font-bold"
+      borderWidth=""
     >
-      {getTimeDifference(date)}
-    </Typography>
+      <Typography as="span" variant="span">
+        {getTimeDifference(date)}
+      </Typography>
+    </RoundedContainer>
   );
 };
 

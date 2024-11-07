@@ -6,6 +6,8 @@ import {
   LocationResponse,
   LoginData,
   PublicUserData,
+  TradeData,
+  TradeRequestData,
   UserData,
 } from "../types/dataTypes";
 
@@ -231,7 +233,10 @@ const searchBooks = async (
 
   return getRequest(url.toString(), true);
 };
-
+const findBookById = async (bookId: number): Promise<ApiResponse<BookData>> => {
+  const url = `${API_URL}/books/${bookId}`;
+  return getRequest(url, true);
+};
 //LOCATION REQUESTS
 const addLocation = async (
   locationData: LocationData
@@ -244,6 +249,47 @@ const getLocationById = async (
 ): Promise<ApiResponse<LocationResponse>> => {
   const url = `${API_URL}/location/${location_id}`;
   return getRequest(url, true);
+};
+// TRADE REQUESTS
+
+const initiateTrade = async (
+  tradeData: TradeRequestData
+): Promise<ApiResponse<TradeData>> => {
+  const url = `${API_URL}/trades`;
+  return postRequest(url, tradeData, true);
+};
+
+const getTradesByUser = async (): Promise<ApiResponse<TradeData[]>> => {
+  const url = `${API_URL}/trades/user`;
+  return getRequest(url, true);
+};
+
+const getTradeById = async (
+  tradeId: number
+): Promise<ApiResponse<TradeData>> => {
+  const url = `${API_URL}/trades/${tradeId}`;
+  return getRequest(url, true);
+};
+
+const acceptTrade = async (
+  tradeId: number
+): Promise<ApiResponse<TradeData>> => {
+  const url = `${API_URL}/trades/${tradeId}/accept`;
+  return patchRequest(url, {}, true);
+};
+
+const rejectTrade = async (
+  tradeId: number
+): Promise<ApiResponse<TradeData>> => {
+  const url = `${API_URL}/trades/${tradeId}/reject`;
+  return patchRequest(url, {}, true);
+};
+
+const cancelTrade = async (
+  tradeId: number
+): Promise<ApiResponse<TradeData>> => {
+  const url = `${API_URL}/trades/${tradeId}/cancel`;
+  return patchRequest(url, {}, true);
 };
 export {
   registerUser,
@@ -261,4 +307,11 @@ export {
   getLocationById,
   updateUserName,
   updateUserPhoneNumber,
+  initiateTrade,
+  getTradesByUser,
+  getTradeById,
+  acceptTrade,
+  rejectTrade,
+  cancelTrade,
+  findBookById,
 };

@@ -5,6 +5,7 @@ import Login from "../pages/Login";
 import MyBooks from "../pages/MyBooks";
 import Register from "../pages/Register";
 import TradeBook from "../pages/TradeBook";
+import TradingQueue from "../pages/TradingQueue";
 import UserProfile from "../pages/UserProfile";
 
 export const Routes = {
@@ -15,6 +16,7 @@ export const Routes = {
   AddBook: "/add-book",
   MyBooks: "/my-books",
   TradeBook: "/trade-book",
+  TradingQueue: "/trading-queue",
 };
 
 const routerChildren = [
@@ -40,6 +42,11 @@ const routerChildren = [
     path: Routes.TradeBook,
     element: <ProtectedRoute />,
     children: [{ path: Routes.TradeBook, element: <TradeBook /> }],
+  },
+  {
+    path: Routes.TradingQueue,
+    element: <ProtectedRoute />,
+    children: [{ path: Routes.TradingQueue, element: <TradingQueue /> }],
   },
 ];
 

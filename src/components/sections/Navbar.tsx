@@ -45,6 +45,13 @@ const Navbar = () => {
                 </Typography>
               </Button>
             </li>
+            <li>
+              <Button type="planePrimary" link href={Routes.TradingQueue}>
+                <Typography as="p" variant="p" className="font-bold">
+                  Trading Queue
+                </Typography>
+              </Button>
+            </li>
           </>
         )}
       </ul>

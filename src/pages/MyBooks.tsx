@@ -5,8 +5,14 @@ import MediumBook from "../components/Book/MediumBook";
 import Separator from "../components/Separator";
 import Sort from "../components/Sort";
 import SearchBooksSimple from "../components/SearchBooks/SearchBooksSimple";
-
-const MyBooks = () => {
+interface MyBooksProps {
+  tradingMode?: boolean;
+  sendBookDataToParent?: (bookData: BookData) => void;
+}
+const MyBooks = ({
+  tradingMode = false,
+  sendBookDataToParent,
+}: MyBooksProps = {}) => {
   const [books, setBooks] = useState<BookData[] | null>(null);
   const [searchTerm, setSearchTerm] = useState("");
   const [sortOption, setSortOption] = useState("date_added");
@@ -23,6 +29,9 @@ const MyBooks = () => {
     if (books) {
       let updatedBooks = [...books];
 
+      if (tradingMode) {
+        updatedBooks = updatedBooks.filter((book) => book.tradable);
+      }
       if (searchTerm) {
         const lowercasedTerm = searchTerm.toLowerCase();
         updatedBooks = updatedBooks.filter((book) =>
@@ -75,7 +84,7 @@ const MyBooks = () => {
   };
 
   return (
-    <section className="w-full flex justify-center py-8 h-full">
+    <section className="w-full flex justify-center py-8 min-h-full">
       <div className="flex flex-col gap-8 p-2 max-w-[1200px] items-center">
         <div className="flex flex-row gap-2 items-center w-full">
           <SearchBooksSimple
@@ -96,8 +105,10 @@ const MyBooks = () => {
               <MediumBook
                 key={crypto.randomUUID()}
                 bookData={book}
-                ownedByUser
+                ownedByUser={!tradingMode}
                 onDeleteBookButtonClick={onDeleteBookButtonClick}
+                sendBookDataToParent={sendBookDataToParent}
+                goodToTrade={tradingMode}
               />
               {index < filteredBooks.length - 1 && <Separator />}
             </>

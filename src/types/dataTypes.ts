@@ -130,6 +130,21 @@ type LocationStore = {
   locationData: LocationData | null;
   setLocationData: (locationData: LocationData | null) => void;
 };
+type TradeRequestData = {
+  offered_book_id: number;
+  requested_book_id: number;
+};
+
+type TradeData = {
+  trade_id: number;
+  offered_book_id: number;
+  requested_book_id: number;
+  status: "PENDING" | "ACCEPTED" | "REJECTED" | "CANCELED";
+  trade_date: string;
+  dateUpdated: string | null;
+  user_from: number;
+  user_to: number;
+};
 export type {
   UserData,
   LoginData,
@@ -141,4 +156,6 @@ export type {
   LocationResponse,
   LocationStore,
   GoogleBook,
+  TradeRequestData,
+  TradeData,
 };

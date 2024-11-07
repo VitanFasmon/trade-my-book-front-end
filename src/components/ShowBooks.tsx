@@ -96,7 +96,7 @@ const ShowBooks = () => {
   }, [books]);
 
   const onTradeBookButtonClick = (bookData: BookData) => {
-    navigate(Routes.TradeBook, { state: { chosenBook: bookData } });
+    navigate(Routes.TradeBook, { state: { requestedBook: bookData } });
   };
   return (
     <section className="w-full flex justify-center">

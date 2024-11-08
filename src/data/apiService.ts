@@ -160,6 +160,12 @@ const fetchUserDataByEmail = async (
   const url = `${API_URL}/user/email/${email}`;
   return getRequest(url, true);
 };
+const fetchUserDataById = async (
+  id: number
+): Promise<ApiResponse<PublicUserData>> => {
+  const url = `${API_URL}/user/id/${id}`;
+  return getRequest(url, true);
+};
 const updateUserLocation = async (
   locationId: number
 ): Promise<ApiResponse<PublicUserData>> => {
@@ -274,22 +280,22 @@ const getTradeById = async (
 const acceptTrade = async (
   tradeId: number
 ): Promise<ApiResponse<TradeData>> => {
-  const url = `${API_URL}/trades/${tradeId}/accept`;
-  return patchRequest(url, {}, true);
+  const url = `${API_URL}/trades/${tradeId}/status`;
+  return patchRequest(url, { status: "accepted" }, true);
 };
 
 const rejectTrade = async (
   tradeId: number
 ): Promise<ApiResponse<TradeData>> => {
-  const url = `${API_URL}/trades/${tradeId}/reject`;
-  return patchRequest(url, {}, true);
+  const url = `${API_URL}/trades/${tradeId}/status`;
+  return patchRequest(url, { status: "rejected" }, true);
 };
 
 const cancelTrade = async (
   tradeId: number
 ): Promise<ApiResponse<TradeData>> => {
-  const url = `${API_URL}/trades/${tradeId}/cancel`;
-  return patchRequest(url, {}, true);
+  const url = `${API_URL}/trades/${tradeId}/status`;
+  return patchRequest(url, { status: "canceled" }, true);
 };
 export {
   registerUser,
@@ -299,6 +305,7 @@ export {
   getBooksByUserId,
   fetchUserData,
   fetchUserDataByEmail,
+  fetchUserDataById,
   addLocation,
   deleteBookByBookId,
   toggleBookTradability,

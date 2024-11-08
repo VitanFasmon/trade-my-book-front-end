@@ -1,67 +1,142 @@
 import { useEffect, useState } from "react";
-import { BookData, TradeData } from "../types/dataTypes";
+import { BookData, PublicUserData, TradeData } from "../types/dataTypes";
 import MediumBook from "./Book/MediumBook";
 import Typography from "./Typography";
-import { findBookById } from "../data/apiService";
+import {
+  acceptTrade,
+  cancelTrade,
+  fetchUserDataById,
+  findBookById,
+  rejectTrade,
+} from "../data/apiService";
+import Button from "./Buttons/Button";
+import useAuthStore from "../store/useAuthStore";
 
 interface TradingOfferProps {
   trade: TradeData;
 }
-/*
-  trade_id: number;
-  offered_book_id: number;
-  requested_book_id: number;
-  status: "PENDING" | "ACCEPTED" | "REJECTED" | "CANCELED";
-  trade_date: string;
-  dateUpdated: string | null;
-  user_from: number;
-  user_to: number;
-*/
 const TradingOffer = ({ trade }: TradingOfferProps) => {
   const [offeredBook, setOfferedBook] = useState<BookData | null>(null);
   const [requestedBook, setRequestedBook] = useState<BookData | null>(null);
-
+  const { user } = useAuthStore();
+  const [otherUser, setOtherUser] = useState<PublicUserData | null>(null);
   const fetchBooks = async () => {
-    const offeredBookId = trade.offered_book_id;
-    const requestedBookId = trade.requested_book_id;
-    const offeredBook = await findBookById(offeredBookId);
-    const requestedBook = await findBookById(requestedBookId);
-    console.log(offeredBook.data);
+    const offeredBook = await findBookById(trade.offered_book_id);
+    const requestedBook = await findBookById(trade.requested_book_id);
     offeredBook.data && setOfferedBook(offeredBook.data);
     requestedBook.data && setRequestedBook(requestedBook.data);
   };
+  const getOtherUserData = async () => {
+    try {
+      const otherUserId =
+        user?.user_id == trade.user_from ? trade.user_to : trade.user_from;
+      const response = await fetchUserDataById(otherUserId);
+      setOtherUser(response.data || null);
+    } catch (error) {
+      console.error("Error fetching user data:", error);
+    }
+  };
+  const onCancelTradeClick = async () => {
+    try {
+      const response = await cancelTrade(trade.trade_id);
+      console.log(response);
+      fetchBooks();
+    } catch (error) {
+      console.error("Error cancelling trade:", error);
+    }
+  };
+  const onAcceptTradeClick = async () => {
+    try {
+      const response = await acceptTrade(trade.trade_id);
+      console.log(response);
+      fetchBooks();
+    } catch (error) {
+      console.error("Error cancelling trade:", error);
+    }
+  };
+  const onRejectTradeClick = async () => {
+    try {
+      const response = await rejectTrade(trade.trade_id);
+      console.log(response);
+      fetchBooks();
+    } catch (error) {
+      console.error("Error cancelling trade:", error);
+    }
+  };
   useEffect(() => {
+    getOtherUserData();
     fetchBooks();
   }, []);
   return (
     <div className="flex flex-col gap-2">
-      <div className="flex flex-row gap-2 items-center justify-center">
-        <Typography as="p" variant="p">
-          Status: {trade.status}
-        </Typography>
-        <Typography as="p" variant="p">
-          Trade added: {trade.trade_date}
-        </Typography>
-        <Typography as="p" variant="p">
-          Last updated: {trade.dateUpdated}
-        </Typography>
-      </div>
-      <div className="flex flex-row gap-2 items-center justify-between">
-        {offeredBook ? (
-          <MediumBook bookData={offeredBook} />
-        ) : (
-          <Typography as="p" variant="p">
-            Could not display book
-          </Typography>
-        )}
-        {requestedBook ? (
-          <MediumBook bookData={requestedBook} />
-        ) : (
-          <Typography as="p" variant="p">
-            Could not display book
-          </Typography>
-        )}
-      </div>
+      {requestedBook && offeredBook && user && (
+        <>
+          <div className="flex flex-row gap-2 items-center justify-center">
+            <Typography as="p" variant="p">
+              Status: {trade.status}
+            </Typography>
+            <Typography as="p" variant="p">
+              Trade added: {trade.trade_date}
+            </Typography>
+          </div>
+          <div className="flex flex-row gap-2 items-center justify-between">
+            <div className="flex flex-col gap-2 w-full items-center">
+              <Typography as="p" variant="p">
+                {otherUser?.name}
+              </Typography>
+
+              <MediumBook
+                bookData={
+                  requestedBook.added_by_user_id == user.user_id
+                    ? offeredBook
+                    : requestedBook
+                }
+              />
+            </div>
+            <div className="flex flex-col gap-2">
+              {trade.status == "pending" ? (
+                <>
+                  {trade.user_to == user.user_id ? (
+                    <>
+                      <Button type="secondary" onClick={onAcceptTradeClick}>
+                        Accept
+                      </Button>
+                      <Button type="danger" onClick={onRejectTradeClick}>
+                        Decline
+                      </Button>
+                    </>
+                  ) : (
+                    <>
+                      {trade.user_from}
+                      <Button type="danger" onClick={onCancelTradeClick}>
+                        Cancel
+                      </Button>
+                    </>
+                  )}
+                </>
+              ) : (
+                <>
+                  <Typography as="p" variant="p" className="font-bold p-2 ">
+                    {trade.status.toLocaleUpperCase()}
+                  </Typography>
+                </>
+              )}
+            </div>
+            <div className="flex flex-col gap-2 w-full items-center">
+              <Typography as="p" variant="p">
+                Your book
+              </Typography>
+              <MediumBook
+                bookData={
+                  requestedBook.added_by_user_id == user.user_id
+                    ? requestedBook
+                    : offeredBook
+                }
+              />
+            </div>
+          </div>
+        </>
+      )}
     </div>
   );
 };

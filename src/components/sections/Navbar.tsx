@@ -48,7 +48,7 @@ const Navbar = () => {
             <li>
               <Button type="planePrimary" link href={Routes.TradingQueue}>
                 <Typography as="p" variant="p" className="font-bold">
-                  Trading Queue
+                  Trading Offers
                 </Typography>
               </Button>
             </li>

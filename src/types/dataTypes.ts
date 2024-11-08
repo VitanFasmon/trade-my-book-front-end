@@ -7,6 +7,7 @@ type UserData = {
 };
 
 type PublicUserData = {
+  user_id: number;
   name: string;
   email: string;
   phone_number?: string;
@@ -29,7 +30,7 @@ type LoginData = {
 
 type BookData = {
   book_id?: number;
-  added_by_user?: string;
+  added_by_user_id?: number;
   date_added?: string;
   title: string;
   subtitle: string;
@@ -139,9 +140,8 @@ type TradeData = {
   trade_id: number;
   offered_book_id: number;
   requested_book_id: number;
-  status: "PENDING" | "ACCEPTED" | "REJECTED" | "CANCELED";
+  status: "pending" | "accepted" | "rejected" | "canceled";
   trade_date: string;
-  dateUpdated: string | null;
   user_from: number;
   user_to: number;
 };

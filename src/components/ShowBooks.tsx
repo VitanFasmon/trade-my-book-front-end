@@ -15,6 +15,7 @@ import { useNavigate } from "react-router";
 import { Routes } from "../navigation/routes";
 
 const ShowBooks = () => {
+  //TODO: infinite scroll
   const [books, setBooks] = useState<BookData[] | null>(null);
   const [searchTitle, setSearchTitle] = useState("");
   const [searchAuthor, setSearchAuthor] = useState("");

@@ -5,7 +5,6 @@ import Sort from "./Sort";
 import { BookData } from "../types/dataTypes";
 import { getLocationById, searchBooks } from "../data/apiService";
 import SearchBooksAdvance from "./SearchBooks/SearchBooksAdvance";
-import RoundedContainer from "./RoundedContainer";
 import useAuthStore from "../store/useAuthStore";
 import useLocationStore from "../store/useLocationStore";
 import ConditionSlider from "./ConditionSlider";
@@ -110,7 +109,7 @@ const ShowBooks = () => {
             setSearchAuthor={setSearchAuthor}
           />
         </div>
-        <div className="flex flex-row gap-2 w-full justify-between items-start">
+        <div className="flex md:flex-row flex-col-reverse gap-2 w-full justify-between md:items-start items-center">
           <div className="w-fit"></div>
           <div className="flex flex-col gap-8 max-w-[1200px]">
             {filteredBooks?.map((book, index) => (

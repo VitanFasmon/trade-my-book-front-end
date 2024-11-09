@@ -86,7 +86,7 @@ const MyBooks = ({
   return (
     <section className="w-full flex justify-center py-8 min-h-full">
       <div className="flex flex-col gap-8 p-2 max-w-[1200px] items-center">
-        <div className="flex flex-row gap-2 items-center w-full">
+        <div className="flex sm:flex-row flex-col gap-2 items-center w-full ">
           <SearchBooksSimple
             searchTerm={searchTerm}
             setSearchTerm={setSearchTerm}

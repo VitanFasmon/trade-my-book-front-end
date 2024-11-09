@@ -27,14 +27,6 @@ const TradingQueue = () => {
               {`You have ${tradingQueue.length} trading offers`}
             </Typography>
             <div className="flex flex-col gap-2 w-full p-8">
-              <div className="flex flex-row gap-2 w-full items-center justify-evenly my-8">
-                <Typography as="h3" variant="h3">
-                  You receive
-                </Typography>
-                <Typography as="h3" variant="h3">
-                  You lose
-                </Typography>
-              </div>
               {tradingQueue?.map((trade, index) => {
                 return (
                   <>

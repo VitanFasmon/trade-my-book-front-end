@@ -37,13 +37,15 @@ const MediumBook = ({
     sendBookDataToParent && sendBookDataToParent(bookData);
   };
   return (
-    <div className="flex flex-row gap-8 w-full h-[300px] p-2">
-      <img
-        src={bookData.cover_url || bookIcon}
-        alt={`${bookData.title} cover`}
-        className="object-contain rounded-3xl h-full"
-      />
-      <div className="w-full h-full flex flex-row justify-between gap-8">
+    <div className="flex md:flex-row flex-col gap-8 w-full h-fit p-2 items-center md:items-stretch">
+      <div className="rounded-3xl md:w-fit md:h-48 w-60">
+        <img
+          src={bookData.cover_url || bookIcon}
+          alt={`${bookData.title} cover`}
+          className="object-contain rounded-3xl h-full w-full"
+        />
+      </div>
+      <div className="w-full h-full flex md:flex-row flex-col justify-between items-center md:items-start gap-8">
         <div className="flex flex-col gap-2 h-full">
           <div className="flex flex-row justify-between">
             <div className="flex flex-row gap-2 flex-wrap">
@@ -56,7 +58,11 @@ const MediumBook = ({
           </div>
           <div className="flex flex-row justify-between gap-8  h-full">
             <div className="flex flex-col gap-2">
-              <Typography as="h3" variant="h3">
+              <Typography
+                as="h3"
+                variant="h3"
+                className="text-center md:text-left"
+              >
                 {`${bookData.title} ${
                   bookData.published_date
                     ? `(${formatDateString(bookData.published_date)})`
@@ -75,7 +81,7 @@ const MediumBook = ({
             </div>
           </div>
         </div>
-        <div className="flex flex-col gap-2">
+        <div className="flex md:flex-col flex-row gap-2 flex-wrap justify-center">
           {bookData.date_added && (
             <AddedOn date={new Date(bookData.date_added)} />
           )}

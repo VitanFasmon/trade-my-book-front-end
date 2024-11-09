@@ -11,6 +11,7 @@ import {
 } from "../data/apiService";
 import Button from "./Buttons/Button";
 import useAuthStore from "../store/useAuthStore";
+import { formatDateString } from "../util/util";
 
 interface TradingOfferProps {
   trade: TradeData;
@@ -68,7 +69,7 @@ const TradingOffer = ({ trade }: TradingOfferProps) => {
     fetchBooks();
   }, []);
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2 border-2 border-primary rounded-3xl p-2 md:border-none">
       {requestedBook && offeredBook && user && (
         <>
           <div className="flex flex-row gap-2 items-center justify-center">
@@ -76,13 +77,13 @@ const TradingOffer = ({ trade }: TradingOfferProps) => {
               Status: {trade.status}
             </Typography>
             <Typography as="p" variant="p">
-              Trade added: {trade.trade_date}
+              Trade added: {formatDateString(trade.trade_date, true)}
             </Typography>
           </div>
-          <div className="flex flex-row gap-2 items-center justify-between">
-            <div className="flex flex-col gap-2 w-full items-center">
+          <div className="flex lg:flex-row flex-col gap-2 items-center lg:items-start justify-between">
+            <div className="flex flex-col gap-2 w-full h-full items-center">
               <Typography as="p" variant="p">
-                {otherUser?.name}
+                {`${otherUser?.name}'s book`}
               </Typography>
 
               <MediumBook
@@ -93,7 +94,7 @@ const TradingOffer = ({ trade }: TradingOfferProps) => {
                 }
               />
             </div>
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-2 h-full justify-center items-center">
               {trade.status == "pending" ? (
                 <>
                   {trade.user_to == user.user_id ? (
@@ -107,7 +108,6 @@ const TradingOffer = ({ trade }: TradingOfferProps) => {
                     </>
                   ) : (
                     <>
-                      {trade.user_from}
                       <Button type="danger" onClick={onCancelTradeClick}>
                         Cancel
                       </Button>
@@ -122,7 +122,7 @@ const TradingOffer = ({ trade }: TradingOfferProps) => {
                 </>
               )}
             </div>
-            <div className="flex flex-col gap-2 w-full items-center">
+            <div className="flex flex-col gap-2 w-full  h-full  items-center">
               <Typography as="p" variant="p">
                 Your book
               </Typography>

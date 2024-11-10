@@ -5,6 +5,11 @@ import MediumBook from "../components/Book/MediumBook";
 import Separator from "../components/Separator";
 import Sort from "../components/Sort";
 import SearchBooksSimple from "../components/SearchBooks/SearchBooksSimple";
+import {
+  useErrorToast,
+  useSuccessToast,
+  useWarningToast,
+} from "../components/Toast";
 interface MyBooksProps {
   tradingMode?: boolean;
   sendBookDataToParent?: (bookData: BookData) => void;
@@ -19,6 +24,8 @@ const MyBooks = ({
   const [sortDirection, setSortDirection] = useState<"desc" | "asc">("asc");
   const [filteredBooks, setFilteredBooks] = useState<BookData[] | null>(null);
 
+  const { showSuccessToast } = useSuccessToast();
+  const { showErrorToast } = useErrorToast();
   const getBooks = () => {
     getBooksByUserId().then((response) => {
       response.data && setBooks(response.data);
@@ -77,10 +84,14 @@ const MyBooks = ({
   }, []);
 
   const onDeleteBookButtonClick = (book_id: number | undefined) => {
-    book_id &&
-      deleteBookByBookId(book_id).then(() => {
-        getBooks();
-      });
+    if (!book_id) {
+      showErrorToast("Could not delete book");
+      return;
+    }
+    deleteBookByBookId(book_id).then(() => {
+      showSuccessToast("Book deleted.");
+      getBooks();
+    });
   };
 
   return (

@@ -8,7 +8,6 @@ const Home = () => {
   return (
     <section className="bg-lightGray">
       <Hero />
-      <ToastUseExample />
       <ShowBooks />
     </section>
   );

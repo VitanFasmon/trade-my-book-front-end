@@ -1,13 +1,7 @@
 import React from "react";
-import {
-  toast,
-  ToastContainer,
-  ToastOptions,
-  TypeOptions,
-} from "react-toastify";
+import { toast, ToastContainer, TypeOptions } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-// Basic toast hook with options
 const useToast = () => {
   const showToast = (options: {
     text: string;
@@ -16,14 +10,13 @@ const useToast = () => {
   }) => {
     toast(options.text, {
       type: options.type,
-      closeButton: options.closeButton ?? true, // show close button by default
+      closeButton: options.closeButton ?? true,
     });
   };
 
   return { showToast };
 };
 
-// Specific hooks for different toast types
 const useSuccessToast = () => {
   const showSuccessToast = (message: string) => toast.success(message);
   return { showSuccessToast };
@@ -53,7 +46,6 @@ const useDarkToast = () => {
   return { showDarkToast };
 };
 
-// Main Toast component
 const Toast: React.FC = () => {
   return (
     <ToastContainer

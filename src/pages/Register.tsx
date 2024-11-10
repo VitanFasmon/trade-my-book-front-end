@@ -8,6 +8,7 @@ import { Routes } from "../navigation/routes";
 import MapParent from "../components/GooglePlacesAutocomplete/MapParent";
 import useLocationStore from "../store/useLocationStore";
 import PhoneNumberInput from "../components/PhoneNumberInput";
+import { useErrorToast, useSuccessToast } from "../components/Toast";
 
 const Register = () => {
   const [formData, setFormData] = useState<UserData>({
@@ -21,7 +22,8 @@ const Register = () => {
   const { locationData } = useLocationStore();
 
   const [repeatPassword, setRepeatPassword] = useState<string>("");
-  const [message, setMessage] = useState<string>("");
+  const { showSuccessToast } = useSuccessToast();
+  const { showErrorToast } = useErrorToast();
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [step, setStep] = useState(1); // Track current form step
   const navigate = useNavigate();
@@ -77,7 +79,7 @@ const Register = () => {
     event.preventDefault();
 
     if (!validateForm()) {
-      setMessage("Please complete the form and confirm your address.");
+      showErrorToast("Please complete the form and confirm your address.");
       return;
     }
 
@@ -88,7 +90,7 @@ const Register = () => {
         ...formData,
         location_id: locationRes?.data?.location_id || null,
       });
-      setMessage(
+      showSuccessToast(
         `Registration successful! Welcome, ${formData.name}. Redirecting to login...`
       );
 
@@ -96,7 +98,7 @@ const Register = () => {
         navigate(Routes.Login);
       }, 3000);
     } catch (error) {
-      setMessage(
+      showErrorToast(
         `Registration failed: ${(error as Error).message || "Server error"}`
       );
     }
@@ -105,7 +107,6 @@ const Register = () => {
   const handleNextStep = () => {
     if (step === 1 && validateForm()) {
       setStep(2);
-      setMessage("");
     }
   };
 
@@ -216,15 +217,6 @@ const Register = () => {
           </div>
         )}
       </form>
-      {message && (
-        <p
-          className={
-            message.includes("successful") ? "text-green-500" : "text-red-500"
-          }
-        >
-          {message}
-        </p>
-      )}
     </section>
   );
 };

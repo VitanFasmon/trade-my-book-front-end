@@ -30,7 +30,7 @@ const AddedOn: React.FC<AddedOnProps> = ({ date }) => {
 
   return (
     <RoundedContainer
-      className="rounded-lg flex justify-center items-center font-bold"
+      className="rounded-lg flex flex-col justify-center items-center font-bold"
       borderWidth=""
     >
       <Typography as="span" variant="span">

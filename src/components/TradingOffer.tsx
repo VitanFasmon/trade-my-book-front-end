@@ -12,20 +12,25 @@ import {
 import Button from "./Buttons/Button";
 import useAuthStore from "../store/useAuthStore";
 import { formatDateString } from "../util/util";
+import { useErrorToast, useInfoToast, useSuccessToast } from "./Toast";
 
 interface TradingOfferProps {
   trade: TradeData;
+  fetchTrades: () => void;
 }
-const TradingOffer = ({ trade }: TradingOfferProps) => {
+const TradingOffer = ({ trade, fetchTrades }: TradingOfferProps) => {
   const [offeredBook, setOfferedBook] = useState<BookData | null>(null);
   const [requestedBook, setRequestedBook] = useState<BookData | null>(null);
   const { user } = useAuthStore();
   const [otherUser, setOtherUser] = useState<PublicUserData | null>(null);
+  const { showSuccessToast } = useSuccessToast();
+  const { showErrorToast } = useErrorToast();
+
   const fetchBooks = async () => {
-    const offeredBook = await findBookById(trade.offered_book_id);
-    const requestedBook = await findBookById(trade.requested_book_id);
-    offeredBook.data && setOfferedBook(offeredBook.data);
-    requestedBook.data && setRequestedBook(requestedBook.data);
+    const newOfferedBook = await findBookById(trade.offered_book_id);
+    const newRequestedBook = await findBookById(trade.requested_book_id);
+    newOfferedBook.data && setOfferedBook(newOfferedBook.data);
+    newRequestedBook.data && setRequestedBook(newRequestedBook.data);
   };
   const getOtherUserData = async () => {
     try {
@@ -39,35 +44,38 @@ const TradingOffer = ({ trade }: TradingOfferProps) => {
   };
   const onCancelTradeClick = async () => {
     try {
-      const response = await cancelTrade(trade.trade_id);
-      console.log(response);
-      fetchBooks();
+      await cancelTrade(trade.trade_id);
+      showSuccessToast("Trade cancelled successfully.");
+      fetchTrades();
     } catch (error) {
+      showErrorToast("Error! Unable to cancel trade.");
       console.error("Error cancelling trade:", error);
     }
   };
   const onAcceptTradeClick = async () => {
     try {
-      const response = await acceptTrade(trade.trade_id);
-      console.log(response);
-      fetchBooks();
+      await acceptTrade(trade.trade_id);
+      showSuccessToast("Trade accepted successfully.");
+      fetchTrades();
     } catch (error) {
+      showErrorToast("Error! Unable to accept trade.");
       console.error("Error cancelling trade:", error);
     }
   };
   const onRejectTradeClick = async () => {
     try {
-      const response = await rejectTrade(trade.trade_id);
-      console.log(response);
-      fetchBooks();
+      await rejectTrade(trade.trade_id);
+      showSuccessToast("Trade rejected successfully.");
+      fetchTrades();
     } catch (error) {
-      console.error("Error cancelling trade:", error);
+      showErrorToast("Error! Unable to reject trade.");
+      console.error("Error rejecting trade:", error);
     }
   };
   useEffect(() => {
     getOtherUserData();
     fetchBooks();
-  }, []);
+  }, [trade.status]);
   return (
     <div className="flex flex-col gap-2 border-2 border-primary rounded-3xl p-2 md:border-none">
       {requestedBook && offeredBook && user && (

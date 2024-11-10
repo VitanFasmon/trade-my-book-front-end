@@ -7,10 +7,19 @@ import Separator from "../components/Separator";
 
 const TradingQueue = () => {
   const [tradingQueue, setTradingQueue] = useState<TradeData[] | null>(null);
+  const [tradingHistory, setTradingHistory] = useState<TradeData[] | null>(
+    null
+  );
   const fetchTrades = async () => {
     try {
       const response = await getTradesByUser();
-      response.data && setTradingQueue(response.data);
+      if (!response.data) return;
+      setTradingQueue(response.data);
+      setTradingHistory(
+        response.data.filter((trade) => {
+          return trade.status !== "pending";
+        })
+      );
     } catch (error) {
       console.error("Error fetching trades:", error);
     }
@@ -24,18 +33,51 @@ const TradingQueue = () => {
         {tradingQueue && tradingQueue.length !== 0 ? (
           <>
             <Typography as="h1" variant="h2">
-              {`You have ${tradingQueue.length} trading offers`}
+              {`You have ${
+                tradingHistory?.length
+                  ? tradingQueue.length - tradingHistory?.length
+                  : tradingQueue.length
+              } trading offers`}
             </Typography>
             <div className="flex flex-col gap-2 w-full p-8">
-              {tradingQueue?.map((trade, index) => {
-                return (
-                  <>
-                    <TradingOffer trade={trade} key={crypto.randomUUID()} />
-                    {index < tradingQueue.length - 1 && <Separator />}
-                  </>
-                );
-              })}
+              {tradingQueue
+                ?.filter((trade) => {
+                  return trade.status == "pending";
+                })
+                .map((trade, index) => {
+                  return (
+                    <>
+                      <TradingOffer
+                        trade={trade}
+                        key={crypto.randomUUID()}
+                        fetchTrades={fetchTrades}
+                      />
+                      {index < tradingQueue.length - 1 && <Separator />}
+                    </>
+                  );
+                })}
             </div>
+            {tradingHistory && (
+              <>
+                <Typography as="h1" variant="h2">
+                  {`Trading history`}
+                </Typography>
+                <div className="flex flex-col gap-2 w-full p-8">
+                  {tradingHistory?.map((trade, index) => {
+                    return (
+                      <>
+                        <TradingOffer
+                          trade={trade}
+                          key={crypto.randomUUID()}
+                          fetchTrades={fetchTrades}
+                        />
+                        {index < tradingQueue.length - 1 && <Separator />}
+                      </>
+                    );
+                  })}
+                </div>
+              </>
+            )}
           </>
         ) : (
           <>

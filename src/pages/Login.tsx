@@ -6,13 +6,14 @@ import { useNavigate } from "react-router";
 import { Routes } from "../navigation/routes";
 import Typography from "../components/Typography";
 import Button from "../components/Buttons/Button";
+import { useErrorToast } from "../components/Toast";
 
 const Login: React.FC = () => {
   const [formData, setFormData] = useState<LoginData>({
     email: "john@example.com",
     password: "password123",
   });
-  const [message, setMessage] = useState<string>("");
+  const { showErrorToast } = useErrorToast();
   const [errors, setErrors] = useState<Record<string, string>>({});
   const { login } = useAuthStore();
   const navigate = useNavigate();
@@ -24,7 +25,6 @@ const Login: React.FC = () => {
       [name]: value,
     }));
 
-    // Clear error messages when the user starts typing
     setErrors((prevErrors) => ({ ...prevErrors, [name]: "" }));
   };
 
@@ -34,20 +34,19 @@ const Login: React.FC = () => {
     if (!formData.password) newErrors.password = "Password is required.";
 
     setErrors(newErrors);
-    return Object.keys(newErrors).length === 0; // Return true if no errors
+    return Object.keys(newErrors).length === 0;
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!validateForm()) return; // Validate form before submission
+    if (!validateForm()) return;
 
     loginUser(formData)
       .then((response) => {
-        setMessage("User logged in: " + response);
         login(response.data, response.token || "");
         navigate(Routes.Home);
       })
-      .catch((err) => setMessage("Login failed: " + err));
+      .catch((err) => showErrorToast("Login failed: " + err));
   };
 
   return (
@@ -91,7 +90,6 @@ const Login: React.FC = () => {
           </Typography>
         </Button>
       </form>
-      {message && <p className="text-green-500">{message}</p>}
     </section>
   );
 };

@@ -7,6 +7,7 @@ import bookIcon from "../assets/icons/book-512x512.png";
 import BookCategory from "../components/Book/BookCategory";
 import ToggleButton from "../components/Buttons/ToggleButton";
 import Button from "../components/Buttons/Button";
+import { useErrorToast, useSuccessToast } from "../components/Toast";
 
 interface Message {
   message: string;
@@ -15,9 +16,10 @@ interface Message {
 
 const AddBook = () => {
   const [selectedBook, setSelectedBook] = useState<GoogleBook | null>(null);
-  const [message, setMessage] = useState<Message | null>(null);
   const [bookCondition, setBookCondition] = useState(5);
   const [tradable, setTradable] = useState<boolean>(true);
+  const { showSuccessToast } = useSuccessToast();
+  const { showErrorToast } = useErrorToast();
   const stringArrayToString = (array: string[]) => {
     if (!array) return "";
     return array.join(", ");
@@ -43,18 +45,17 @@ const AddBook = () => {
     addBook(newBook)
       .then((res) => {
         setSelectedBook(null);
-        setMessage({ message: "Book added successfully!", type: "success" });
+        showSuccessToast("Book added successfully!");
       })
       .catch((err) => {
-        setMessage({ message: `Adding book failed: ${err}`, type: "error" });
+        showErrorToast("Adding book failed!");
       });
   };
   const onSelectBookClick = (book: GoogleBook) => {
     setSelectedBook(book);
-    setMessage(null);
   };
   return (
-    <section className="flex flex-col items-center w-full h-full py-8">
+    <section className="flex flex-col items-center w-full min-h-full py-8">
       <section className="flex flex-col gap-2 p-2 items-center  max-w-[800px]">
         <Typography as="h1" variant="h2">
           Search for a book you want to add
@@ -150,17 +151,6 @@ const AddBook = () => {
               Add Book
             </Button>
           </form>
-        )}
-        {message && (
-          <Typography
-            as="p"
-            variant="h4"
-            className={`${
-              message.type === "success" ? `text-green-500` : `text-red-500`
-            }  font-bold`}
-          >
-            {message.message}
-          </Typography>
         )}
       </section>
     </section>

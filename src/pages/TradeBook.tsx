@@ -8,6 +8,7 @@ import { useState } from "react";
 import Button from "../components/Buttons/Button";
 import { initiateTrade } from "../data/apiService";
 import { Routes } from "../navigation/routes";
+import { useErrorToast, useSuccessToast } from "../components/Toast";
 const TradeBook = () => {
   const location = useLocation();
   const { requestedBook } = location.state as { requestedBook: BookData };
@@ -16,6 +17,9 @@ const TradeBook = () => {
     setOfferedBook(bookData);
   };
   const navigate = useNavigate();
+
+  const { showSuccessToast } = useSuccessToast();
+  const { showErrorToast } = useErrorToast();
   const handleTrade = () => {
     if (offeredBook?.book_id && requestedBook.book_id) {
       initiateTrade({
@@ -24,10 +28,11 @@ const TradeBook = () => {
       })
         .then((res) => {
           setOfferedBook(null);
-          console.log(res);
+          showSuccessToast("Trade initiated successfully.");
           navigate(Routes.TradingQueue);
         })
         .catch((err) => {
+          showErrorToast("Error: Could not trade book.");
           console.error({
             message: `Adding book failed: ${err}`,
             type: "error",

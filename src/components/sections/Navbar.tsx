@@ -42,68 +42,66 @@ const Navbar = () => {
           TradeMyBook
         </Typography>
       </Button>
-
+      {isLargeScreen && (
+        <ul className="flex flex-row gap-4">
+          {isAuthenticated && (
+            <>
+              <li>
+                <Button type="planePrimary" link href={Routes.Home}>
+                  Home
+                </Button>
+              </li>
+              <li>
+                <Button type="planePrimary" link href={Routes.AddBook}>
+                  Add Book
+                </Button>
+              </li>
+              <li>
+                <Button type="planePrimary" link href={Routes.MyBooks}>
+                  My Books
+                </Button>
+              </li>
+              <li>
+                <Button type="planePrimary" link href={Routes.TradingQueue}>
+                  Trading Offers
+                </Button>
+              </li>
+            </>
+          )}
+        </ul>
+      )}
       {isLargeScreen ? (
-        // Full navigation for large screens
-        <div className="flex flex-row gap-4 items-center">
-          <ul className="flex flex-row gap-4">
-            {isAuthenticated && (
-              <>
-                <li>
-                  <Button type="planePrimary" link href={Routes.Home}>
-                    Home
-                  </Button>
-                </li>
-                <li>
-                  <Button type="planePrimary" link href={Routes.AddBook}>
-                    Add Book
-                  </Button>
-                </li>
-                <li>
-                  <Button type="planePrimary" link href={Routes.MyBooks}>
-                    My Books
-                  </Button>
-                </li>
-                <li>
-                  <Button type="planePrimary" link href={Routes.TradingQueue}>
-                    Trading Offers
-                  </Button>
-                </li>
-              </>
-            )}
-          </ul>
-          <ul className="flex flex-row gap-4">
-            {isAuthenticated ? (
-              <>
-                <li>
-                  <Button type="outlinedSecondary" link href={Routes.Profile}>
-                    {user?.name}
-                  </Button>
-                </li>
-                <li>
-                  <Logout />
-                </li>
-              </>
-            ) : (
-              <>
-                <li>
-                  <Button
-                    type="outlinedSecondary"
-                    link
-                    href={Routes.Registration}
-                  >
-                    Sign up
-                  </Button>
-                </li>
-                <li>
-                  <Button type="secondary" link href={Routes.Login}>
-                    Sign in
-                  </Button>
-                </li>
-              </>
-            )}
-          </ul>
-        </div>
+        <ul className="flex flex-row gap-4">
+          {isAuthenticated ? (
+            <>
+              <li>
+                <Button type="outlinedSecondary" link href={Routes.Profile}>
+                  {user?.name}
+                </Button>
+              </li>
+              <li>
+                <Logout />
+              </li>
+            </>
+          ) : (
+            <>
+              <li>
+                <Button
+                  type="outlinedSecondary"
+                  link
+                  href={Routes.Registration}
+                >
+                  Sign up
+                </Button>
+              </li>
+              <li>
+                <Button type="secondary" link href={Routes.Login}>
+                  Sign in
+                </Button>
+              </li>
+            </>
+          )}
+        </ul>
       ) : (
         <>
           <button onClick={toggleMenu} className="text-xl">

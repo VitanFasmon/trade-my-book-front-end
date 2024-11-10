@@ -13,13 +13,15 @@ import useLocationStore from "../store/useLocationStore";
 import Typography from "../components/Typography";
 import { LocationData } from "../types/dataTypes";
 import PhoneNumberInput from "../components/PhoneNumberInput";
+import { useErrorToast, useSuccessToast } from "../components/Toast";
 
 const UserProfile = () => {
   const { user, updateUserData } = useAuthStore();
   const { locationData } = useLocationStore();
   const [existingLocationData, setExistingLocationData] =
     useState<LocationData | null>(locationData);
-  const [message, setMessage] = useState<string>("");
+  const { showSuccessToast } = useSuccessToast();
+  const { showErrorToast } = useErrorToast();
   const [edit, setEdit] = useState<boolean>(false);
 
   const [name, setName] = useState<string>(user?.name || "");
@@ -62,9 +64,9 @@ const UserProfile = () => {
         );
         userRes.data && updateUserData(userRes.data);
 
-        setMessage("Location updated successfully!");
+        showSuccessToast("Location updated successfully!");
       } catch (error) {
-        setMessage(
+        showErrorToast(
           `Location updating failed: ${
             (error as Error).message || "Server error"
           }`
@@ -80,9 +82,9 @@ const UserProfile = () => {
         userPhoneNumberRes.data &&
         updateUserData(userPhoneNumberRes.data);
 
-      setMessage("User info updated successfully!");
+      showSuccessToast("User info updated successfully!");
     } catch (error) {
-      setMessage(
+      showErrorToast(
         `User info updating failed: ${
           (error as Error).message || "Server error"
         }`
@@ -93,7 +95,6 @@ const UserProfile = () => {
 
   const handleOnEditButtonClick = () => {
     setEdit(!edit);
-    setMessage("");
   };
 
   return (
@@ -185,17 +186,6 @@ const UserProfile = () => {
             defaultZoom={10}
             edit={edit}
           />
-          {message && (
-            <p
-              className={
-                message.includes("successful")
-                  ? "text-green-500"
-                  : "text-red-500"
-              }
-            >
-              {message}
-            </p>
-          )}
         </div>
       </div>
     </section>

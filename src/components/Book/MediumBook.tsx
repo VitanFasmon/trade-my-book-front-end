@@ -50,9 +50,7 @@ const MediumBook = ({
           <div className="flex flex-row justify-between">
             <div className="flex flex-row gap-2 flex-wrap">
               {bookData.categories?.map((category, index) => (
-                <>
-                  <BookCategory key={index} category={category} />
-                </>
+                <BookCategory key={crypto.randomUUID()} category={category} />
               ))}
             </div>
           </div>

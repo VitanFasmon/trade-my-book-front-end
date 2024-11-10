@@ -19,7 +19,7 @@ const SearchGoogleBooks = ({ onSelectBookClick }: SearchGoogleBooksProps) => {
   const [error, setError] = useState<string | null>(null);
   const [books, setBooks] = useState<GoogleBook[]>([]);
 
-  const listRef = useRef<HTMLUListElement>(null); // Reference to the ul element
+  const listRef = useRef<HTMLUListElement>(null);
 
   const handleSearch = async (isLoadMore = false) => {
     setLoading(true);
@@ -45,7 +45,6 @@ const SearchGoogleBooks = ({ onSelectBookClick }: SearchGoogleBooksProps) => {
     setOffset(0);
   };
 
-  // Detect scroll on the ul element for infinite scroll
   const handleScroll = useCallback(() => {
     const listElement = listRef.current;
 
@@ -60,7 +59,6 @@ const SearchGoogleBooks = ({ onSelectBookClick }: SearchGoogleBooksProps) => {
     }
   }, [loading, limit]);
 
-  // Fetch more books when offset updates
   useEffect(() => {
     if (offset > 0) {
       handleSearch(true);
@@ -73,7 +71,6 @@ const SearchGoogleBooks = ({ onSelectBookClick }: SearchGoogleBooksProps) => {
     }
   }, [title, author, limit]);
 
-  // Attach the scroll event to the ul element
   useEffect(() => {
     const listElement = listRef.current;
     if (listElement) {
@@ -115,7 +112,6 @@ const SearchGoogleBooks = ({ onSelectBookClick }: SearchGoogleBooksProps) => {
           type="primary"
           className="w-1/3"
           onClick={() => {
-            resetSearch();
             handleSearch();
           }}
         >
@@ -128,25 +124,27 @@ const SearchGoogleBooks = ({ onSelectBookClick }: SearchGoogleBooksProps) => {
           {error}
         </Typography>
       )}
-      <ul
-        ref={listRef}
-        className="flex flex-col gap-2 px-2 h-[600px] overflow-auto"
-      >
-        {books.map((book) => (
-          <li key={book.id} className="">
-            <SmallBook
-              title={book.volumeInfo?.title}
-              authors={book.volumeInfo?.authors?.join(", ")}
-              publishedDate={book.volumeInfo?.publishedDate}
-              thumbnail={book.volumeInfo?.imageLinks?.thumbnail}
-              onClick={() => {
-                onSelectBookClick(book);
-                resetSearch();
-              }}
-            />
-          </li>
-        ))}
-      </ul>
+      {books?.length > 0 && (
+        <ul
+          ref={listRef}
+          className="flex flex-col gap-2 px-2 h-[600px] overflow-auto"
+        >
+          {books.map((book) => (
+            <li key={book.id} className="">
+              <SmallBook
+                title={book.volumeInfo?.title}
+                authors={book.volumeInfo?.authors?.join(", ")}
+                publishedDate={book.volumeInfo?.publishedDate}
+                thumbnail={book.volumeInfo?.imageLinks?.thumbnail}
+                onClick={() => {
+                  onSelectBookClick(book);
+                  resetSearch();
+                }}
+              />
+            </li>
+          ))}
+        </ul>
+      )}
     </section>
   );
 };

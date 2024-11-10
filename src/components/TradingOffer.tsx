@@ -82,10 +82,7 @@ const TradingOffer = ({ trade, fetchTrades }: TradingOfferProps) => {
         <>
           <div className="flex flex-row gap-2 items-center justify-center">
             <Typography as="p" variant="p">
-              Status: {trade.status}
-            </Typography>
-            <Typography as="p" variant="p">
-              Trade added: {formatDateString(trade.trade_date, true)}
+              {formatDateString(trade.trade_date, true)}
             </Typography>
           </div>
           <div className="flex lg:flex-row flex-col gap-2 items-center lg:items-start justify-between">

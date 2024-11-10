@@ -42,7 +42,9 @@ const MyBooks = ({
       if (searchTerm) {
         const lowercasedTerm = searchTerm.toLowerCase();
         updatedBooks = updatedBooks.filter((book) =>
-          `${book.title} ${book.author} ${book.categories.join(" ")}`
+          `${book.title || ""} ${book.author || ""} ${
+            book.categories?.join(" ") || ""
+          }`
             .toLowerCase()
             .includes(lowercasedTerm)
         );
@@ -112,7 +114,7 @@ const MyBooks = ({
 
         <div className="flex flex-col gap-8">
           {filteredBooks?.map((book, index) => (
-            <>
+            <div key={crypto.randomUUID()}>
               <MediumBook
                 key={crypto.randomUUID()}
                 bookData={book}
@@ -122,7 +124,7 @@ const MyBooks = ({
                 goodToTrade={tradingMode}
               />
               {index < filteredBooks.length - 1 && <Separator />}
-            </>
+            </div>
           ))}
         </div>
       </div>

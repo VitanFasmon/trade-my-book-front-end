@@ -236,7 +236,6 @@ const searchBooks = async (
       url.searchParams.append(key, String(searchParams[key]));
     }
   });
-
   return getRequest(url.toString(), true);
 };
 const findBookById = async (bookId: number): Promise<ApiResponse<BookData>> => {

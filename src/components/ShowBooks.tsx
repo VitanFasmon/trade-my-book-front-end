@@ -167,6 +167,7 @@ const ShowBooks = () => {
               sortDirection={sortDirection}
               setSortDirection={setSortDirection}
               className="w-full"
+              onChange={() => setHasMore(true)}
             />
             <ConditionSlider
               searchConditionMin={searchConditionMin}

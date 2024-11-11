@@ -1,9 +1,7 @@
-// src/store/authStore.ts
 import { create } from "zustand";
 import { PublicUserData, UserStore } from "../types/dataTypes";
 
 const useAuthStore = create<UserStore>((set) => {
-  // Initialize user and token from localStorage
   const storedUser = localStorage.getItem("user");
   const storedToken = localStorage.getItem("token");
   const initialUser = storedUser

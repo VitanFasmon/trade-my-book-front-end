@@ -7,6 +7,7 @@ interface SortProps {
   sortDirection: "asc" | "desc";
   setSortDirection: (direction: "asc" | "desc") => void;
   className?: string;
+  onChange?: () => void;
 }
 const Sort = ({
   sortOption,
@@ -14,13 +15,17 @@ const Sort = ({
   sortDirection,
   setSortDirection,
   className,
+  onChange,
 }: SortProps) => {
   return (
     <div className={`flex flex-row gap-2 ${className} `}>
       <RoundedContainer className="bg-lightGray">
         <select
           value={sortOption}
-          onChange={(e) => setSortOption(e.target.value)}
+          onChange={(e) => {
+            setSortOption(e.target.value);
+            onChange && onChange();
+          }}
           className="bg-lightGray text-secondary font-bold"
           aria-label="sort by"
         >
@@ -48,6 +53,7 @@ const Sort = ({
           sortDirection == "desc"
             ? setSortDirection("asc")
             : setSortDirection("desc");
+          onChange && onChange();
         }}
       >
         {sortDirection == "desc" ? "▼" : "▲"}

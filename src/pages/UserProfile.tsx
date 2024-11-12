@@ -4,6 +4,7 @@ import MapParent from "../components/GooglePlacesAutocomplete/MapParent";
 import {
   addLocation,
   getLocationById,
+  resendEmail,
   updateUserLocation,
   updateUserName,
   updateUserPhoneNumber,
@@ -96,7 +97,17 @@ const UserProfile = () => {
   const handleOnEditButtonClick = () => {
     setEdit(!edit);
   };
-
+  const [resendMessage, setResendMessage] = useState<string | null>(null);
+  const onResendButtonClick = async () => {
+    if (!user?.email) return;
+    try {
+      const response = await resendEmail({ email: user?.email });
+      //console.log(response);
+      response?.message && setResendMessage(response.message);
+    } catch (error) {
+      console.error("Error: Could not resend email link.", error);
+    }
+  };
   return (
     <section className="flex flex-col items-center h-full">
       <div className="w-[800px] my-8 flex flex-col gap-2">
@@ -138,8 +149,20 @@ const UserProfile = () => {
         <Typography as="p" variant="p">
           {`Email: `}
           <Typography as="span" variant="p" className="font-bold">
-            {user?.email}
+            {user?.email} {user?.is_active ? "(ACTIVATED)" : "(NOT ACTIVATED)"}
           </Typography>
+          {!user?.is_active && (
+            <div className="flex flex-col gap-2 items-start my-2">
+              <Button type="outlinedSecondary" onClick={onResendButtonClick}>
+                Resend activation email
+              </Button>
+              {resendMessage && (
+                <Typography as="p" variant="h5">
+                  {resendMessage}
+                </Typography>
+              )}
+            </div>
+          )}
         </Typography>
 
         <Typography as="p" variant="p">

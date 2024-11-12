@@ -12,6 +12,7 @@ type PublicUserData = {
   email: string;
   phone_number?: string;
   location_id: number;
+  is_active: boolean;
 };
 
 type UserStore = {
@@ -114,6 +115,9 @@ type ApiResponse<T = any> = {
   token?: string;
   data?: T;
 };
+type EmailConfirmationResponse = {
+  message?: string;
+};
 
 type LocationData = {
   address: string;
@@ -158,4 +162,5 @@ export type {
   GoogleBook,
   TradeRequestData,
   TradeData,
+  EmailConfirmationResponse,
 };

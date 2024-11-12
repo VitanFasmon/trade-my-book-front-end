@@ -1,5 +1,6 @@
 import ProtectedRoute from "../components/ProtectedRoutes";
 import AddBook from "../pages/AddBook";
+import Confirmed from "../pages/Confirmed";
 import Home from "../pages/Home";
 import Login from "../pages/Login";
 import MyBooks from "../pages/MyBooks";
@@ -17,12 +18,14 @@ export const Routes = {
   MyBooks: "/my-books",
   TradeBook: "/trade-book",
   TradingQueue: "/trading-queue",
+  Confirmed: "/confirm/:token",
 };
 
 const routerChildren = [
   { path: Routes.Home, element: <Home /> },
   { path: Routes.Registration, element: <Register /> },
   { path: Routes.Login, element: <Login /> },
+  { path: Routes.Confirmed, element: <Confirmed /> },
   {
     path: Routes.Profile,
     element: <ProtectedRoute />,

@@ -2,6 +2,7 @@ import useAuthStore from "../store/useAuthStore";
 import {
   ApiResponse,
   BookData,
+  EmailConfirmationResponse,
   LocationData,
   LocationResponse,
   LoginData,
@@ -184,7 +185,18 @@ const updateUserPhoneNumber = async (
   const url = `${API_URL}/user/phone`;
   return patchRequest(url, { phone_number: phoneNumber }, true);
 };
-
+const confirmEmail = async (
+  token: string
+): Promise<ApiResponse<EmailConfirmationResponse>> => {
+  const url = `${API_URL}/confirm/${token}`;
+  return getRequest(url, false);
+};
+const resendEmail = async (data: {
+  email: string;
+}): Promise<ApiResponse<EmailConfirmationResponse>> => {
+  const url = `${API_URL}/resend-email`;
+  return postRequest(url, data, false);
+};
 //BOOK REQUESTS
 const addBook = async (bookData: BookData): Promise<ApiResponse> => {
   const url = `${API_URL}/books`;
@@ -320,4 +332,6 @@ export {
   rejectTrade,
   cancelTrade,
   findBookById,
+  confirmEmail,
+  resendEmail,
 };

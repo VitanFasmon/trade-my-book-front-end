@@ -22,7 +22,6 @@ const getGoogleBooksByQuery = async (
   });
 
   try {
-    //console.log(`${BOOKS_API_URL}?${params}`);
     const response = await fetch(`${BOOKS_API_URL}?${params}`);
     const data = await response.json();
     return data.items || [];

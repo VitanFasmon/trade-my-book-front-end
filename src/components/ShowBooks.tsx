@@ -53,7 +53,6 @@ const ShowBooks = () => {
   };
 
   const getBooks = async (lat?: number, lng?: number) => {
-    //console.log("fetching");
     if (loading || !hasMore) return;
 
     setLoading(true);

@@ -102,7 +102,6 @@ const UserProfile = () => {
     if (!user?.email) return;
     try {
       const response = await resendEmail({ email: user?.email });
-      //console.log(response);
       response?.message && setResendMessage(response.message);
     } catch (error) {
       console.error("Error: Could not resend email link.", error);

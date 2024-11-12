@@ -10,7 +10,6 @@ const ActivateAccount = ({ email }: ActivateAccountProps) => {
   const onResendButtonClick = async () => {
     try {
       const response = await resendEmail({ email: email });
-      //console.log(response);
       response?.message && setResendMessage(response.message);
     } catch (error) {
       console.error("Error: Could not resend email link.", error);

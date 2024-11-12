@@ -43,7 +43,6 @@ const Login: React.FC = () => {
     if (!validateForm()) return;
     try {
       const response = await loginUser(formData);
-      console.log(response.data);
       if (!response.data.is_active) {
         setIsActive(false);
         return;

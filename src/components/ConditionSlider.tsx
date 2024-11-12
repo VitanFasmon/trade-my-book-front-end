@@ -5,6 +5,7 @@ interface ConditionSliderProps {
   searchConditionMax: number;
   setSearchConditionMin: (term: number) => void;
   setSearchConditionMax: (term: number) => void;
+  onChange?: () => void;
 }
 
 const ConditionSlider = ({
@@ -12,6 +13,7 @@ const ConditionSlider = ({
   searchConditionMax,
   setSearchConditionMin,
   setSearchConditionMax,
+  onChange,
 }: ConditionSliderProps) => {
   const handleMinChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const newMinValue = Math.min(Number(e.target.value), 10);
@@ -37,7 +39,10 @@ const ConditionSlider = ({
           min={1}
           max={10}
           value={searchConditionMin}
-          onChange={handleMinChange}
+          onChange={(e) => {
+            handleMinChange(e);
+            onChange && onChange();
+          }}
           className=""
         />
       </div>
@@ -50,7 +55,10 @@ const ConditionSlider = ({
           min={1}
           max={10}
           value={searchConditionMax}
-          onChange={handleMaxChange}
+          onChange={(e) => {
+            handleMaxChange(e);
+            onChange && onChange();
+          }}
           className=""
         />
       </div>

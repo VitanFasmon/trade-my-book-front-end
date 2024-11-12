@@ -143,8 +143,8 @@ const ShowBooks = () => {
           />
         </div>
         <div className="flex lg:flex-row flex-col-reverse gap-2 w-full justify-between md:items-start items-center">
-          <div className="w-fit"></div>
-          <div className="flex flex-col gap-8 max-w-[1200px]">
+          <div className="flex-1"></div>
+          <div className="flex flex-col gap-8 max-w-[1200px] flex-2">
             {books.map((book, index) => (
               <div key={book.book_id}>
                 <MediumBook
@@ -156,7 +156,7 @@ const ShowBooks = () => {
               </div>
             ))}
           </div>
-          <div className="flex flex-col gap-4 w-fit min-w-64 items-center justify-center">
+          <div className="flex flex-1 lg:flex-col md:flex-row flex-col gap-4 w-fit min-w-64 lg:items-center md:items-start items-center justify-center ">
             <Typography as="p" variant="p" className="font-bold w-full">
               Sort
             </Typography>
@@ -168,15 +168,20 @@ const ShowBooks = () => {
               className="w-full"
               onChange={() => setHasMore(true)}
             />
+            {user && (
+              <MaxDistanceInput
+                radiusKm={radiusKm}
+                setRadiusKm={setRadiusKm}
+                onChange={() => setHasMore(true)}
+              />
+            )}
             <ConditionSlider
               searchConditionMin={searchConditionMin}
               searchConditionMax={searchConditionMax}
               setSearchConditionMin={setSearchConditionMin}
               setSearchConditionMax={setSearchConditionMax}
+              onChange={() => setHasMore(true)}
             />
-            {user && (
-              <MaxDistanceInput radiusKm={radiusKm} setRadiusKm={setRadiusKm} />
-            )}
           </div>
         </div>
         {loading && <LoadingSpinner />}

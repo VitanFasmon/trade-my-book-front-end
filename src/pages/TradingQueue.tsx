@@ -4,6 +4,8 @@ import { getTradesByUser } from "../data/apiService";
 import { TradeData } from "../types/dataTypes";
 import TradingOffer from "../components/TradingOffer";
 import Separator from "../components/Separator";
+import Button from "../components/Buttons/Button";
+import { Routes } from "../navigation/routes";
 
 const TradingQueue = () => {
   const [tradingQueue, setTradingQueue] = useState<TradeData[] | null>(null);
@@ -46,14 +48,15 @@ const TradingQueue = () => {
                 })
                 .map((trade, index) => {
                   return (
-                    <>
-                      <TradingOffer
-                        trade={trade}
-                        key={crypto.randomUUID()}
-                        fetchTrades={fetchTrades}
-                      />
+                    <Button
+                      type="planePrimary"
+                      link
+                      href={`${Routes.Trade}/${trade.trade_id}`}
+                      key={crypto.randomUUID()}
+                    >
+                      <TradingOffer trade={trade} fetchTrades={fetchTrades} />
                       {index < tradingQueue.length - 1 && <Separator />}
-                    </>
+                    </Button>
                   );
                 })}
             </div>
@@ -65,14 +68,15 @@ const TradingQueue = () => {
                 <div className="flex flex-col gap-2 w-full p-8">
                   {tradingHistory?.map((trade, index) => {
                     return (
-                      <>
-                        <TradingOffer
-                          trade={trade}
-                          key={crypto.randomUUID()}
-                          fetchTrades={fetchTrades}
-                        />
+                      <Button
+                        type="planePrimary"
+                        link
+                        href={`${Routes.Trade}/${trade.trade_id}`}
+                        key={crypto.randomUUID()}
+                      >
+                        <TradingOffer trade={trade} fetchTrades={fetchTrades} />
                         {index < tradingQueue.length - 1 && <Separator />}
-                      </>
+                      </Button>
                     );
                   })}
                 </div>

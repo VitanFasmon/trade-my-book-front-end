@@ -6,7 +6,7 @@ import Button from "../Buttons/Button";
 import Typography from "../Typography";
 import { Routes } from "../../navigation/routes";
 import { checkScreenSize } from "../../util/util";
-
+import hamburgerIcon from "../../assets/icons/hamburger.png";
 const Navbar = () => {
   const { isAuthenticated, user } = useAuthStore();
   const [isLargeScreen, setIsLargeScreen] = useState(checkScreenSize("md"));
@@ -105,7 +105,11 @@ const Navbar = () => {
       ) : (
         <>
           <button onClick={toggleMenu} className="text-xl">
-            {menuOpen ? "close" : "open"}
+            <img
+              src={hamburgerIcon}
+              alt="open menu"
+              className={`h-10 w-10 ${menuOpen ? "rotate-90" : ""}`}
+            />
           </button>
           {menuOpen && (
             <div className="absolute top-16 right-0 w-full bg-white shadow-md z-50 p-4">

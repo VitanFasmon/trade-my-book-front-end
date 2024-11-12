@@ -5,6 +5,7 @@ import Home from "../pages/Home";
 import Login from "../pages/Login";
 import MyBooks from "../pages/MyBooks";
 import Register from "../pages/Register";
+import Trade from "../pages/Trade";
 import TradeBook from "../pages/TradeBook";
 import TradingQueue from "../pages/TradingQueue";
 import UserProfile from "../pages/UserProfile";
@@ -19,6 +20,7 @@ export const Routes = {
   TradeBook: "/trade-book",
   TradingQueue: "/trading-queue",
   Confirmed: "/confirm/:token",
+  Trade: "/trades/:tradeId",
 };
 
 const routerChildren = [
@@ -50,6 +52,11 @@ const routerChildren = [
     path: Routes.TradingQueue,
     element: <ProtectedRoute />,
     children: [{ path: Routes.TradingQueue, element: <TradingQueue /> }],
+  },
+  {
+    path: Routes.Trade,
+    element: <ProtectedRoute />,
+    children: [{ path: Routes.Trade, element: <Trade /> }],
   },
 ];
 

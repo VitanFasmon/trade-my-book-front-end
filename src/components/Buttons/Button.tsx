@@ -7,6 +7,7 @@ interface ButtonProps {
     | "outlinedSecondary"
     | "planePrimary"
     | "planeSecondary"
+    | "planeWhite"
     | "danger";
   onClick?: (e?: any) => void;
   className?: string;
@@ -28,6 +29,8 @@ const ButtonTypesClassNames = {
     "rounded-lg text-primary  hover:text-opacity-70 hover:border-opacity-70 ",
   planeSecondary:
     "rounded-lg text-secondary  hover:text-opacity-70 hover:border-opacity-70 ",
+  planeWhite:
+    "rounded-lg text-white  hover:text-opacity-70 hover:border-opacity-70 ",
   danger:
     "bg-red-700 border border-2 border-secondary  rounded-lg text-white hover:bg-opacity-70",
 };

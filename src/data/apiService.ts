@@ -284,7 +284,7 @@ const getTradesByUser = async (): Promise<ApiResponse<TradeData[]>> => {
 const getTradeById = async (
   tradeId: number
 ): Promise<ApiResponse<TradeData>> => {
-  const url = `${API_URL}/trades/${tradeId}`;
+  const url = `${API_URL}/trade/${tradeId}`;
   return getRequest(url, true);
 };
 

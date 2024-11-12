@@ -131,7 +131,7 @@ const ShowBooks = () => {
   };
 
   return (
-    <section className="w-full flex justify-center">
+    <section className="w-full flex justify-center bg-lightGray">
       <div className="flex flex-col gap-8 px-8 w-full items-center py-8">
         <div className="flex flex-row gap-2 items-start w-full max-w-[1200px] justify-center bg-lightGray">
           <SearchBooksAdvance

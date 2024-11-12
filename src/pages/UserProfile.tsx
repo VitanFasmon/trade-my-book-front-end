@@ -15,6 +15,7 @@ import Typography from "../components/Typography";
 import { LocationData } from "../types/dataTypes";
 import PhoneNumberInput from "../components/PhoneNumberInput";
 import { useErrorToast, useSuccessToast } from "../components/Toast";
+import shapeImage from "../assets/images/shape2.svg";
 
 const UserProfile = () => {
   const { user, updateUserData } = useAuthStore();
@@ -108,8 +109,11 @@ const UserProfile = () => {
     }
   };
   return (
-    <section className="flex flex-col items-center h-full">
-      <div className="w-[800px] my-8 flex flex-col gap-2">
+    <section
+      className="flex flex-col items-center h-full"
+      style={{ backgroundImage: `url(${shapeImage})` }}
+    >
+      <div className="w-[800px] my-8 flex flex-col gap-2 bg-white p-4 rounder-xl">
         <div className="flex flex-row justify-between gap-2">
           <Typography as="h2" variant="h2">
             {edit ? (
@@ -144,26 +148,24 @@ const UserProfile = () => {
             )}
           </div>
         </div>
-
         <Typography as="p" variant="p">
           {`Email: `}
           <Typography as="span" variant="p" className="font-bold">
             {user?.email} {user?.is_active ? "(ACTIVATED)" : "(NOT ACTIVATED)"}
           </Typography>
-          {!user?.is_active && (
-            <div className="flex flex-col gap-2 items-start my-2">
-              <Button type="outlinedSecondary" onClick={onResendButtonClick}>
-                Resend activation email
-              </Button>
-              {resendMessage && (
-                <Typography as="p" variant="h5">
-                  {resendMessage}
-                </Typography>
-              )}
-            </div>
-          )}
         </Typography>
-
+        {!user?.is_active && (
+          <div className="flex flex-col gap-2 items-start my-2">
+            <Button type="outlinedSecondary" onClick={onResendButtonClick}>
+              Resend activation email
+            </Button>
+            {resendMessage && (
+              <Typography as="p" variant="h5">
+                {resendMessage}
+              </Typography>
+            )}
+          </div>
+        )}
         <Typography as="p" variant="p">
           {`Phone Number: `}
           {edit ? (
@@ -178,14 +180,12 @@ const UserProfile = () => {
             </Typography>
           )}
         </Typography>
-
         <Typography as="p" variant="p">
           {`Location: `}
           <Typography as="span" variant="p" className="font-bold">
             {existingLocationData ? existingLocationData?.address : ""}
           </Typography>
         </Typography>
-
         <div className="w-full flex flex-col justify-center items-center gap-2">
           <Typography as="h3" variant="h3">
             {edit && "Change location"}

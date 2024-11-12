@@ -9,6 +9,7 @@ import Button from "../components/Buttons/Button";
 import { useErrorToast } from "../components/Toast";
 import ActivateAccount from "../components/ActivateAccount";
 
+import shapeImage from "../assets/images/shape2.svg";
 const Login: React.FC = () => {
   const [formData, setFormData] = useState<LoginData>({
     email: "john@example.com",
@@ -57,9 +58,12 @@ const Login: React.FC = () => {
   };
 
   return (
-    <section className="flex flex-col gap-8 items-center h-full py-8">
+    <section
+      className="flex flex-col gap-8 items-center h-full py-8"
+      style={{ backgroundImage: `url(${shapeImage})` }}
+    >
       {isActive ? (
-        <>
+        <div className="flex flex-col gap-8 items-center py-8 bg-white p-8 rounded-xl">
           <Typography as="h2" variant="h2">
             Login
           </Typography>
@@ -101,7 +105,7 @@ const Login: React.FC = () => {
               </Typography>
             </Button>
           </form>
-        </>
+        </div>
       ) : (
         <ActivateAccount email={formData.email} />
       )}

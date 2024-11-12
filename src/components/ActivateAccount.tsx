@@ -16,7 +16,7 @@ const ActivateAccount = ({ email }: ActivateAccountProps) => {
     }
   };
   return (
-    <section className="flex flex-col items-center gap-2">
+    <div className="flex flex-col items-center gap-2 bg-white p-8 rounded-xl">
       <Typography as="h2" variant="h2">
         Email confirmation required.
       </Typography>
@@ -34,7 +34,7 @@ const ActivateAccount = ({ email }: ActivateAccountProps) => {
           {resendMessage}
         </Typography>
       )}
-    </section>
+    </div>
   );
 };
 export default ActivateAccount;

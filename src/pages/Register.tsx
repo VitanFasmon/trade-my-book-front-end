@@ -3,13 +3,12 @@ import { registerUser, addLocation } from "../data/apiService";
 import { UserData } from "../types/dataTypes";
 import Typography from "../components/Typography";
 import Button from "../components/Buttons/Button";
-import { useNavigate } from "react-router";
-import { Routes } from "../navigation/routes";
 import MapParent from "../components/GooglePlacesAutocomplete/MapParent";
 import useLocationStore from "../store/useLocationStore";
 import PhoneNumberInput from "../components/PhoneNumberInput";
 import { useErrorToast, useSuccessToast } from "../components/Toast";
 import ActivateAccount from "../components/ActivateAccount";
+import shapeImage from "../assets/images/shape2.svg";
 
 const Register = () => {
   const [formData, setFormData] = useState<UserData>({
@@ -111,18 +110,22 @@ const Register = () => {
   };
 
   return (
-    <section className="flex flex-col gap-8 items-center h-full py-8">
+    <section
+      className="flex flex-col gap-8 items-center h-full py-8"
+      style={{ backgroundImage: `url(${shapeImage})` }}
+    >
       {!activationEmailSent ? (
-        <>
+        <div className="flex flex-col gap-8 items-center py-8 bg-white p-8 rounded-xl">
           <Typography as="h2" variant="h2">
             Registration Form
           </Typography>
           <form className="flex flex-col gap-2 max-w-[800px] w-full justify-center align-center items-center">
             {step === 1 && (
-              <div className=" max-w-[800px] flex flex-col gap-2  justify-center align-center items-center">
+              <div className=" max-w-[800px] flex flex-col gap-2  justify-center align-center items-center text-center">
                 <Typography as="p" variant="p">
-                  We need your location in order to show you books near you. You
-                  can be as specific as you would like.
+                  We need your address, so that other people that trade with you
+                  will be able to send you your traded books and in order to
+                  show you books near your location.
                 </Typography>
                 <div className="w-full flex justify-center">
                   <MapParent edit />
@@ -217,7 +220,7 @@ const Register = () => {
               </div>
             )}
           </form>
-        </>
+        </div>
       ) : (
         <ActivateAccount email={formData.email} />
       )}

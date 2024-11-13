@@ -1,5 +1,6 @@
 import { useMapsLibrary } from "@vis.gl/react-google-maps";
 import { useEffect, useRef, useState } from "react";
+import { useErrorToast } from "../Toast";
 
 interface PlaceAutocompleteProps {
   onPlaceSelect: (place: google.maps.places.PlaceResult | null) => void;
@@ -11,6 +12,7 @@ const PlaceAutocomplete = ({ onPlaceSelect }: PlaceAutocompleteProps) => {
   const inputRef = useRef<HTMLInputElement>(null);
   const places = useMapsLibrary("places");
 
+  const { showErrorToast } = useErrorToast();
   useEffect(() => {
     if (!places || !inputRef.current) return;
 
@@ -50,7 +52,10 @@ const PlaceAutocomplete = ({ onPlaceSelect }: PlaceAutocompleteProps) => {
 
       // Check if all required components are present
       if (!requiredComponents.streetNumber || !requiredComponents.street) {
-        alert("Please enter a complete address including your street number.");
+        showErrorToast(
+          "Please enter a complete address including your street number."
+        );
+
         inputRef.current!.value = ""; // Clear the input field for the user to re-enter
         onPlaceSelect(null); // Pass null to reset any previously selected place
       } else {

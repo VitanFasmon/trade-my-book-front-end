@@ -8,7 +8,6 @@ import Typography from "../components/Typography";
 import Button from "../components/Buttons/Button";
 import { useErrorToast } from "../components/Toast";
 import ActivateAccount from "../components/ActivateAccount";
-
 import shapeImage from "../assets/images/shape2.svg";
 const Login: React.FC = () => {
   const [formData, setFormData] = useState<LoginData>({
@@ -63,7 +62,7 @@ const Login: React.FC = () => {
       style={{ backgroundImage: `url(${shapeImage})` }}
     >
       {isActive ? (
-        <div className="flex flex-col gap-8 items-center py-8 bg-white p-8 rounded-xl">
+        <div className="flex flex-col gap-8 items-center py-8 bg-white p-8 rounded-xl max-w-[800px] w-full h-[400px] shadow-2xl border-2 border-lightGray justify-center">
           <Typography as="h2" variant="h2">
             Login
           </Typography>

@@ -16,7 +16,7 @@ const ActivateAccount = ({ email }: ActivateAccountProps) => {
     }
   };
   return (
-    <div className="flex flex-col items-center gap-2 bg-white p-8 rounded-xl">
+    <div className="flex flex-col items-center justify-center gap-2 bg-white p-8 rounded-xl max-w-[800px] h-[400px] w-full shadow-2xl border-2 border-lightGray ">
       <Typography as="h2" variant="h2">
         Email confirmation required.
       </Typography>
@@ -26,7 +26,11 @@ const ActivateAccount = ({ email }: ActivateAccountProps) => {
       <Typography as="p" variant="h5">
         Click "Confirm Email" in the email to activate you account.
       </Typography>
-      <Button type="outlinedSecondary" onClick={onResendButtonClick}>
+      <Button
+        type="outlinedSecondary"
+        onClick={onResendButtonClick}
+        className="mt-4"
+      >
         Resend email
       </Button>
       {resendMessage && (

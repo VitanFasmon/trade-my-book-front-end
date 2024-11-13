@@ -5,11 +5,8 @@ import MediumBook from "../components/Book/MediumBook";
 import Separator from "../components/Separator";
 import Sort from "../components/Sort";
 import SearchBooksSimple from "../components/SearchBooks/SearchBooksSimple";
-import {
-  useErrorToast,
-  useSuccessToast,
-  useWarningToast,
-} from "../components/Toast";
+import { useErrorToast, useSuccessToast } from "../components/Toast";
+import shapeImage from "../assets/images/shape2.svg";
 interface MyBooksProps {
   tradingMode?: boolean;
   sendBookDataToParent?: (bookData: BookData) => void;
@@ -97,8 +94,11 @@ const MyBooks = ({
   };
 
   return (
-    <section className="w-full flex justify-center py-8 min-h-full">
-      <div className="flex flex-col gap-8 p-2 max-w-[1200px] items-center">
+    <section
+      className="w-full flex justify-center py-8 min-h-full"
+      style={{ backgroundImage: `url(${shapeImage})` }}
+    >
+      <div className="flex flex-col gap-8 p-2 max-w-[1200px] items-center  bg-white rounded-xl  shadow-2xl border-2 border-lightGray">
         <div className="flex sm:flex-row flex-col gap-2 items-center w-full ">
           <SearchBooksSimple
             searchTerm={searchTerm}

@@ -13,6 +13,7 @@ import Typography from "./Typography";
 import { useNavigate } from "react-router";
 import { Routes } from "../navigation/routes";
 import LoadingSpinner from "./LoadingSpinner";
+import shapeImage from "../assets/images/shape2.svg";
 
 const ShowBooks = () => {
   const [books, setBooks] = useState<BookData[]>([]);
@@ -131,9 +132,12 @@ const ShowBooks = () => {
   };
 
   return (
-    <section className="w-full flex justify-center bg-lightGray">
-      <div className="flex flex-col gap-8 px-8 w-full items-center py-8">
-        <div className="flex flex-row gap-2 items-start w-full max-w-[1200px] justify-center bg-lightGray">
+    <section
+      className="w-full flex justify-center bg-lightGray min-h-screen"
+      style={{ backgroundImage: `url(${shapeImage})` }}
+    >
+      <div className="flex flex-col gap-8 px-8 w-full items-center py-8 ">
+        <div className="flex flex-row gap-2 items-start w-full max-w-[1200px] justify-center bg-lightGray ">
           <SearchBooksAdvance
             searchTitle={searchTitle}
             searchAuthor={searchAuthor}
@@ -142,22 +146,33 @@ const ShowBooks = () => {
             onKeyUp={() => setHasMore(true)}
           />
         </div>
-        <div className="flex lg:flex-row flex-col-reverse gap-2 w-full justify-between md:items-start items-center">
+        <div className="flex lg:flex-row flex-col-reverse gap-2 w-full justify-between md:items-start items-center ">
           <div className="flex-1"></div>
-          <div className="flex flex-col gap-8 max-w-[1200px] flex-2">
-            {books.map((book, index) => (
-              <div key={book.book_id}>
-                <MediumBook
-                  bookData={book}
-                  goodToTrade={!!user}
-                  sendBookDataToParent={onTradeBookButtonClick}
-                />
-                {index < books.length - 1 && <Separator />}
+          <div className="flex flex-col gap-8 max-w-[1200px] w-full flex-2 bg-lightGray p-2 rounded-xl  shadow-2xl border-2 border-lightGray">
+            {books.length > 0 ? (
+              books.map((book, index) => (
+                <div key={book.book_id}>
+                  <MediumBook
+                    bookData={book}
+                    goodToTrade={!!user}
+                    sendBookDataToParent={onTradeBookButtonClick}
+                  />
+                  {index < books.length - 1 && <Separator />}
+                </div>
+              ))
+            ) : (
+              <div className=" text-center ">
+                <Typography as="p" variant="h3">
+                  There are no books to show
+                </Typography>
+                <Typography as="p" variant="p">
+                  Consider changing your max distance or other criteria.
+                </Typography>
               </div>
-            ))}
+            )}
           </div>
-          <div className="flex flex-1 lg:flex-col md:flex-row flex-col gap-4 w-fit min-w-64 lg:items-center md:items-start items-center justify-center ">
-            <Typography as="p" variant="p" className="font-bold w-full">
+          <div className="flex-1 flex lg:flex-col md:flex-row flex-col gap-4 w-fit min-w-64 lg:items-center md:items-start items-center justify-center ">
+            <Typography as="h3" variant="h3" className="font-bold w-full">
               Sort
             </Typography>
             <Sort

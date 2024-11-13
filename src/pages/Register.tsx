@@ -115,7 +115,7 @@ const Register = () => {
       style={{ backgroundImage: `url(${shapeImage})` }}
     >
       {!activationEmailSent ? (
-        <div className="flex flex-col gap-8 items-center py-8 bg-white p-8 rounded-xl">
+        <div className="flex flex-col gap-8 items-center py-8 bg-white p-8 rounded-xl max-w-[800px] w-full shadow-2xl border-2 border-lightGray ">
           <Typography as="h2" variant="h2">
             Registration Form
           </Typography>
@@ -140,7 +140,7 @@ const Register = () => {
             )}
 
             {step === 2 && (
-              <div className=" max-w-[500px] flex flex-col gap-2 w-full h-full">
+              <div className=" max-w-[800px] flex flex-col gap-2 w-full h-full">
                 <input
                   type="text"
                   name="name"

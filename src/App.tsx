@@ -9,7 +9,7 @@ function App() {
     <div className="App h-screen">
       <ToastContainer
         position="top-center"
-        className="top-3 w-full px-6 md:max-w-90 md:px-0"
+        className="top-3 w-full px-6 md:max-w-90 md:px-0 "
         autoClose={5000}
         closeButton
       />

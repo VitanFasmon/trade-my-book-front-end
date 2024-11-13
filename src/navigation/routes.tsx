@@ -20,7 +20,7 @@ export const Routes = {
   TradeBook: "/trade-book",
   TradingQueue: "/trading-queue",
   Confirmed: "/confirm/:token",
-  Trade: "/trades/:tradeId",
+  Trade: "/trades",
 };
 
 const routerChildren = [
@@ -56,7 +56,7 @@ const routerChildren = [
   {
     path: Routes.Trade,
     element: <ProtectedRoute />,
-    children: [{ path: Routes.Trade, element: <Trade /> }],
+    children: [{ path: `${Routes.Trade}/:tradeId`, element: <Trade /> }],
   },
 ];
 

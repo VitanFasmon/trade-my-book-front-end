@@ -10,7 +10,7 @@ const MaxDistanceInput = ({
   onChange,
 }: MaxDistanceInputProps) => {
   return (
-    <RoundedContainer className="flex flex-row gap-2  items-center justify-center w-full">
+    <RoundedContainer className="flex flex-row gap-2  items-center justify-center w-full bg-lightGray">
       <label htmlFor="radiusKm" className="block font-bold text-primary w-full">
         Max distance (km)
       </label>

@@ -18,7 +18,7 @@ const SmallBook = ({
 }: SmallBookProps) => {
   return (
     <div
-      className="border rounded-lg flex-row flex gap-2 hover:cursor-pointer w-full"
+      className="border rounded-lg flex-row flex gap-2 hover:cursor-pointer w-full bg-white"
       onClick={onClick}
     >
       <img

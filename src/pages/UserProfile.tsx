@@ -84,7 +84,7 @@ const UserProfile = () => {
         userPhoneNumberRes.data &&
         updateUserData(userPhoneNumberRes.data);
 
-      showSuccessToast("User info updated successfully!");
+      showSuccessToast("Your info updated successfully!");
     } catch (error) {
       showErrorToast(
         `User info updating failed: ${
@@ -113,7 +113,7 @@ const UserProfile = () => {
       className="flex flex-col items-center h-full"
       style={{ backgroundImage: `url(${shapeImage})` }}
     >
-      <div className="w-[800px] my-8 flex flex-col gap-2 bg-white p-4 rounder-xl">
+      <div className="w-[800px] my-8 flex flex-col gap-2 bg-white p-4 rounded-xl shadow-2xl border-2 border-lightGray">
         <div className="flex flex-row justify-between gap-2">
           <Typography as="h2" variant="h2">
             {edit ? (

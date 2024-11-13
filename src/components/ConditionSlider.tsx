@@ -26,7 +26,7 @@ const ConditionSlider = ({
   };
 
   return (
-    <RoundedContainer className="flex flex-col gap-2  items-left justify-center w-full">
+    <RoundedContainer className="flex flex-col gap-2  items-left justify-center w-full bg-lightGray">
       <Typography as="p" variant="p" className="font-bold">
         Condition
       </Typography>
@@ -43,7 +43,7 @@ const ConditionSlider = ({
             handleMinChange(e);
             onChange && onChange();
           }}
-          className=""
+          className="accent-secondary"
         />
       </div>
       <div className="flex flex-row gap-2">
@@ -59,7 +59,7 @@ const ConditionSlider = ({
             handleMaxChange(e);
             onChange && onChange();
           }}
-          className=""
+          className="accent-secondary"
         />
       </div>
     </RoundedContainer>

@@ -33,7 +33,7 @@ const PhoneNumberInput: React.FC<PhoneNumberInputProps> = ({
         value={selectedCountryCode}
         onChange={handleCountryCodeChange}
         options={countryOptions}
-        className="w-1/4"
+        className="w-1/2"
         classNamePrefix="select"
         placeholder="Country Code"
       />

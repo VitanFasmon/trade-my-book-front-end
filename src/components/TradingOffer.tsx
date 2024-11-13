@@ -12,7 +12,7 @@ import {
 import Button from "./Buttons/Button";
 import useAuthStore from "../store/useAuthStore";
 import { formatDateString } from "../util/util";
-import { useErrorToast, useInfoToast, useSuccessToast } from "./Toast";
+import { useErrorToast, useSuccessToast } from "./Toast";
 
 interface TradingOfferProps {
   trade: TradeData;
@@ -77,7 +77,7 @@ const TradingOffer = ({ trade, fetchTrades }: TradingOfferProps) => {
     fetchBooks();
   }, [trade.status]);
   return (
-    <div className="flex flex-col gap-2 border-2 border-primary rounded-3xl p-2 md:border-none">
+    <div className="flex flex-col gap-2 border-primary rounded-3xl p-2  bg-white shadow-2xl border-2 md:border-lightGray">
       {requestedBook && offeredBook && user && (
         <>
           <div className="flex flex-row gap-2 items-center justify-center">

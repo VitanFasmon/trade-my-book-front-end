@@ -55,13 +55,13 @@ const AddBook = () => {
       className="flex flex-col items-center w-full min-h-full py-8"
       style={{ backgroundImage: `url(${shapeImage})` }}
     >
-      <section className="flex flex-col gap-8 p-2 items-center  max-w-[800px]">
+      <section className="flex flex-col gap-8 pt-8 px-8 items-center mb-8 max-w-[800px] bg-white rounded-xl shadow-2xl border-2 border-lightGray">
         <Typography as="h1" variant="h2">
           Search for a book you want to add
         </Typography>
         <SearchGoogleBooks onSelectBookClick={onSelectBookClick} />
         {selectedBook && (
-          <form className="flex flex-col gap-2">
+          <form className="flex flex-col gap-2 pb-8">
             <div className="flex flex-row gap-8 w-full">
               <div className="flex flex-col gap-2 justify-between">
                 <img

@@ -20,7 +20,10 @@ const SearchBooksAdvance = ({
         placeholder="Author"
         value={searchAuthor}
         onKeyUp={onKeyUp}
-        onChange={(e) => setSearchAuthor(e.target.value)}
+        onChange={(e) => {
+          setSearchAuthor(e.target.value);
+          onKeyUp && onKeyUp();
+        }}
         className="border-2 border-secondary rounded-lg p-2 sm:w-fit w-full text-primary font-bold placeholder:text-gray placeholder:font-bold bg-lightGray"
       />
       <input
@@ -28,7 +31,10 @@ const SearchBooksAdvance = ({
         placeholder="Title"
         value={searchTitle}
         onKeyUp={onKeyUp}
-        onChange={(e) => setSearchTitle(e.target.value)}
+        onChange={(e) => {
+          setSearchTitle(e.target.value);
+          onKeyUp && onKeyUp();
+        }}
         className="border-2 border-secondary rounded-lg p-2 w-full text-primary font-bold placeholder:text-gray placeholder:font-bold bg-lightGray "
       />
     </section>

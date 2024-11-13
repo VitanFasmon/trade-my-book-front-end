@@ -53,6 +53,7 @@ const TradingQueue = () => {
                       link
                       href={`${Routes.Trade}/${trade.trade_id}`}
                       key={crypto.randomUUID()}
+                      className=" hover:shadow-2xl px-0 py-0 transition-shadow duration-300 hover:text-opacity-100"
                     >
                       <TradingOffer trade={trade} fetchTrades={fetchTrades} />
                       {index < tradingQueue.length - 1 && <Separator />}
@@ -73,6 +74,7 @@ const TradingQueue = () => {
                         link
                         href={`${Routes.Trade}/${trade.trade_id}`}
                         key={crypto.randomUUID()}
+                        className=" hover:shadow-2xl px-0 py-0 transition-shadow duration-300 hover:text-opacity-100"
                       >
                         <TradingOffer trade={trade} fetchTrades={fetchTrades} />
                         {index < tradingQueue.length - 1 && <Separator />}

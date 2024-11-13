@@ -47,7 +47,7 @@ const MapParent = ({ defaultCenter, defaultZoom, edit }: MapParentProps) => {
           </div>
         )}
 
-        <div className="rounded-lg h-[400px] w-[800px] border p-2">
+        <div className="rounded-lg h-[400px] md:w-[760px] w-[300px] border p-2">
           <Map
             mapId={"bf51a910020fa25a"}
             defaultZoom={defaultZoom || 3}

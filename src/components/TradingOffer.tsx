@@ -13,12 +13,18 @@ import Button from "./Buttons/Button";
 import useAuthStore from "../store/useAuthStore";
 import { formatDateString } from "../util/util";
 import { useErrorToast, useSuccessToast } from "./Toast";
+import { Routes } from "../navigation/routes";
 
 interface TradingOfferProps {
   trade: TradeData;
   fetchTrades: () => void;
+  standalone?: boolean;
 }
-const TradingOffer = ({ trade, fetchTrades }: TradingOfferProps) => {
+const TradingOffer = ({
+  trade,
+  fetchTrades,
+  standalone = false,
+}: TradingOfferProps) => {
   const [offeredBook, setOfferedBook] = useState<BookData | null>(null);
   const [requestedBook, setRequestedBook] = useState<BookData | null>(null);
   const { user } = useAuthStore();
@@ -99,7 +105,18 @@ const TradingOffer = ({ trade, fetchTrades }: TradingOfferProps) => {
                 }
               />
             </div>
-            <div className="flex flex-col gap-2 h-full justify-center items-center">
+            <div className="flex flex-col gap-2 h-full justify-center items-center md:w-64">
+              {!standalone && (
+                <Button
+                  type="outlinedSecondary"
+                  link
+                  href={`${Routes.Trade}/${trade.trade_id}`}
+                  className="w-fit text-center"
+                >
+                  View Trade
+                </Button>
+              )}
+
               {trade.status == "pending" ? (
                 <>
                   {trade.user_to == user.user_id ? (

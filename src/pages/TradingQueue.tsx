@@ -48,16 +48,13 @@ const TradingQueue = () => {
                 })
                 .map((trade, index) => {
                   return (
-                    <Button
-                      type="planePrimary"
-                      link
-                      href={`${Routes.Trade}/${trade.trade_id}`}
+                    <div
                       key={crypto.randomUUID()}
                       className=" hover:shadow-2xl px-0 py-0 transition-shadow duration-300 hover:text-opacity-100"
                     >
                       <TradingOffer trade={trade} fetchTrades={fetchTrades} />
                       {index < tradingQueue.length - 1 && <Separator />}
-                    </Button>
+                    </div>
                   );
                 })}
             </div>

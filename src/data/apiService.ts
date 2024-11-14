@@ -2,6 +2,7 @@ import useAuthStore from "../store/useAuthStore";
 import {
   ApiResponse,
   BookData,
+  CommentData,
   EmailConfirmationResponse,
   LocationData,
   LocationResponse,
@@ -36,7 +37,6 @@ const postRequest = async <T>(
     });
 
     if (!response.ok) {
-      // Throw an error if status is not OK to handle in catch block
       const errorResponse: ApiResponse<T> = await response.json();
       throw new Error(errorResponse.message || "Something went wrong");
     }
@@ -268,7 +268,6 @@ const getLocationById = async (
   return getRequest(url, true);
 };
 // TRADE REQUESTS
-
 const initiateTrade = async (
   tradeData: TradeRequestData
 ): Promise<ApiResponse<TradeData>> => {
@@ -308,6 +307,29 @@ const cancelTrade = async (
   const url = `${API_URL}/trades/${tradeId}/status`;
   return patchRequest(url, { status: "canceled" }, true);
 };
+//COMMENTS REQUESTS
+const getCommentsByTradeId = async (
+  tradeId: number
+): Promise<ApiResponse<CommentData[]>> => {
+  const url = `${API_URL}/comments/${tradeId}`;
+  return getRequest(url, true);
+};
+const getCommentById = async (
+  commentId: number
+): Promise<ApiResponse<CommentData>> => {
+  const url = `${API_URL}/comment/${commentId}`;
+  return getRequest(url, true);
+};
+const addComment = async (
+  tradeId: number,
+  content: string
+): Promise<ApiResponse<CommentData>> => {
+  const url = ` ${API_URL}/comments`;
+  const data = { trade_id: tradeId, content };
+  console.log(data);
+  return postRequest(url, data, true);
+};
+
 export {
   registerUser,
   loginUser,
@@ -334,4 +356,7 @@ export {
   findBookById,
   confirmEmail,
   resendEmail,
+  getCommentsByTradeId,
+  getCommentById,
+  addComment,
 };

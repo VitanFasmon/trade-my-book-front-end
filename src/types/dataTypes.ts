@@ -149,6 +149,13 @@ type TradeData = {
   user_from: number;
   user_to: number;
 };
+type CommentData = {
+  comment_id: number;
+  trade_id: number;
+  user_id: number;
+  content: string;
+  date_posted: string;
+};
 export type {
   UserData,
   LoginData,
@@ -163,4 +170,5 @@ export type {
   TradeRequestData,
   TradeData,
   EmailConfirmationResponse,
+  CommentData,
 };

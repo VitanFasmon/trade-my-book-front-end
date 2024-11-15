@@ -309,15 +309,15 @@ const cancelTrade = async (
 };
 //COMMENTS REQUESTS
 const getCommentsByTradeId = async (
-  tradeId: number
+  trade_id: number
 ): Promise<ApiResponse<CommentData[]>> => {
-  const url = `${API_URL}/comments/${tradeId}`;
+  const url = `${API_URL}/comments/${trade_id}`;
   return getRequest(url, true);
 };
 const getCommentById = async (
-  commentId: number
+  comment_id: number
 ): Promise<ApiResponse<CommentData>> => {
-  const url = `${API_URL}/comment/${commentId}`;
+  const url = `${API_URL}/comment/${comment_id}`;
   return getRequest(url, true);
 };
 const addComment = async (
@@ -326,7 +326,6 @@ const addComment = async (
 ): Promise<ApiResponse<CommentData>> => {
   const url = ` ${API_URL}/comments`;
   const data = { trade_id: tradeId, content };
-  console.log(data);
   return postRequest(url, data, true);
 };
 

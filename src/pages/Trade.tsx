@@ -4,11 +4,13 @@ import { TradeData } from "../types/dataTypes";
 import { addComment, getTradeById } from "../data/apiService";
 import { useParams } from "react-router";
 import shapeImage from "../assets/images/shape2.svg";
-import AddComment from "../components/AddComment";
+import AddComment from "../components/comments/AddComment";
 import Button from "../components/Buttons/Button";
+import CommentSection from "../components/comments/CommentSection";
 const Trade = () => {
   const [trade, setTrade] = useState<TradeData | null>(null);
   const [comment, setComment] = useState<string>("");
+  const [refreshComments, setRefreshComments] = useState<boolean>(false);
   const tradeId = useParams();
   const fetchTrades = async () => {
     try {
@@ -26,10 +28,10 @@ const Trade = () => {
     if (!trade?.trade_id || !comment || comment.length == 0) {
       return;
     }
-    console.log(trade.trade_id);
     try {
-      const response = await addComment(trade.trade_id, comment);
-      console.log(response);
+      await addComment(trade.trade_id, comment);
+      setRefreshComments(!refreshComments);
+      setComment("");
     } catch (error) {
       console.error("Error adding comment:", error);
     }
@@ -39,16 +41,21 @@ const Trade = () => {
   }, []);
   return (
     <section
-      className="min-h-screen p-8 flex flex-col items-center"
+      className="min-h-screen p-8 flex flex-col items-center gap-4"
       style={{ backgroundImage: `url(${shapeImage})` }}
     >
       {trade && (
         <>
           <TradingOffer standalone trade={trade} fetchTrades={fetchTrades} />
-          <AddComment comment={comment} setComment={setComment} />
-          <Button type="secondary" onClick={onAddCommentClick}>
-            Add Comment
-          </Button>
+          <div className="flex flex-col gap-2 max-w-[800px] w-full bg-white p-4  border-lightGray rounded-xl shadow-2xl ">
+            <CommentSection trade={trade} refresh={refreshComments} />
+            <div className="flex flex-col gap-2 max-w-[800px] w-full">
+              <AddComment comment={comment} setComment={setComment} />
+              <Button type="secondary" onClick={onAddCommentClick}>
+                Add Comment
+              </Button>
+            </div>
+          </div>
         </>
       )}
     </section>

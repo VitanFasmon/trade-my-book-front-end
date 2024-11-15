@@ -50,10 +50,9 @@ const TradingQueue = () => {
                   return (
                     <div
                       key={crypto.randomUUID()}
-                      className=" hover:shadow-2xl px-0 py-0 transition-shadow duration-300 hover:text-opacity-100"
+                      className=" hover:shadow-2xl px-0 py-0 transition-shadow duration-300 hover:text-opacity-100 rounded-3xl"
                     >
                       <TradingOffer trade={trade} fetchTrades={fetchTrades} />
-                      {index < tradingQueue.length - 1 && <Separator />}
                     </div>
                   );
                 })}
@@ -66,16 +65,12 @@ const TradingQueue = () => {
                 <div className="flex flex-col gap-2 w-full p-8">
                   {tradingHistory?.map((trade, index) => {
                     return (
-                      <Button
-                        type="planePrimary"
-                        link
-                        href={`${Routes.Trade}/${trade.trade_id}`}
+                      <div
                         key={crypto.randomUUID()}
-                        className=" hover:shadow-2xl px-0 py-0 transition-shadow duration-300 hover:text-opacity-100"
+                        className=" hover:shadow-2xl px-0 py-0 transition-shadow duration-300 hover:text-opacity-100 rounded-3xl"
                       >
                         <TradingOffer trade={trade} fetchTrades={fetchTrades} />
-                        {index < tradingQueue.length - 1 && <Separator />}
-                      </Button>
+                      </div>
                     );
                   })}
                 </div>

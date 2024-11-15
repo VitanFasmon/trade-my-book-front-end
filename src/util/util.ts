@@ -42,4 +42,25 @@ function checkScreenSize(size: keyof typeof breakpoints): boolean {
   return window.matchMedia(`(min-width: ${minWidth})`).matches;
 }
 
-export { trimString, formatDateString, checkScreenSize };
+const getTimeDifference = (date: Date): string => {
+  const now = new Date();
+  const diffInMs = now.getTime() - date.getTime();
+  const diffInMinutes = Math.floor(diffInMs / (1000 * 60));
+  const diffInHours = Math.floor(diffInMs / (1000 * 60 * 60));
+  const diffInDays = Math.floor(diffInMs / (1000 * 60 * 60 * 24));
+  const diffInWeeks = Math.floor(diffInMs / (1000 * 60 * 60 * 24 * 7));
+
+  if (diffInMinutes < 60) {
+    return `${diffInMinutes} min ago`;
+  } else if (diffInHours < 24) {
+    return `${diffInHours} hours ago`;
+  } else if (diffInDays < 2) {
+    return `${diffInDays} day ago`;
+  } else if (diffInDays < 7) {
+    return `${diffInDays} days ago`;
+  } else {
+    return date.toLocaleDateString("en-GB"); // Format: dd:mm:yyyy
+  }
+};
+
+export { trimString, formatDateString, checkScreenSize, getTimeDifference };

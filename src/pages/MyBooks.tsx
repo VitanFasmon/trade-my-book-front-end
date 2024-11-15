@@ -98,7 +98,7 @@ const MyBooks = ({
       className="w-full flex justify-center py-8 min-h-full"
       style={{ backgroundImage: `url(${shapeImage})` }}
     >
-      <div className="flex flex-col gap-8 p-2 max-w-[1200px] items-center  bg-white rounded-xl  shadow-2xl border-2 border-lightGray">
+      <div className="flex flex-col gap-8 p-2 w-full max-w-[1200px] items-center  bg-white rounded-xl  shadow-2xl border-2 border-lightGray">
         <div className="flex sm:flex-row flex-col gap-2 items-center w-full ">
           <SearchBooksSimple
             searchTerm={searchTerm}

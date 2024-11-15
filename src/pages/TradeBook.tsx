@@ -10,7 +10,7 @@ import { addComment, getLocationById, initiateTrade } from "../data/apiService";
 import { Routes } from "../navigation/routes";
 import { useErrorToast, useSuccessToast } from "../components/Toast";
 import useAuthStore from "../store/useAuthStore";
-import AddComment from "../components/AddComment";
+import AddComment from "../components/comments/AddComment";
 const TradeBook = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -49,7 +49,6 @@ const TradeBook = () => {
         offered_book_id: offeredBook.book_id,
         requested_book_id: requestedBook.book_id,
       });
-      console.log(response.data);
 
       response.data &&
         comment &&

@@ -21,7 +21,8 @@ export const Routes = {
   AddBook: "/add-book",
   MyBooks: "/my-books",
   TradeBook: "/trade-book",
-  TradingQueue: "/trading-queue",
+  ActiveTrades: "/active-trades",
+  TradingHistory: "/trading-history",
   Confirmed: "/confirm/:token",
   Trade: "/trades",
   User: "/user",
@@ -55,9 +56,24 @@ const routerChildren = [
     children: [{ path: Routes.TradeBook, element: <TradeBook /> }],
   },
   {
-    path: Routes.TradingQueue,
+    path: Routes.ActiveTrades,
     element: <ProtectedRoute />,
-    children: [{ path: Routes.TradingQueue, element: <TradingQueue /> }],
+    children: [
+      {
+        path: Routes.ActiveTrades,
+        element: <TradingQueue TradeQueueType="active" />,
+      },
+    ],
+  },
+  {
+    path: Routes.TradingHistory,
+    element: <ProtectedRoute />,
+    children: [
+      {
+        path: Routes.TradingHistory,
+        element: <TradingQueue TradeQueueType="history" />,
+      },
+    ],
   },
   {
     path: Routes.Trade,

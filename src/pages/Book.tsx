@@ -1,11 +1,17 @@
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import shapeImage from "../assets/images/shape2.svg";
-import { findBookById } from "../data/apiService";
+import { deleteBookByBookId, findBookById } from "../data/apiService";
 import { useEffect, useState } from "react";
 import { BookData } from "../types/dataTypes";
+import LargeBook from "../components/Book/LargeBook";
+import { useErrorToast, useSuccessToast } from "../components/Toast";
+import { Routes } from "../navigation/routes";
 const Book = () => {
   const bookId = Number(useParams().bookId) || null;
   const [bookData, setBookData] = useState<BookData | null>(null);
+  const { showSuccessToast } = useSuccessToast();
+  const { showErrorToast } = useErrorToast();
+  const navigate = useNavigate();
   const fetchBook = async () => {
     try {
       const response = bookId ? await findBookById(bookId) : null;
@@ -15,6 +21,18 @@ const Book = () => {
       console.error("Error fetching book data:", error);
     }
   };
+  const onDeleteBookButtonClick = (book_id: number | undefined) => {
+    if (!book_id) {
+      showErrorToast("Could not delete book");
+      return;
+    }
+    deleteBookByBookId(book_id).then(() => {
+      showSuccessToast("Book deleted.");
+      setBookData(null);
+      navigate(Routes.MyBooks);
+    });
+  };
+
   useEffect(() => {
     fetchBook();
   });
@@ -23,9 +41,16 @@ const Book = () => {
       className="flex flex-col gap-8 items-center h-full py-8"
       style={{ backgroundImage: `url(${shapeImage})` }}
     >
-      <div className="flex flex-col gap-8 items-center py-8 bg-white p-8 rounded-xl max-w-[800px] w-full h-[400px] shadow-2xl border-2 border-lightGray justify-center">
-        {bookData?.title}
-      </div>
+      {bookData && (
+        <>
+          <div className="flex flex-col gap-8 items-center py-8 bg-white p-8 rounded-xl max-w-[800px] w-full h-fit shadow-2xl border-2 border-lightGray justify-center">
+            <LargeBook
+              bookData={bookData}
+              onDeleteBookButtonClick={onDeleteBookButtonClick}
+            />
+          </div>
+        </>
+      )}
     </section>
   );
 };

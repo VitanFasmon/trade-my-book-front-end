@@ -4,6 +4,7 @@ type UserData = {
   phone_number: string;
   password: string;
   location_id: number | null;
+  registration_date?: string;
 };
 
 type PublicUserData = {
@@ -13,6 +14,7 @@ type PublicUserData = {
   phone_number?: string;
   location_id: number;
   is_active: boolean;
+  registration_date: string;
 };
 
 type UserStore = {
@@ -118,7 +120,6 @@ type ApiResponse<T = any> = {
 type EmailConfirmationResponse = {
   message?: string;
 };
-
 type LocationData = {
   address: string;
   lat: number;
@@ -155,6 +156,18 @@ type CommentData = {
   user_id: number;
   content: string;
   date_posted: string;
+};
+export type RatingData = {
+  rating_id?: number;
+  user_id: number;
+  trade_id: number;
+  rating: number;
+  comment: string;
+  date_rated?: string;
+};
+
+export type AverageRatingResponse = {
+  averageRating: number;
 };
 export type {
   UserData,

@@ -61,12 +61,22 @@ const Footer = () => {
             </li>
             <li>
               <Button
-                link
                 type="planeWhite"
-                href={Routes.TradingQueue}
+                link
+                href={Routes.ActiveTrades}
                 className=" text-neutral-grayishViolet font-poppins pl-0"
               >
-                Trading Offers
+                Active Trades
+              </Button>
+            </li>
+            <li>
+              <Button
+                type="planeWhite"
+                link
+                href={Routes.TradingHistory}
+                className=" text-neutral-grayishViolet font-poppins pl-0"
+              >
+                Trading History
               </Button>
             </li>
           </ul>

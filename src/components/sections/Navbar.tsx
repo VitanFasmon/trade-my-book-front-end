@@ -62,8 +62,13 @@ const Navbar = () => {
                 </Button>
               </li>
               <li>
-                <Button type="planePrimary" link href={Routes.TradingQueue}>
-                  Trading Offers
+                <Button type="planePrimary" link href={Routes.ActiveTrades}>
+                  Active Trades
+                </Button>
+              </li>
+              <li>
+                <Button type="planePrimary" link href={Routes.TradingHistory}>
+                  Trading History
                 </Button>
               </li>
             </>
@@ -135,9 +140,18 @@ const Navbar = () => {
                       <Button
                         type="planePrimary"
                         link
-                        href={Routes.TradingQueue}
+                        href={Routes.ActiveTrades}
                       >
-                        Trading Offers
+                        Active Trades
+                      </Button>
+                    </li>
+                    <li>
+                      <Button
+                        type="planePrimary"
+                        link
+                        href={Routes.TradingHistory}
+                      >
+                        Trading History
                       </Button>
                     </li>
                   </>

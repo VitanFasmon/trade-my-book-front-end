@@ -57,7 +57,7 @@ const TradeBook = () => {
 
       setOfferedBook(null);
       showSuccessToast("Trade initiated successfully.");
-      navigate(Routes.TradingQueue);
+      navigate(Routes.ActiveTrades);
     } catch (error) {
       showErrorToast("Error: Could not trade book.");
       console.error({

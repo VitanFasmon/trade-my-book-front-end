@@ -2,85 +2,48 @@ import { useEffect, useState } from "react";
 import Typography from "../components/Typography";
 import { getTradesByUser } from "../data/apiService";
 import { TradeData } from "../types/dataTypes";
-import TradingOffer from "../components/TradingOffer";
-import Separator from "../components/Separator";
-import Button from "../components/Buttons/Button";
-import { Routes } from "../navigation/routes";
-
-const TradingQueue = () => {
+import ActiveTrades from "../components/Trades/ActiveTrades";
+import TradingHistory from "../components/Trades/TradingHistory";
+interface TradingQueueProps {
+  TradeQueueType: "active" | "history";
+}
+const TradingQueue = ({ TradeQueueType }: TradingQueueProps) => {
   const [tradingQueue, setTradingQueue] = useState<TradeData[] | null>(null);
-  const [tradingHistory, setTradingHistory] = useState<TradeData[] | null>(
-    null
-  );
   const fetchTrades = async () => {
     try {
       const response = await getTradesByUser();
       if (!response.data) return;
       setTradingQueue(response.data);
-      setTradingHistory(
-        response.data.filter((trade) => {
-          return trade.status !== "pending";
-        })
-      );
     } catch (error) {
       console.error("Error fetching trades:", error);
     }
   };
+
   useEffect(() => {
     fetchTrades();
   }, []);
+  const trades =
+    tradingQueue?.filter((trade) => {
+      if (TradeQueueType === "active") return trade.status === "pending";
+      if (TradeQueueType === "history") return trade.status !== "pending";
+    }) || [];
+
   return (
     <section className="min-h-full flex flex-col py-8 items-center">
       <div className="flex flex-col gap-2 items-center">
-        {tradingQueue && tradingQueue.length !== 0 ? (
+        {tradingQueue && trades.length !== 0 ? (
           <>
-            <Typography as="h1" variant="h2">
-              {`You have ${
-                tradingHistory?.length
-                  ? tradingQueue.length - tradingHistory?.length
-                  : tradingQueue.length
-              } trading offers`}
-            </Typography>
-            <div className="flex flex-col gap-2 w-full p-8">
-              {tradingQueue
-                ?.filter((trade) => {
-                  return trade.status == "pending";
-                })
-                .map((trade, index) => {
-                  return (
-                    <div
-                      key={crypto.randomUUID()}
-                      className=" hover:shadow-2xl px-0 py-0 transition-shadow duration-300 hover:text-opacity-100 rounded-3xl"
-                    >
-                      <TradingOffer trade={trade} fetchTrades={fetchTrades} />
-                    </div>
-                  );
-                })}
-            </div>
-            {tradingHistory && (
-              <>
-                <Typography as="h1" variant="h2">
-                  {`Trading history`}
-                </Typography>
-                <div className="flex flex-col gap-2 w-full p-8">
-                  {tradingHistory?.map((trade, index) => {
-                    return (
-                      <div
-                        key={crypto.randomUUID()}
-                        className=" hover:shadow-2xl px-0 py-0 transition-shadow duration-300 hover:text-opacity-100 rounded-3xl"
-                      >
-                        <TradingOffer trade={trade} fetchTrades={fetchTrades} />
-                      </div>
-                    );
-                  })}
-                </div>
-              </>
+            {TradeQueueType === "active" ? (
+              <ActiveTrades trades={trades} fetchTrades={fetchTrades} />
+            ) : (
+              <TradingHistory trades={trades} fetchTrades={fetchTrades} />
             )}
           </>
         ) : (
           <>
             <Typography as="h1" variant="h2">
-              You don't have any trading offers
+              You don't have any trading{" "}
+              {TradeQueueType === "active" ? "offers" : "history"}
             </Typography>
             <Typography as="h3" variant="h3">
               Search for some books to trade!
@@ -91,4 +54,5 @@ const TradingQueue = () => {
     </section>
   );
 };
+
 export default TradingQueue;

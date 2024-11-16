@@ -137,6 +137,9 @@ const ShowBooks = () => {
       style={{ backgroundImage: `url(${shapeImage})` }}
     >
       <div className="flex flex-col gap-8 px-8 w-full items-center py-8 ">
+        <Typography as="h1" variant="h2">
+          Search for the book you need
+        </Typography>
         <div className="flex flex-row gap-2 items-start w-full max-w-[1200px] justify-center bg-lightGray ">
           <SearchBooksAdvance
             searchTitle={searchTitle}

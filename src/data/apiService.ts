@@ -1,6 +1,7 @@
 import useAuthStore from "../store/useAuthStore";
 import {
   ApiResponse,
+  AverageRatingResponse,
   BookData,
   CommentData,
   EmailConfirmationResponse,
@@ -8,6 +9,7 @@ import {
   LocationResponse,
   LoginData,
   PublicUserData,
+  RatingData,
   TradeData,
   TradeRequestData,
   UserData,
@@ -197,6 +199,12 @@ const resendEmail = async (data: {
   const url = `${API_URL}/resend-email`;
   return postRequest(url, data, false);
 };
+const getAcceptedTradesIdsByUserId = async (
+  id: number
+): Promise<ApiResponse<number[]>> => {
+  const url = `${API_URL}/user/trades/accepted/${id}`;
+  return getRequest(url, true);
+};
 //BOOK REQUESTS
 const addBook = async (bookData: BookData): Promise<ApiResponse> => {
   const url = `${API_URL}/books`;
@@ -328,7 +336,34 @@ const addComment = async (
   const data = { trade_id: tradeId, content };
   return postRequest(url, data, true);
 };
+//RATING REQUESTS
+const createRating = async (
+  ratingData: RatingData
+): Promise<ApiResponse<RatingData>> => {
+  const url = `${API_URL}/ratings`;
+  return postRequest(url, ratingData, true);
+};
 
+const getRatingsByUserId = async (
+  userId: number
+): Promise<ApiResponse<RatingData[]>> => {
+  const url = `${API_URL}/ratings/user/${userId}`;
+  return getRequest(url, true);
+};
+
+const getRatingsByTradeId = async (
+  tradeId: number
+): Promise<ApiResponse<RatingData[]>> => {
+  const url = `${API_URL}/ratings/trade/${tradeId}`;
+  return getRequest(url, true);
+};
+
+const getAverageRatingByUserId = async (
+  userId: number
+): Promise<ApiResponse<AverageRatingResponse>> => {
+  const url = `${API_URL}/ratings/user/${userId}/average`;
+  return getRequest(url, true);
+};
 export {
   registerUser,
   loginUser,
@@ -358,4 +393,9 @@ export {
   getCommentsByTradeId,
   getCommentById,
   addComment,
+  getAcceptedTradesIdsByUserId,
+  createRating,
+  getRatingsByUserId,
+  getRatingsByTradeId,
+  getAverageRatingByUserId,
 };

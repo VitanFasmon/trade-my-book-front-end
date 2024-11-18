@@ -1,5 +1,5 @@
 import { BookData, LocationData, PublicUserData } from "../../types/dataTypes";
-import { formatAddress, formatDateString, trimString } from "../../util/util";
+import { formatDateString, trimString } from "../../util/util";
 import Typography from "../Typography";
 import BookCategory from "./BookCategory";
 import bookIcon from "../../assets/icons/book-512x512.png";

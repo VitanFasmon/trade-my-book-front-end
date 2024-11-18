@@ -9,11 +9,22 @@ const trimString = (
     ? longString.substring(0, length) + "..."
     : longString;
 };
-const formatDateString = (dateString: string, fullDate?: boolean): string => {
+const formatDateString = (
+  dateString: string,
+  fullDate?: boolean,
+  time?: boolean
+): string => {
   const date = new Date(dateString);
   if (!fullDate) {
     return date.toLocaleDateString("en-GB", {
       year: "numeric",
+    });
+  }
+  if (!time) {
+    return date.toLocaleDateString("en-GB", {
+      year: "numeric",
+      month: "numeric",
+      day: "numeric",
     });
   }
   return date.toLocaleDateString("en-GB", {

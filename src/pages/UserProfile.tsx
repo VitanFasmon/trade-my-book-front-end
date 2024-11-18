@@ -92,8 +92,6 @@ const UserProfile = () => {
           locationRes?.data?.location_id
         );
         userRes.data && updateUserData(userRes.data);
-
-        showSuccessToast("Location updated successfully!");
       } catch (error) {
         showErrorToast(
           `Location updating failed: ${

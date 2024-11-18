@@ -1,29 +1,45 @@
 import { useEffect, useState } from "react";
 import shapeImage from "../assets/images/shape2.svg";
-import { PublicUserData } from "../types/dataTypes";
+import { LocationData, PublicUserData } from "../types/dataTypes";
 import {
   fetchUserDataById,
   getAcceptedTradesIdsByUserId,
   getAverageRatingByUserId,
+  getLocationById,
 } from "../data/apiService";
 import { useParams } from "react-router";
 import Typography from "../components/Typography";
 import { formatDateString, numberRatingToStars } from "../util/util";
 import LoadingSpinner from "../components/LoadingSpinner";
 const User = () => {
-  const [userData, setUserData] = useState<PublicUserData | null>(null);
   const userId = Number(useParams().userId) || null;
+  const [userData, setUserData] = useState<PublicUserData | null>(null);
   const [acceptedTradeIds, setAcceptedTradeIds] = useState<number[] | null>();
+  const [userLocation, setUserLocation] = useState<LocationData | null>(null);
   const [averageRating, setAverageRating] = useState<number | null>(null);
   const fetchUserData = async () => {
     try {
       const response = userId ? await fetchUserDataById(userId) : null;
       if (!response?.data) return;
       setUserData(response.data);
+      fetchLocationData(response.data.location_id);
       fetchAcceptedTradeIds();
       fetchRating();
     } catch (error) {
       console.error("Error fetching user data:", error);
+    }
+  };
+  const fetchLocationData = async (locationId: number) => {
+    try {
+      const response = await getLocationById(locationId);
+      if (!response?.data) return;
+      setUserLocation({
+        address: JSON.parse(response.data.address),
+        lat: response.data.latitude,
+        lng: response.data.longitude,
+      });
+    } catch (error) {
+      console.error("Error fetching user location:", error);
     }
   };
   const fetchAcceptedTradeIds = async () => {
@@ -36,6 +52,7 @@ const User = () => {
       console.error("Error fetching accepted trades:", error);
     }
   };
+
   const fetchRating = async () => {
     try {
       const response = userId ? await getAverageRatingByUserId(userId) : null;
@@ -52,7 +69,7 @@ const User = () => {
       className="flex flex-col gap-2 items-center h-full py-8"
       style={{ backgroundImage: `url(${shapeImage})` }}
     >
-      <div className="flex flex-col gap-8 items-center bg-white p-8 rounded-xl max-w-[800px] w-full h-[400px] shadow-2xl border-2 border-lightGray justify-center">
+      <div className="flex flex-col gap-8 items-center bg-white p-8 rounded-xl max-w-[800px] w-full h-[500px] shadow-2xl border-2 border-lightGray justify-center">
         {userData ? (
           <>
             <div className="flex flex-col items-center mb-6">
@@ -67,33 +84,45 @@ const User = () => {
               </Typography>
             </div>
 
-            <div className="border-t pt-6">
-              <div className="flex justify-between mb-4">
-                <Typography as="p" className="font-medium text-gray-700">
+            <div className="border-t pt-6 flex flex-col gap-4">
+              {userLocation && (
+                <div className="flex justify-between">
+                  <Typography as="p" className="font-medium ">
+                    Location:
+                  </Typography>
+                  <Typography
+                    as="p"
+                    variant="p"
+                    className="font-bold"
+                  >{`${userLocation.address.locality}, ${userLocation.address.country}`}</Typography>
+                </div>
+              )}
+              <div className="flex justify-between  gap-2">
+                <Typography as="p" className="font-medium ">
                   Phone Number:
                 </Typography>
-                <Typography as="p" className="text-gray-800">
+                <Typography as="p" className="text-gray-800 font-bold">
                   {userData.phone_number || "N/A"}
                 </Typography>
               </div>
-              <div className="flex justify-between mb-4 gap-1">
-                <Typography as="p" className="font-medium text-gray-700">
+              <div className="flex justify-between gap-2">
+                <Typography as="p" className="font-medium ">
                   Account Created:
                 </Typography>
-                <Typography as="p" className="text-gray-800">
+                <Typography as="p" className="text-gray-800 font-bold">
                   {formatDateString(userData.registration_date, true)}
                 </Typography>
               </div>
-              <div className="flex justify-between">
-                <Typography as="p" className="font-medium text-gray-700">
-                  Number of completed trades:
+              <div className="flex justify-between  gap-2">
+                <Typography as="p" className="font-medium ">
+                  Completed trades:
                 </Typography>
                 <Typography as="p" className="font-bold">
                   {acceptedTradeIds?.length || 0}
                 </Typography>
               </div>
-              <div className="flex justify-between">
-                <Typography as="p" className="font-medium text-gray-700">
+              <div className="flex justify-between  gap-2">
+                <Typography as="p" className="font-medium ">
                   Rating:
                 </Typography>
                 <Typography as="p" className="font-bold">

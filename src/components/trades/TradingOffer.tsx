@@ -143,7 +143,7 @@ const TradingOffer = ({
         <>
           <div className="flex flex-row gap-2 items-center justify-center">
             <Typography as="p" variant="p">
-              {formatDateString(trade.trade_date, true)}
+              {formatDateString(trade.trade_date, true, true)}
             </Typography>
           </div>
           <div className="flex lg:flex-row flex-col gap-2 items-center lg:items-stretch	h-full justify-between">
@@ -240,7 +240,7 @@ const TradingOffer = ({
                         </Typography>
                       )}
                       <div className="flex flex-row gap-2">
-                        {!enableRating && (
+                        {!enableRating ? (
                           <Button
                             type="outlinedPrimary"
                             onClick={() => {
@@ -249,9 +249,7 @@ const TradingOffer = ({
                           >
                             Change Rating
                           </Button>
-                        )}
-
-                        {enableRating && (
+                        ) : (
                           <div className="flex flex-col items-center  justify-start gap-2">
                             <RatingSlider
                               value={userRating}

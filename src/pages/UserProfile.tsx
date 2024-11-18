@@ -18,7 +18,7 @@ import { LocationData } from "../types/dataTypes";
 import PhoneNumberInput from "../components/PhoneNumberInput";
 import { useErrorToast, useSuccessToast } from "../components/Toast";
 import shapeImage from "../assets/images/shape2.svg";
-import { numberRatingToStars } from "../util/util";
+import { formatAddress, numberRatingToStars } from "../util/util";
 
 const UserProfile = () => {
   const { user, updateUserData } = useAuthStore();
@@ -68,7 +68,7 @@ const UserProfile = () => {
       const response = await getLocationById(user?.location_id);
       if (response.data) {
         setExistingLocationData({
-          address: response.data?.address,
+          address: JSON.parse(response.data?.address),
           lat: response.data?.latitude,
           lng: response.data?.longitude,
         });
@@ -137,7 +137,7 @@ const UserProfile = () => {
   };
   return (
     <section
-      className="flex flex-col items-center h-full"
+      className="flex flex-col items-center min-h-full"
       style={{ backgroundImage: `url(${shapeImage})` }}
     >
       <div className="w-[800px] my-8 flex flex-col gap-2 bg-white p-4 rounded-xl shadow-2xl border-2 border-lightGray">
@@ -210,7 +210,9 @@ const UserProfile = () => {
         <Typography as="p" variant="p">
           {`Location: `}
           <Typography as="span" variant="p" className="font-bold">
-            {existingLocationData ? existingLocationData?.address : ""}
+            {existingLocationData
+              ? formatAddress(existingLocationData?.address)
+              : ""}
           </Typography>
         </Typography>
 

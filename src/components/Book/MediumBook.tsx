@@ -1,11 +1,12 @@
-import { BookData, PublicUserData } from "../../types/dataTypes";
-import { formatDateString, trimString } from "../../util/util";
+import { BookData, LocationData, PublicUserData } from "../../types/dataTypes";
+import { formatAddress, formatDateString, trimString } from "../../util/util";
 import Typography from "../Typography";
 import BookCategory from "./BookCategory";
 import bookIcon from "../../assets/icons/book-512x512.png";
 import { useEffect, useState } from "react";
 import {
   fetchUserDataById,
+  getLocationById,
   toggleBookTradability,
 } from "../../data/apiService";
 import ToggleButton from "../Buttons/ToggleButton";
@@ -31,6 +32,7 @@ const MediumBook = ({
 }: MediumBookProps) => {
   const [tradable, setTradable] = useState<boolean>(bookData.tradable || false);
   const [addedBy, setAddedBy] = useState<PublicUserData | null>(null);
+  const [userLocation, setUserLocation] = useState<LocationData | null>(null);
   const [isModalOpen, setModalOpen] = useState(false);
   const onToggleTradabilityClick = () => {
     bookData.book_id &&
@@ -50,8 +52,24 @@ const MediumBook = ({
         : null;
       if (!response?.data) return;
       setAddedBy(response.data);
+      goodToTrade &&
+        !ownedByUser &&
+        fetchLocationData(response?.data.location_id);
     } catch (error) {
       console.error("Error fetching user data:", error);
+    }
+  };
+  const fetchLocationData = async (locationId: number) => {
+    try {
+      const response = await getLocationById(locationId);
+      if (!response?.data) return;
+      setUserLocation({
+        address: JSON.parse(response.data.address),
+        lat: response.data.latitude,
+        lng: response.data.longitude,
+      });
+    } catch (error) {
+      console.error("Error fetching user location:", error);
     }
   };
   const handleConfirm = () => {
@@ -67,16 +85,25 @@ const MediumBook = ({
   }, []);
   return (
     <div className="flex flex-col gap-2 w-full items-start p-2">
-      {addedBy && (
-        <Button
-          link
-          type="planePrimary"
-          href={`${Routes.User}/${bookData.added_by_user_id}`}
-          className="px-0 py-0"
-        >
-          {`Added by: ${addedBy.name}`}
-        </Button>
-      )}
+      <div className="flex flex-row items-center justify-between gap-2 w-full">
+        {addedBy && (
+          <Button
+            link
+            type="planePrimary"
+            href={`${Routes.User}/${bookData.added_by_user_id}`}
+            className="px-0 py-0"
+          >
+            {`Added by: ${addedBy.name}`}
+          </Button>
+        )}
+        {userLocation && (
+          <Typography
+            as="p"
+            variant="p"
+            className="font-bold"
+          >{`${userLocation.address.locality}, ${userLocation.address.country}`}</Typography>
+        )}
+      </div>
       <div className="flex md:flex-row flex-col gap-8 w-full h-fit items-center md:items-stretch">
         <Button
           link

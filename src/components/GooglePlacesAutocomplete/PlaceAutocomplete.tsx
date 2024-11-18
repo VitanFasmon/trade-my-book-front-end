@@ -40,7 +40,7 @@ const PlaceAutocomplete = ({ onPlaceSelect }: PlaceAutocompleteProps) => {
           comp.types.includes("route")
         ),
         city: place.address_components?.some((comp) =>
-          comp.types.includes("locality")
+          comp.types.includes("postal_town")
         ),
         postalCode: place.address_components?.some((comp) =>
           comp.types.includes("postal_code")
@@ -49,8 +49,6 @@ const PlaceAutocomplete = ({ onPlaceSelect }: PlaceAutocompleteProps) => {
           comp.types.includes("country")
         ),
       };
-
-      // Check if all required components are present
       if (!requiredComponents.streetNumber || !requiredComponents.street) {
         showErrorToast(
           "Please enter a complete address including your street number."

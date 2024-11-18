@@ -11,6 +11,7 @@ import { Routes } from "../navigation/routes";
 import { useErrorToast, useSuccessToast } from "../components/Toast";
 import useAuthStore from "../store/useAuthStore";
 import AddComment from "../components/comments/AddComment";
+import { formatAddress } from "../util/util";
 const TradeBook = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -33,7 +34,7 @@ const TradeBook = () => {
       const response = await getLocationById(user?.location_id);
       if (response.data) {
         setAddress({
-          address: response.data?.address,
+          address: JSON.parse(response.data?.address),
           lat: response.data?.latitude,
           lng: response.data?.longitude,
         });
@@ -105,7 +106,7 @@ const TradeBook = () => {
               </Typography>
               <Typography as="p" variant="p" className="font-bold">
                 {`${user?.name}, `}
-                {address?.address}
+                {address && formatAddress(address.address)}
               </Typography>
               <Typography as="p" variant="p">
                 You need to confirm your name and address to proceed.

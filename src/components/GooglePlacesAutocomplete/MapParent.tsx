@@ -8,6 +8,7 @@ import {
 import MapHandler from "./MapHandler";
 import PlaceAutocomplete from "./PlaceAutocomplete";
 import useLocationStore from "../../store/useLocationStore";
+import { Address } from "../../types/dataTypes";
 const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY as string;
 
 interface MapParentProps {
@@ -15,6 +16,7 @@ interface MapParentProps {
   defaultZoom?: number;
   edit: boolean;
 }
+
 const MapParent = ({ defaultCenter, defaultZoom, edit }: MapParentProps) => {
   const [selectedPlace, setSelectedPlace] =
     useState<google.maps.places.PlaceResult | null>(null);
@@ -22,9 +24,38 @@ const MapParent = ({ defaultCenter, defaultZoom, edit }: MapParentProps) => {
   const { setLocationData } = useLocationStore();
   const [markerPosition, setMarkerPosition] = useState(defaultCenter || null);
   useEffect(() => {
-    if (selectedPlace?.formatted_address) {
+    if (selectedPlace?.address_components) {
+      let address: Address = {
+        street_number: "",
+        route: "",
+        locality: "",
+        country: "",
+        postal_code: "",
+      };
+
+      selectedPlace.address_components.forEach((comp) => {
+        const type = comp.types[0];
+        switch (type) {
+          case "street_number":
+            address.street_number = comp.long_name;
+            break;
+          case "route":
+            address.route = comp.long_name;
+            break;
+          case "locality":
+          case "postal_town":
+            address.locality = comp.long_name;
+            break;
+          case "country":
+            address.country = comp.long_name;
+            break;
+          case "postal_code":
+            address.postal_code = comp.long_name;
+            break;
+        }
+      });
       setLocationData({
-        address: selectedPlace.formatted_address || "",
+        address: address || "",
         lat: selectedPlace?.geometry?.location?.lat() || 0,
         lng: selectedPlace?.geometry?.location?.lng() || 0,
       });

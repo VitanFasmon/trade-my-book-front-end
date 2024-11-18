@@ -1,3 +1,5 @@
+import { Address } from "../types/dataTypes";
+
 const trimString = (
   longString: string | null | undefined,
   length: number = 300
@@ -77,6 +79,9 @@ const numberRatingToStars = (number: number): string | null => {
 
   return stars + emptyStars;
 };
+const formatAddress = (address: Address) => {
+  return `${address.route} ${address.street_number}, ${address.postal_code} ${address.locality}, ${address.country}`;
+};
 
 export {
   trimString,
@@ -84,4 +89,5 @@ export {
   checkScreenSize,
   getTimeDifference,
   numberRatingToStars,
+  formatAddress,
 };

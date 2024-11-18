@@ -41,7 +41,7 @@ const ShowBooks = () => {
       const response = await getLocationById(user?.location_id);
       if (response.data) {
         setLocationData({
-          address: response.data?.address,
+          address: JSON.parse(response.data?.address),
           lat: response.data?.latitude,
           lng: response.data?.longitude,
         });

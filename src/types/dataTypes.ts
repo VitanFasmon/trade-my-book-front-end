@@ -120,8 +120,15 @@ type ApiResponse<T = any> = {
 type EmailConfirmationResponse = {
   message?: string;
 };
+type Address = {
+  street_number: string;
+  route: string;
+  locality: string;
+  country: string;
+  postal_code: string;
+};
 type LocationData = {
-  address: string;
+  address: Address;
   lat: number;
   lng: number;
 };
@@ -175,6 +182,7 @@ export type {
   ApiResponse,
   PublicUserData,
   UserStore,
+  Address,
   LocationData,
   LocationResponse,
   LocationStore,

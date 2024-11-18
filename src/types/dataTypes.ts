@@ -162,7 +162,6 @@ export type RatingData = {
   user_id: number;
   trade_id: number;
   rating: number;
-  comment: string;
   date_rated?: string;
 };
 

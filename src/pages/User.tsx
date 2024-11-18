@@ -4,20 +4,24 @@ import { PublicUserData } from "../types/dataTypes";
 import {
   fetchUserDataById,
   getAcceptedTradesIdsByUserId,
+  getAverageRatingByUserId,
 } from "../data/apiService";
 import { useParams } from "react-router";
 import Typography from "../components/Typography";
-import { formatDateString } from "../util/util";
+import { formatDateString, numberRatingToStars } from "../util/util";
+import LoadingSpinner from "../components/LoadingSpinner";
 const User = () => {
   const [userData, setUserData] = useState<PublicUserData | null>(null);
   const userId = Number(useParams().userId) || null;
   const [acceptedTradeIds, setAcceptedTradeIds] = useState<number[] | null>();
+  const [averageRating, setAverageRating] = useState<number | null>(null);
   const fetchUserData = async () => {
     try {
       const response = userId ? await fetchUserDataById(userId) : null;
       if (!response?.data) return;
       setUserData(response.data);
       fetchAcceptedTradeIds();
+      fetchRating();
     } catch (error) {
       console.error("Error fetching user data:", error);
     }
@@ -30,6 +34,14 @@ const User = () => {
       response?.data && setAcceptedTradeIds(response.data);
     } catch (error) {
       console.error("Error fetching accepted trades:", error);
+    }
+  };
+  const fetchRating = async () => {
+    try {
+      const response = userId ? await getAverageRatingByUserId(userId) : null;
+      response?.data && setAverageRating(response.data.averageRating);
+    } catch (error) {
+      console.error("Error fetching rating:", error);
     }
   };
   useEffect(() => {
@@ -84,16 +96,14 @@ const User = () => {
                 <Typography as="p" className="font-medium text-gray-700">
                   Rating:
                 </Typography>
-                <Typography as="p" className="text-yellow-500">
-                  ⭐⭐⭐⭐⭐ {/* Replace with dynamic rating if available */}
+                <Typography as="p" className="font-bold">
+                  {averageRating ? numberRatingToStars(averageRating) : "N/A"}
                 </Typography>
               </div>
             </div>
           </>
         ) : (
-          <Typography as="h2" className="text-center text-gray-600">
-            Loading user data...
-          </Typography>
+          <LoadingSpinner />
         )}
       </div>
     </section>

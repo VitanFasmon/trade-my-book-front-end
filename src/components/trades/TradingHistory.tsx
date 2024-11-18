@@ -1,17 +1,17 @@
 import Typography from "../Typography";
-import TradingOffer from "../TradingOffer";
+import TradingOffer from "./TradingOffer";
 import { TradeData } from "../../types/dataTypes";
 
-interface ActiveTradesProps {
+interface TradingHistoryProps {
   trades: TradeData[];
   fetchTrades: () => void;
 }
 
-const ActiveTrades = ({ trades, fetchTrades }: ActiveTradesProps) => {
+const TradingHistory = ({ trades, fetchTrades }: TradingHistoryProps) => {
   return (
-    <div className="flex flex-col items-center gap-8 w-full p-8">
+    <div className="flex flex-col  items-center gap-8 w-full p-8">
       <Typography as="h1" variant="h2">
-        {`You have ${trades.length} trading offers`}
+        {`Trading history`}
       </Typography>
       <div className="flex flex-col items-center gap-2 w-full p-2">
         {trades.map((trade) => (
@@ -27,4 +27,4 @@ const ActiveTrades = ({ trades, fetchTrades }: ActiveTradesProps) => {
   );
 };
 
-export default ActiveTrades;
+export default TradingHistory;

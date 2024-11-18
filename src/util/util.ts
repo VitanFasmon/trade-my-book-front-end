@@ -63,4 +63,25 @@ const getTimeDifference = (date: Date): string => {
   }
 };
 
-export { trimString, formatDateString, checkScreenSize, getTimeDifference };
+const numberRatingToStars = (number: number): string | null => {
+  if (number < 0 || number > 5) {
+    return null;
+  }
+
+  const fullStars = Math.floor(number);
+  const halfStar = number % 1 >= 0.25 ? "⯪" : "";
+
+  const stars = "★".repeat(fullStars) + halfStar;
+
+  const emptyStars = "☆".repeat(5 - fullStars - (halfStar ? 1 : 0));
+
+  return stars + emptyStars;
+};
+
+export {
+  trimString,
+  formatDateString,
+  checkScreenSize,
+  getTimeDifference,
+  numberRatingToStars,
+};

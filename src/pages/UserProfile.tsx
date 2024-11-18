@@ -3,6 +3,8 @@ import Button from "../components/Buttons/Button";
 import MapParent from "../components/GooglePlacesAutocomplete/MapParent";
 import {
   addLocation,
+  getAcceptedTradesIdsByUserId,
+  getAverageRatingByUserId,
   getLocationById,
   resendEmail,
   updateUserLocation,
@@ -16,6 +18,7 @@ import { LocationData } from "../types/dataTypes";
 import PhoneNumberInput from "../components/PhoneNumberInput";
 import { useErrorToast, useSuccessToast } from "../components/Toast";
 import shapeImage from "../assets/images/shape2.svg";
+import { numberRatingToStars } from "../util/util";
 
 const UserProfile = () => {
   const { user, updateUserData } = useAuthStore();
@@ -25,14 +28,38 @@ const UserProfile = () => {
   const { showSuccessToast } = useSuccessToast();
   const { showErrorToast } = useErrorToast();
   const [edit, setEdit] = useState<boolean>(false);
+  const [acceptedTradeIds, setAcceptedTradeIds] = useState<number[] | null>();
+  const [averageRating, setAverageRating] = useState<number | null>(null);
 
   const [name, setName] = useState<string>(user?.name || "");
   const [phoneNumber, setPhoneNumber] = useState<string>(
     user?.phone_number || ""
   );
+  const fetchAcceptedTradeIds = async () => {
+    try {
+      const response = user?.user_id
+        ? await getAcceptedTradesIdsByUserId(user.user_id)
+        : null;
+      response?.data && setAcceptedTradeIds(response.data);
+    } catch (error) {
+      console.error("Error fetching accepted trades:", error);
+    }
+  };
+  const fetchRating = async () => {
+    try {
+      const response = user?.user_id
+        ? await getAverageRatingByUserId(user.user_id)
+        : null;
+      response?.data && setAverageRating(response.data.averageRating);
+    } catch (error) {
+      console.error("Error fetching rating:", error);
+    }
+  };
 
   useEffect(() => {
     getUserLocationByLocationId();
+    fetchAcceptedTradeIds();
+    fetchRating();
   }, []);
 
   const getUserLocationByLocationId = async () => {
@@ -186,6 +213,23 @@ const UserProfile = () => {
             {existingLocationData ? existingLocationData?.address : ""}
           </Typography>
         </Typography>
+
+        <div className="flex gap-1">
+          <Typography as="p" className="font-medium text-gray-700">
+            Number of completed trades:
+          </Typography>
+          <Typography as="p" className="font-bold">
+            {acceptedTradeIds?.length || 0}
+          </Typography>
+        </div>
+        <div className="flex gap-1">
+          <Typography as="p" className="font-medium text-gray-700">
+            Rating:
+          </Typography>
+          <Typography as="p" className="font-bold">
+            {averageRating ? numberRatingToStars(averageRating) : "N/A"}
+          </Typography>
+        </div>
         <div className="w-full flex flex-col justify-center items-center gap-2">
           <Typography as="h3" variant="h3">
             {edit && "Change location"}
@@ -196,6 +240,7 @@ const UserProfile = () => {
               be as specific as you would like.
             </Typography>
           )}
+
           <MapParent
             defaultCenter={
               existingLocationData

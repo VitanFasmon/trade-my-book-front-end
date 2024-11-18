@@ -343,6 +343,12 @@ const createRating = async (
   const url = `${API_URL}/ratings`;
   return postRequest(url, ratingData, true);
 };
+const updateRating = async (
+  ratingData: RatingData
+): Promise<ApiResponse<RatingData>> => {
+  const url = `${API_URL}/ratings`;
+  return patchRequest(url, ratingData, true);
+};
 
 const getRatingsByUserId = async (
   userId: number
@@ -398,4 +404,5 @@ export {
   getRatingsByUserId,
   getRatingsByTradeId,
   getAverageRatingByUserId,
+  updateRating,
 };

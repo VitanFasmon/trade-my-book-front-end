@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import Typography from "../components/Typography";
 import { getTradesByUser } from "../data/apiService";
 import { TradeData } from "../types/dataTypes";
-import ActiveTrades from "../components/Trades/ActiveTrades";
-import TradingHistory from "../components/Trades/TradingHistory";
+import ActiveTrades from "../components/trades/ActiveTrades";
+import TradingHistory from "../components/trades/TradingHistory";
 interface TradingQueueProps {
   TradeQueueType: "active" | "history";
 }

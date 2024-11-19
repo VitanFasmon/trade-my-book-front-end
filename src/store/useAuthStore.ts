@@ -1,5 +1,14 @@
 import { create } from "zustand";
 import { PublicUserData, UserStore } from "../types/dataTypes";
+import { jwtDecode, JwtPayload } from "jwt-decode";
+
+function isTokenExpired(token: string | null): boolean {
+  if (!token) return true;
+  const { exp } = jwtDecode<JwtPayload>(token);
+  if (!exp) return true;
+  const currentTime = Math.floor(Date.now() / 1000);
+  return exp < currentTime;
+}
 
 const useAuthStore = create<UserStore>((set) => {
   const storedUser = localStorage.getItem("user");
@@ -7,7 +16,8 @@ const useAuthStore = create<UserStore>((set) => {
   const initialUser = storedUser
     ? (JSON.parse(storedUser) as PublicUserData)
     : null;
-  const isAuthenticated = !!initialUser && !!storedToken;
+  const isAuthenticated =
+    !!initialUser && !!storedToken && !isTokenExpired(storedToken);
 
   return {
     user: initialUser,
@@ -17,11 +27,10 @@ const useAuthStore = create<UserStore>((set) => {
       localStorage.setItem("user", JSON.stringify(userData));
       set({ user: userData });
     },
-
     login: (userData: PublicUserData, token: string) => {
       localStorage.setItem("user", JSON.stringify(userData));
       localStorage.setItem("token", token);
-      set({ user: userData, token, isAuthenticated: true });
+      set({ user: userData, token, isAuthenticated: !isTokenExpired(token) });
     },
     logout: () => {
       localStorage.removeItem("user");
@@ -30,5 +39,4 @@ const useAuthStore = create<UserStore>((set) => {
     },
   };
 });
-
 export default useAuthStore;

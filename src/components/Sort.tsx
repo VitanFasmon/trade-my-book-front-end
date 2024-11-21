@@ -1,4 +1,4 @@
-import Button from "./Buttons/Button";
+import Button from "./buttons/Button";
 import RoundedContainer from "./RoundedContainer";
 
 interface SortProps {

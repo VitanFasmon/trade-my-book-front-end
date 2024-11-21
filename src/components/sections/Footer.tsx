@@ -3,7 +3,7 @@ import iconFacebook from "../../assets/icons/icon-facebook.svg";
 import iconInstagram from "../../assets/icons/icon-instagram.svg";
 import iconPinterest from "../../assets/icons/icon-pinterest.svg";
 import iconTwitter from "../../assets/icons/icon-twitter.svg";
-import Button from "../Buttons/Button";
+import Button from "../buttons/Button";
 import { Routes } from "../../navigation/routes";
 import Typography from "../Typography";
 

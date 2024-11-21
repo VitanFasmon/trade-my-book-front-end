@@ -1,5 +1,5 @@
 import useAuthStore from "../store/useAuthStore";
-import Button from "./Buttons/Button";
+import Button from "./buttons/Button";
 import Typography from "./Typography";
 
 const Logout: React.FC = () => {

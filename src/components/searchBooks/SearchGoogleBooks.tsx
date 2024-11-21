@@ -1,9 +1,9 @@
 import { useState, useEffect, useCallback, useRef } from "react";
 import { getGoogleBooksByQuery } from "../../data/googleBooksApiService";
 import { GoogleBook } from "../../types/dataTypes";
-import SmallBook from "../Book/SmallGoogleBook";
+import SmallBook from "../book/SmallGoogleBook";
 import LoadingSpinner from "../LoadingSpinner";
-import Button from "../Buttons/Button";
+import Button from "../buttons/Button";
 import Typography from "../Typography";
 
 interface SearchGoogleBooksProps {

@@ -9,9 +9,9 @@ import {
   toggleBookTradability,
   updateBook,
 } from "../../data/apiService";
-import ToggleButton from "../Buttons/ToggleButton";
+import ToggleButton from "../buttons/ToggleButton";
 import AddedOn from "./BookAddedOn";
-import Button from "../Buttons/Button";
+import Button from "../buttons/Button";
 import Condition from "./BookCondition";
 import { Routes } from "../../navigation/routes";
 import useAuthStore from "../../store/useAuthStore";

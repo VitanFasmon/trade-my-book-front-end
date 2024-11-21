@@ -3,7 +3,7 @@ import shapeImage from "../assets/images/shape2.svg";
 import { deleteBookByBookId, findBookById } from "../data/apiService";
 import { useEffect, useState } from "react";
 import { BookData } from "../types/dataTypes";
-import LargeBook from "../components/Book/LargeBook";
+import LargeBook from "../components/book/LargeBook";
 import { useErrorToast, useSuccessToast } from "../components/Toast";
 import { Routes } from "../navigation/routes";
 const Book = () => {

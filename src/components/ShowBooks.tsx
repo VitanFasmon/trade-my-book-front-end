@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
-import MediumBook from "./Book/MediumBook";
+import MediumBook from "./book/MediumBook";
 import Separator from "./Separator";
 import Sort from "./Sort";
 import { BookData } from "../types/dataTypes";
 import { getLocationById, searchBooks } from "../data/apiService";
-import SearchBooksAdvance from "./SearchBooks/SearchBooksAdvance";
+import SearchBooksAdvance from "./searchBooks/SearchBooksAdvance";
 import useAuthStore from "../store/useAuthStore";
 import useLocationStore from "../store/useLocationStore";
 import ConditionSlider from "./ConditionSlider";

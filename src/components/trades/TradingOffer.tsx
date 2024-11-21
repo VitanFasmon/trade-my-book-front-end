@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { BookData, PublicUserData, TradeData } from "../../types/dataTypes";
-import MediumBook from "../Book/MediumBook";
+import MediumBook from "../book/MediumBook";
 import Typography from "../Typography";
 import {
   acceptTrade,
@@ -12,7 +12,7 @@ import {
   rejectTrade,
   updateRating,
 } from "../../data/apiService";
-import Button from "../Buttons/Button";
+import Button from "../buttons/Button";
 import useAuthStore from "../../store/useAuthStore";
 import { formatDateString, numberRatingToStars } from "../../util/util";
 import { useErrorToast, useSuccessToast } from "../Toast";

@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { deleteBookByBookId, getBooksByUserId } from "../data/apiService";
 import { BookData } from "../types/dataTypes";
-import MediumBook from "../components/Book/MediumBook";
+import MediumBook from "../components/book/MediumBook";
 import Separator from "../components/Separator";
 import Sort from "../components/Sort";
-import SearchBooksSimple from "../components/SearchBooks/SearchBooksSimple";
+import SearchBooksSimple from "../components/searchBooks/SearchBooksSimple";
 import { useErrorToast, useSuccessToast } from "../components/Toast";
 import shapeImage from "../assets/images/shape2.svg";
 interface MyBooksProps {

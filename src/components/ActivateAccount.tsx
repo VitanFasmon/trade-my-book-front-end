@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { resendEmail } from "../data/apiService";
-import Button from "./Buttons/Button";
+import Button from "./buttons/Button";
 import Typography from "./Typography";
 interface ActivateAccountProps {
   email: string;

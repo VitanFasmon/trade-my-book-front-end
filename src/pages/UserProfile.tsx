@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import Button from "../components/Buttons/Button";
-import MapParent from "../components/GooglePlacesAutocomplete/MapParent";
+import Button from "../components/buttons/Button";
+import MapParent from "../components/googlePlacesAutocomplete/MapParent";
 import {
   addLocation,
   getAcceptedTradesIdsByUserId,

@@ -1,5 +1,5 @@
 import shapeImage from "../assets/images/shape2.svg";
-import Button from "../components/Buttons/Button";
+import Button from "../components/buttons/Button";
 import Typography from "../components/Typography";
 import { Routes } from "../navigation/routes";
 const PageNotFound = () => {

@@ -5,7 +5,7 @@ import { addComment, getTradeById } from "../data/apiService";
 import { useParams } from "react-router";
 import shapeImage from "../assets/images/shape2.svg";
 import AddComment from "../components/comments/AddComment";
-import Button from "../components/Buttons/Button";
+import Button from "../components/buttons/Button";
 import CommentSection from "../components/comments/CommentSection";
 const Trade = () => {
   const [trade, setTrade] = useState<TradeData | null>(null);

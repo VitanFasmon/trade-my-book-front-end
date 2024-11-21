@@ -1,14 +1,15 @@
 import { useState } from "react";
 import { addBook } from "../data/apiService";
 import { GoogleBook } from "../types/dataTypes";
-import SearchGoogleBooks from "../components/SearchBooks/SearchGoogleBooks";
+import SearchGoogleBooks from "../components/searchBooks/SearchGoogleBooks";
 import Typography from "../components/Typography";
 import bookIcon from "../assets/icons/book-512x512.png";
-import BookCategory from "../components/Book/BookCategory";
-import ToggleButton from "../components/Buttons/ToggleButton";
-import Button from "../components/Buttons/Button";
+import BookCategory from "../components/book/BookCategory";
+import ToggleButton from "../components/buttons/ToggleButton";
+import Button from "../components/buttons/Button";
 import { useErrorToast, useSuccessToast } from "../components/Toast";
 import shapeImage from "../assets/images/shape2.svg";
+import AddBookForm from "../components/addBookForm/AddBookForm";
 
 const AddBook = () => {
   const [selectedBook, setSelectedBook] = useState<GoogleBook | null>(null);
@@ -45,6 +46,15 @@ const AddBook = () => {
       })
       .catch((err) => {
         showErrorToast("Adding book failed!");
+      });
+  };
+  const onAddManualBook = (newBook: any) => {
+    addBook(newBook)
+      .then(() => {
+        showSuccessToast("Book added successfully!");
+      })
+      .catch(() => {
+        showErrorToast("Failed to add book!");
       });
   };
   const onSelectBookClick = (book: GoogleBook) => {
@@ -151,6 +161,10 @@ const AddBook = () => {
             </Button>
           </form>
         )}
+        <Typography as="h2" variant="h2">
+          Or add book manually
+        </Typography>
+        <AddBookForm onAddBook={onAddManualBook} />
       </section>
     </section>
   );

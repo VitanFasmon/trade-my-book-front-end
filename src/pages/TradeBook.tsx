@@ -1,11 +1,11 @@
 import { useLocation, useNavigate } from "react-router";
-import MediumBook from "../components/Book/MediumBook";
+import MediumBook from "../components/book/MediumBook";
 import { BookData, LocationData } from "../types/dataTypes";
 import Typography from "../components/Typography";
 import Separator from "../components/Separator";
 import MyBooks from "./MyBooks";
 import { useEffect, useState } from "react";
-import Button from "../components/Buttons/Button";
+import Button from "../components/buttons/Button";
 import { addComment, getLocationById, initiateTrade } from "../data/apiService";
 import { Routes } from "../navigation/routes";
 import { useErrorToast, useSuccessToast } from "../components/Toast";

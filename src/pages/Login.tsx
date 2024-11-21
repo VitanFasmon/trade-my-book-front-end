@@ -5,7 +5,7 @@ import useAuthStore from "../store/useAuthStore";
 import { useNavigate } from "react-router";
 import { Routes } from "../navigation/routes";
 import Typography from "../components/Typography";
-import Button from "../components/Buttons/Button";
+import Button from "../components/buttons/Button";
 import { useErrorToast } from "../components/Toast";
 import ActivateAccount from "../components/ActivateAccount";
 import shapeImage from "../assets/images/shape2.svg";

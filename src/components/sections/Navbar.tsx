@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import useAuthStore from "../../store/useAuthStore";
 import Logout from "../Logout";
 import logo from "../../assets/icons/logo-192x192.png";
-import Button from "../Buttons/Button";
+import Button from "../buttons/Button";
 import Typography from "../Typography";
 import { Routes } from "../../navigation/routes";
 import { checkScreenSize } from "../../util/util";

@@ -43,7 +43,7 @@ type BookData = {
   categories: string[];
   description: string;
   isbn: string;
-  google_books_id: string;
+  google_books_id?: string;
   cover_url: string;
   book_condition: number;
   tradable: boolean;
@@ -164,15 +164,17 @@ type CommentData = {
   content: string;
   date_posted: string;
 };
-export type RatingData = {
+type RatingData = {
   rating_id?: number;
   user_id: number;
   trade_id: number;
   rating: number;
   date_rated?: string;
 };
-
-export type AverageRatingResponse = {
+type ImageData = {
+  url: string;
+};
+type AverageRatingResponse = {
   averageRating: number;
 };
 export type {
@@ -191,4 +193,7 @@ export type {
   TradeData,
   EmailConfirmationResponse,
   CommentData,
+  RatingData,
+  ImageData,
+  AverageRatingResponse,
 };

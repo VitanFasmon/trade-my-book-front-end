@@ -5,6 +5,7 @@ import {
   BookData,
   CommentData,
   EmailConfirmationResponse,
+  ImageData,
   LocationData,
   LocationResponse,
   LoginData,
@@ -15,7 +16,7 @@ import {
   UserData,
 } from "../types/dataTypes";
 
-const API_URL = "http://localhost:3000/api";
+const API_URL = process.env.REACT_APP_BACKEND_URL as string;
 
 const postRequest = async <T>(
   url: string,
@@ -23,9 +24,10 @@ const postRequest = async <T>(
   auth = false
 ): Promise<ApiResponse<T>> => {
   try {
-    const headers: Record<string, string> = {
-      "Content-Type": "application/json",
-    };
+    const headers: Record<string, string> = {};
+    if (!(data instanceof FormData)) {
+      headers["Content-Type"] = "application/json";
+    }
     if (auth) {
       const token =
         useAuthStore.getState().token || localStorage.getItem("token");
@@ -35,7 +37,7 @@ const postRequest = async <T>(
     const response = await fetch(url, {
       method: "POST",
       headers,
-      body: JSON.stringify(data),
+      body: data instanceof FormData ? data : JSON.stringify(data),
     });
 
     if (!response.ok) {
@@ -235,7 +237,6 @@ const toggleBookTradability = async (
 };
 const updateBook = async (bookData: BookData): Promise<ApiResponse> => {
   const url = `${API_URL}/books/${bookData.book_id}`;
-  console.log(bookData);
   return patchRequest(url, bookData, true);
 };
 const searchBooks = async (
@@ -375,6 +376,21 @@ const getAverageRatingByUserId = async (
   const url = `${API_URL}/ratings/user/${userId}/average`;
   return getRequest(url, true);
 };
+//IMAGE REQUESTS
+const uploadImage = async (file: File): Promise<string> => {
+  const url = `${API_URL}/image/upload`;
+  const formData = new FormData();
+  formData.append("image", file);
+
+  try {
+    const response = await postRequest<{ url: string }>(url, formData, true);
+    return response.data?.url || "";
+  } catch (error) {
+    console.error("Error uploading image:", error);
+    throw error;
+  }
+};
+
 export {
   registerUser,
   loginUser,
@@ -411,4 +427,5 @@ export {
   getRatingsByTradeId,
   getAverageRatingByUserId,
   updateRating,
+  uploadImage,
 };

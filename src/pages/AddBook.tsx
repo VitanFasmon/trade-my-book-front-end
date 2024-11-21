@@ -15,6 +15,7 @@ const AddBook = () => {
   const [selectedBook, setSelectedBook] = useState<GoogleBook | null>(null);
   const [bookCondition, setBookCondition] = useState(5);
   const [tradable, setTradable] = useState<boolean>(true);
+  const [addManually, setAddManually] = useState<boolean>(false);
   const { showSuccessToast } = useSuccessToast();
   const { showErrorToast } = useErrorToast();
   const stringArrayToString = (array: string[]) => {
@@ -65,7 +66,7 @@ const AddBook = () => {
       className="flex flex-col items-center w-full min-h-full py-8"
       style={{ backgroundImage: `url(${shapeImage})` }}
     >
-      <section className="flex flex-col gap-8 pt-8 px-8 items-center mb-8 max-w-[800px] bg-white rounded-xl shadow-2xl border-2 border-lightGray">
+      <div className="flex flex-col gap-8 p-8 items-center mb-8 max-w-[800px] bg-white rounded-xl shadow-2xl border-2 border-lightGray">
         <Typography as="h1" variant="h2">
           Search for a book you want to add
         </Typography>
@@ -161,11 +162,17 @@ const AddBook = () => {
             </Button>
           </form>
         )}
-        <Typography as="h2" variant="h2">
-          Or add book manually
-        </Typography>
-        <AddBookForm onAddBook={onAddManualBook} />
-      </section>
+        <Button
+          type="outlinedPrimary"
+          onClick={() => setAddManually(!addManually)}
+          className="w-full"
+        >
+          <Typography as="h2" variant="h2">
+            Or add book manually
+          </Typography>
+        </Button>
+        {addManually && <AddBookForm onAddBook={onAddManualBook} />}
+      </div>
     </section>
   );
 };

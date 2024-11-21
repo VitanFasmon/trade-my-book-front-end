@@ -1,9 +1,11 @@
 import { useState } from "react";
 import Button from "../buttons/Button";
 import Typography from "../Typography";
+import { BookData } from "../../types/dataTypes";
+import ImageUpload from "../imageUpload/ImageUpload";
 
 interface AddBookFormProps {
-  onAddBook: (book: any) => void;
+  onAddBook: (book: BookData) => void;
 }
 
 const AddBookForm = ({ onAddBook }: AddBookFormProps) => {
@@ -18,6 +20,7 @@ const AddBookForm = ({ onAddBook }: AddBookFormProps) => {
     isbn: "",
     book_condition: 5,
     tradable: true,
+    cover_url: "",
   });
 
   const handleChange = (
@@ -34,14 +37,21 @@ const AddBookForm = ({ onAddBook }: AddBookFormProps) => {
   const handleCheckboxChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, tradable: e.target.checked });
   };
+  const handleImageUpload = (imageUrl: string) => {
+    setFormData({ ...formData, cover_url: imageUrl });
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.title || !formData.author) {
-      alert("Title and Author are required!");
+    if (!formData.title || !formData.author || !formData.published_date) {
+      alert("Title, Author and Published date are required!");
       return;
     }
-    onAddBook(formData);
+    const newBookData = {
+      ...formData,
+      categories: formData.categories.split(","),
+    };
+    onAddBook(newBookData);
     setFormData({
       title: "",
       subtitle: "",
@@ -53,18 +63,20 @@ const AddBookForm = ({ onAddBook }: AddBookFormProps) => {
       isbn: "",
       book_condition: 5,
       tradable: true,
+      cover_url: "",
     });
   };
 
   return (
     <form
-      className="flex flex-col gap-4 w-full max-w-md"
+      className="flex flex-col gap-4 w-full max-w-md "
       onSubmit={handleSubmit}
     >
       <input
         type="text"
         name="title"
         placeholder="Title (required)"
+        required
         value={formData.title}
         onChange={handleChange}
         className="border p-2 rounded"
@@ -80,6 +92,7 @@ const AddBookForm = ({ onAddBook }: AddBookFormProps) => {
       <input
         type="text"
         name="author"
+        required
         placeholder="Author (required)"
         value={formData.author}
         onChange={handleChange}
@@ -96,6 +109,7 @@ const AddBookForm = ({ onAddBook }: AddBookFormProps) => {
       <input
         type="date"
         name="published_date"
+        required
         placeholder="Published Date"
         value={formData.published_date}
         onChange={handleChange}
@@ -152,6 +166,15 @@ const AddBookForm = ({ onAddBook }: AddBookFormProps) => {
           onChange={handleCheckboxChange}
         />
       </div>
+
+      <ImageUpload onUpload={handleImageUpload} />
+      {formData.cover_url && (
+        <img
+          src={formData.cover_url}
+          alt="Uploaded Cover"
+          className="w-32 h-32 object-cover rounded"
+        />
+      )}
       <Button type="primary">Add Book</Button>
     </form>
   );

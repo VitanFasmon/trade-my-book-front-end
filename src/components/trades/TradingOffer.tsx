@@ -111,7 +111,6 @@ const TradingOffer = ({
       if (!user) return;
       const otherUserId =
         user?.user_id == trade.user_from ? trade.user_to : trade.user_from;
-      console.log(isUpdate);
       if (isUpdate) {
         await updateRating({
           user_id: otherUserId,

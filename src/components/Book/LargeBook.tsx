@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import {
   fetchUserDataById,
   toggleBookTradability,
+  updateBook,
 } from "../../data/apiService";
 import ToggleButton from "../Buttons/ToggleButton";
 import AddedOn from "./BookAddedOn";
@@ -15,11 +16,12 @@ import Condition from "./BookCondition";
 import { Routes } from "../../navigation/routes";
 import useAuthStore from "../../store/useAuthStore";
 import ConfirmationModal from "../ConfirmationModal";
+import { useErrorToast, useSuccessToast } from "../Toast";
 
 interface LargeBookProps {
   bookData: BookData;
   onDeleteBookButtonClick?: (book_id: number | undefined) => void;
-  sendBookDataToParent?: (bookData: BookData) => void;
+  sendBookDataToParent?: (updatedBookData: BookData) => void;
 }
 const LargeBook = ({
   bookData,
@@ -27,34 +29,51 @@ const LargeBook = ({
   sendBookDataToParent,
 }: LargeBookProps) => {
   const [tradable, setTradable] = useState<boolean>(bookData.tradable || false);
+  const [updatedBookData, setUpdatedBookData] = useState<BookData>(bookData);
   const [addedBy, setAddedBy] = useState<PublicUserData | null>(null);
   const [ownedByUser, setOwnedByUser] = useState<boolean>(false);
   const [isModalOpen, setModalOpen] = useState(false);
-
+  const [toggleEdit, setToggleEdit] = useState(false);
   const { user } = useAuthStore();
+  const { showSuccessToast } = useSuccessToast();
+  const { showErrorToast } = useErrorToast();
 
   const onToggleTradabilityClick = async () => {
-    if (!bookData.book_id) return;
+    if (!updatedBookData.book_id) return;
     try {
-      const response = await toggleBookTradability(bookData.book_id, !tradable);
+      const response = await toggleBookTradability(
+        updatedBookData.book_id,
+        !tradable
+      );
       setTradable(response.data.tradable);
     } catch (error) {
       console.error("Error toggling tradability:", error);
     }
   };
-
+  const onConfirmUpdateBookClick = async () => {
+    try {
+      const response = await updateBook(updatedBookData);
+      if (!response.data) return;
+      setUpdatedBookData(response.data);
+      showSuccessToast("Book updated successfully.");
+    } catch (error) {
+      console.error("Error updating book:", error);
+      showErrorToast("Error! Unable to update book.");
+    }
+    setToggleEdit(false);
+  };
   const onTradeBookButtonClick = () => {
-    sendBookDataToParent && sendBookDataToParent(bookData);
+    sendBookDataToParent && sendBookDataToParent(updatedBookData);
   };
   const fetchUserData = async () => {
-    if (user?.user_id === bookData.added_by_user_id) {
+    if (user?.user_id === updatedBookData.added_by_user_id) {
       setOwnedByUser(true);
       setAddedBy(user);
       return;
     }
     try {
-      const response = bookData.added_by_user_id
-        ? await fetchUserDataById(bookData.added_by_user_id)
+      const response = updatedBookData.added_by_user_id
+        ? await fetchUserDataById(updatedBookData.added_by_user_id)
         : null;
       if (!response?.data) return;
       setAddedBy(response.data);
@@ -63,7 +82,7 @@ const LargeBook = ({
     }
   };
   const handleConfirm = () => {
-    onDeleteBookButtonClick && onDeleteBookButtonClick(bookData.book_id);
+    onDeleteBookButtonClick && onDeleteBookButtonClick(updatedBookData.book_id);
     setModalOpen(false);
   };
 
@@ -73,62 +92,131 @@ const LargeBook = ({
 
   useEffect(() => {
     fetchUserData();
-  }, []);
+  }, [updatedBookData]);
   return (
     <div className="flex flex-col gap-2 w-full items-start p-2">
       {addedBy && (
         <Button
           link
           type="planePrimary"
-          href={`${Routes.User}/${bookData.added_by_user_id}`}
+          href={`${Routes.User}/${updatedBookData.added_by_user_id}`}
           className="px-0 py-0"
         >
           {`Added by: ${addedBy.name}`}
         </Button>
       )}
-      <div className="flex md:flex-row flex-col gap-8 w-full h-fit items-center md:items-stretch">
+      <div className="flex md:flex-row flex-col gap-8 w-full h-full items-center md:items-stretch">
         <div className="rounded-3xl md:w-fit md:h-48 w-60">
           <img
-            src={bookData.cover_url || bookIcon}
-            alt={`${bookData.title} cover`}
+            src={updatedBookData.cover_url || bookIcon}
+            alt={`${updatedBookData.title} cover`}
             className="object-contain rounded-3xl h-full w-full"
           />
         </div>
         <div className="w-full h-full flex md:flex-row flex-col justify-between items-center md:items-start gap-8">
-          <div className="flex flex-col gap-2 h-full">
+          <div className="flex flex-col gap-2 h-full w-full">
             <div className="flex flex-row justify-between">
               <div className="flex flex-row gap-2 flex-wrap">
-                {bookData.categories?.map((category, index) => (
+                {updatedBookData.categories?.map((category, index) => (
                   <BookCategory key={crypto.randomUUID()} category={category} />
                 ))}
               </div>
             </div>
-            <div className="flex flex-row justify-between gap-8  h-full">
-              <div className="flex flex-col gap-2">
-                <Typography as="h3" variant="h3" className="w-full">
-                  {`${bookData.title} ${
-                    bookData.published_date
-                      ? `(${formatDateString(bookData.published_date)})`
-                      : ""
-                  }`}
-                </Typography>
-                <Typography as="h4" variant="h4">
-                  {bookData.subtitle}
-                </Typography>
-                <Typography as="p" variant="p" className="text-darkGray">
-                  {`${bookData.author} - ${bookData.language}`}
-                </Typography>
-                <Typography as="p" variant="p" className="text-darkGray">
-                  {bookData.description}
-                </Typography>
+            <div className="flex flex-row justify-between gap-8 h-full w-full">
+              <div className="flex flex-col gap-2 h-full w-full items-stretch">
+                {!toggleEdit ? (
+                  <>
+                    <Typography as="h3" variant="h3" className="w-full">
+                      {`${updatedBookData.title} ${
+                        updatedBookData.published_date
+                          ? `(${formatDateString(
+                              updatedBookData.published_date
+                            )})`
+                          : ""
+                      }`}
+                    </Typography>
+                    <Typography as="h4" variant="h4">
+                      {updatedBookData.subtitle}
+                    </Typography>
+                    <Typography as="p" variant="p" className="text-darkGray">
+                      {`${updatedBookData.author} - ${updatedBookData.language}`}
+                    </Typography>
+                    <Typography as="p" variant="p" className="text-darkGray">
+                      {updatedBookData.description}
+                    </Typography>
+                  </>
+                ) : (
+                  <>
+                    <input
+                      type="text"
+                      value={updatedBookData.title || ""}
+                      className="border p-2 rounded w-full"
+                      placeholder="Book Title"
+                      onChange={(e) =>
+                        setUpdatedBookData({
+                          ...updatedBookData,
+                          title: e.target.value,
+                        })
+                      }
+                    />
+                    <input
+                      type="text"
+                      value={updatedBookData.subtitle || ""}
+                      className="border p-2 rounded w-full"
+                      placeholder="Subtitle"
+                      onChange={(e) =>
+                        setUpdatedBookData({
+                          ...updatedBookData,
+                          subtitle: e.target.value,
+                        })
+                      }
+                    />
+                    <input
+                      type="text"
+                      value={updatedBookData.author || ""}
+                      className="border p-2 rounded w-full"
+                      placeholder="Author"
+                      onChange={(e) =>
+                        setUpdatedBookData({
+                          ...updatedBookData,
+                          author: e.target.value,
+                        })
+                      }
+                    />
+                    <input
+                      type="text"
+                      value={updatedBookData.language || ""}
+                      className="border p-2 rounded w-full"
+                      placeholder="Language"
+                      onChange={(e) =>
+                        setUpdatedBookData({
+                          ...updatedBookData,
+                          language: e.target.value,
+                        })
+                      }
+                    />
+                    <textarea
+                      value={updatedBookData.description || ""}
+                      className="border p-2 rounded w-full h-full"
+                      placeholder="Description"
+                      rows={10}
+                      onChange={(e) =>
+                        setUpdatedBookData({
+                          ...updatedBookData,
+                          description: e.target.value,
+                        })
+                      }
+                    />
+                  </>
+                )}
               </div>
             </div>
           </div>
           <div className="flex md:flex-col flex-row gap-2 flex-wrap justify-center">
-            {bookData.date_added && (
-              <AddedOn date={new Date(bookData.date_added)} />
+            {updatedBookData.date_added && (
+              <AddedOn date={new Date(updatedBookData.date_added)} />
             )}
-            <Condition condition={bookData.book_condition} />
+            <Condition condition={updatedBookData.book_condition} />
             {ownedByUser && (
               <>
                 <ToggleButton
@@ -137,9 +225,26 @@ const LargeBook = ({
                   checked={tradable}
                   setChecked={onToggleTradabilityClick}
                 />
-                <Button type={"primary"} onClick={() => {}}>
-                  Edit
-                </Button>
+                {!toggleEdit ? (
+                  <Button
+                    type={"outlinedPrimary"}
+                    onClick={() => setToggleEdit(true)}
+                  >
+                    Edit
+                  </Button>
+                ) : (
+                  <>
+                    <Button type={"primary"} onClick={onConfirmUpdateBookClick}>
+                      Confirm
+                    </Button>
+                    <Button
+                      type={"secondary"}
+                      onClick={() => setToggleEdit(false)}
+                    >
+                      Cancel
+                    </Button>
+                  </>
+                )}
                 {onDeleteBookButtonClick && (
                   <Button type={"danger"} onClick={() => setModalOpen(true)}>
                     Remove

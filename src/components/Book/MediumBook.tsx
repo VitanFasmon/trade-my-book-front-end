@@ -170,9 +170,6 @@ const MediumBook = ({
                   checked={tradable}
                   setChecked={onToggleTradabilityClick}
                 />
-                <Button type={"primary"} onClick={() => {}}>
-                  Edit
-                </Button>
                 {onDeleteBookButtonClick && (
                   <Button type={"danger"} onClick={() => setModalOpen(true)}>
                     Remove

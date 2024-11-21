@@ -233,6 +233,11 @@ const toggleBookTradability = async (
   const url = `${API_URL}/books/tradable/${bookId}/${tradable}`;
   return patchRequest(url, {}, true);
 };
+const updateBook = async (bookData: BookData): Promise<ApiResponse> => {
+  const url = `${API_URL}/books/${bookData.book_id}`;
+  console.log(bookData);
+  return patchRequest(url, bookData, true);
+};
 const searchBooks = async (
   searchParams: {
     [key: string]: string | number | undefined;
@@ -382,6 +387,7 @@ export {
   addLocation,
   deleteBookByBookId,
   toggleBookTradability,
+  updateBook,
   searchBooks,
   updateUserLocation,
   getLocationById,

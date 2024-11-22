@@ -1,9 +1,9 @@
 import RoundedContainer from "../RoundedContainer";
 import Typography from "../Typography";
-interface ConditionProps {
+interface BookConditionProps {
   condition: number;
 }
-const Condition = ({ condition }: ConditionProps) => {
+const BookCondition = ({ condition }: BookConditionProps) => {
   return (
     <RoundedContainer
       className="p-2 flex flex-col justify-center items-center border border-secondary rounded-lg"
@@ -18,4 +18,4 @@ const Condition = ({ condition }: ConditionProps) => {
     </RoundedContainer>
   );
 };
-export default Condition;
+export default BookCondition;

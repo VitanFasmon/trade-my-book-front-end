@@ -12,7 +12,7 @@ import {
 import ToggleButton from "../buttons/ToggleButton";
 import AddedOn from "./BookAddedOn";
 import Button from "../buttons/Button";
-import Condition from "./BookCondition";
+import BookCondition from "./BookCondition";
 import { Routes } from "../../navigation/routes";
 import ConfirmationModal from "../ConfirmationModal";
 
@@ -161,7 +161,7 @@ const MediumBook = ({
             {bookData.date_added && (
               <AddedOn date={new Date(bookData.date_added)} />
             )}
-            <Condition condition={bookData.book_condition} />
+            <BookCondition condition={bookData.book_condition} />
             {ownedByUser && (
               <>
                 <ToggleButton

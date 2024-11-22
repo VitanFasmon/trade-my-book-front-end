@@ -12,16 +12,17 @@ import {
 import ToggleButton from "../buttons/ToggleButton";
 import AddedOn from "./BookAddedOn";
 import Button from "../buttons/Button";
-import Condition from "./BookCondition";
+import BookCondition from "./BookCondition";
 import { Routes } from "../../navigation/routes";
 import useAuthStore from "../../store/useAuthStore";
 import ConfirmationModal from "../ConfirmationModal";
 import { useErrorToast, useSuccessToast } from "../Toast";
+import ImageUpload from "../imageUpload/ImageUpload";
 
 interface LargeBookProps {
   bookData: BookData;
   onDeleteBookButtonClick?: (book_id: number | undefined) => void;
-  sendBookDataToParent?: (updatedBookData: BookData) => void;
+  sendBookDataToParent?: (book: BookData) => void;
 }
 const LargeBook = ({
   bookData,
@@ -29,7 +30,7 @@ const LargeBook = ({
   sendBookDataToParent,
 }: LargeBookProps) => {
   const [tradable, setTradable] = useState<boolean>(bookData.tradable || false);
-  const [updatedBookData, setUpdatedBookData] = useState<BookData>(bookData);
+  const [book, setBook] = useState<BookData>(bookData);
   const [addedBy, setAddedBy] = useState<PublicUserData | null>(null);
   const [ownedByUser, setOwnedByUser] = useState<boolean>(false);
   const [isModalOpen, setModalOpen] = useState(false);
@@ -39,12 +40,9 @@ const LargeBook = ({
   const { showErrorToast } = useErrorToast();
 
   const onToggleTradabilityClick = async () => {
-    if (!updatedBookData.book_id) return;
+    if (!book.book_id) return;
     try {
-      const response = await toggleBookTradability(
-        updatedBookData.book_id,
-        !tradable
-      );
+      const response = await toggleBookTradability(book.book_id, !tradable);
       setTradable(response.data.tradable);
     } catch (error) {
       console.error("Error toggling tradability:", error);
@@ -52,9 +50,9 @@ const LargeBook = ({
   };
   const onConfirmUpdateBookClick = async () => {
     try {
-      const response = await updateBook(updatedBookData);
+      const response = await updateBook(book);
       if (!response.data) return;
-      setUpdatedBookData(response.data);
+      setBook(response.data);
       showSuccessToast("Book updated successfully.");
     } catch (error) {
       console.error("Error updating book:", error);
@@ -63,17 +61,22 @@ const LargeBook = ({
     setToggleEdit(false);
   };
   const onTradeBookButtonClick = () => {
-    sendBookDataToParent && sendBookDataToParent(updatedBookData);
+    sendBookDataToParent && sendBookDataToParent(book);
+  };
+
+  const handleImageUpload = (imageUrl: string) => {
+    if (!book) return;
+    setBook({ ...book, cover_url: imageUrl });
   };
   const fetchUserData = async () => {
-    if (user?.user_id === updatedBookData.added_by_user_id) {
+    if (user?.user_id === book.added_by_user_id) {
       setOwnedByUser(true);
       setAddedBy(user);
       return;
     }
     try {
-      const response = updatedBookData.added_by_user_id
-        ? await fetchUserDataById(updatedBookData.added_by_user_id)
+      const response = book.added_by_user_id
+        ? await fetchUserDataById(book.added_by_user_id)
         : null;
       if (!response?.data) return;
       setAddedBy(response.data);
@@ -82,24 +85,31 @@ const LargeBook = ({
     }
   };
   const handleConfirm = () => {
-    onDeleteBookButtonClick && onDeleteBookButtonClick(updatedBookData.book_id);
+    onDeleteBookButtonClick && onDeleteBookButtonClick(book.book_id);
     setModalOpen(false);
   };
-
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => {
+    if (!book) return;
+    const { name, value } = e.target;
+    if (name === "categories") setBook({ ...book, [name]: value.split(",") });
+    else setBook({ ...book, [name]: value });
+  };
   const handleCancel = () => {
     setModalOpen(false);
   };
 
   useEffect(() => {
     fetchUserData();
-  }, [updatedBookData]);
+  }, [book]);
   return (
-    <div className="flex flex-col gap-2 w-full items-start p-2">
+    <div className="flex flex-col gap-2 w-full items-start p-2 ">
       {addedBy && (
         <Button
           link
           type="planePrimary"
-          href={`${Routes.User}/${updatedBookData.added_by_user_id}`}
+          href={`${Routes.User}/${book.added_by_user_id}`}
           className="px-0 py-0"
         >
           {`Added by: ${addedBy.name}`}
@@ -108,16 +118,25 @@ const LargeBook = ({
       <div className="flex md:flex-row flex-col gap-8 w-full h-full items-center md:items-stretch">
         <div className="rounded-3xl md:w-fit md:h-48 w-60">
           <img
-            src={updatedBookData.cover_url || bookIcon}
-            alt={`${updatedBookData.title} cover`}
+            src={book.cover_url || bookIcon}
+            alt={`${book.title} cover`}
             className="object-contain rounded-3xl h-full w-full"
           />
+          {toggleEdit && (
+            <div className="flex flex-col gap-2 items-center justify-center">
+              <Typography as="p" variant="p">
+                Change image
+              </Typography>
+              <ImageUpload onUpload={handleImageUpload} />
+            </div>
+          )}
         </div>
+
         <div className="w-full h-full flex md:flex-row flex-col justify-between items-center md:items-start gap-8">
           <div className="flex flex-col gap-2 h-full w-full">
             <div className="flex flex-row justify-between">
               <div className="flex flex-row gap-2 flex-wrap">
-                {updatedBookData.categories?.map((category, index) => (
+                {book.categories?.map((category, index) => (
                   <BookCategory key={crypto.randomUUID()} category={category} />
                 ))}
               </div>
@@ -127,96 +146,155 @@ const LargeBook = ({
                 {!toggleEdit ? (
                   <>
                     <Typography as="h3" variant="h3" className="w-full">
-                      {`${updatedBookData.title} ${
-                        updatedBookData.published_date
-                          ? `(${formatDateString(
-                              updatedBookData.published_date
-                            )})`
+                      {`${book.title} ${
+                        book.published_date
+                          ? `(${formatDateString(book.published_date)})`
                           : ""
                       }`}
                     </Typography>
                     <Typography as="h4" variant="h4">
-                      {updatedBookData.subtitle}
+                      {book.subtitle}
                     </Typography>
                     <Typography as="p" variant="p" className="text-darkGray">
-                      {`${updatedBookData.author} - ${updatedBookData.language}`}
+                      {`${book.author} - ${book.language}`}
                     </Typography>
                     <Typography as="p" variant="p" className="text-darkGray">
-                      {updatedBookData.description}
+                      {book.description}
                     </Typography>
                   </>
                 ) : (
                   <>
-                    <input
-                      type="text"
-                      value={updatedBookData.title || ""}
-                      className="border p-2 rounded w-full"
-                      placeholder="Book Title"
-                      onChange={(e) =>
-                        setUpdatedBookData({
-                          ...updatedBookData,
-                          title: e.target.value,
-                        })
-                      }
-                    />
-                    <input
-                      type="text"
-                      value={updatedBookData.subtitle || ""}
-                      className="border p-2 rounded w-full"
-                      placeholder="Subtitle"
-                      onChange={(e) =>
-                        setUpdatedBookData({
-                          ...updatedBookData,
-                          subtitle: e.target.value,
-                        })
-                      }
-                    />
-                    <input
-                      type="text"
-                      value={updatedBookData.author || ""}
-                      className="border p-2 rounded w-full"
-                      placeholder="Author"
-                      onChange={(e) =>
-                        setUpdatedBookData({
-                          ...updatedBookData,
-                          author: e.target.value,
-                        })
-                      }
-                    />
-                    <input
-                      type="text"
-                      value={updatedBookData.language || ""}
-                      className="border p-2 rounded w-full"
-                      placeholder="Language"
-                      onChange={(e) =>
-                        setUpdatedBookData({
-                          ...updatedBookData,
-                          language: e.target.value,
-                        })
-                      }
-                    />
-                    <textarea
-                      value={updatedBookData.description || ""}
-                      className="border p-2 rounded w-full h-full"
-                      placeholder="Description"
-                      rows={10}
-                      onChange={(e) =>
-                        setUpdatedBookData({
-                          ...updatedBookData,
-                          description: e.target.value,
-                        })
-                      }
-                    />
+                    <div className="flex flex-col gap-2">
+                      <label htmlFor="title">
+                        <Typography as="p" variant="p" className="font-bold">
+                          Published date*
+                        </Typography>
+                      </label>
+                      <input
+                        type="date"
+                        name="published_date"
+                        required
+                        placeholder="Published Date"
+                        defaultValue={book.published_date}
+                        onChange={handleChange}
+                        className="border p-2 rounded"
+                      />
+                    </div>
+                    <div className="flex flex-col gap-2">
+                      <label htmlFor="title">
+                        <Typography as="p" variant="p" className="font-bold">
+                          Categories
+                        </Typography>
+                      </label>
+                      <input
+                        type="text"
+                        name="categories"
+                        placeholder="Categories (comma separated)"
+                        defaultValue={book.categories}
+                        onChange={handleChange}
+                        className="border p-2 rounded"
+                      />
+                    </div>
+
+                    <div className="flex flex-col gap-2">
+                      <label htmlFor="title">
+                        <Typography as="p" variant="p" className="font-bold">
+                          Title*
+                        </Typography>
+                      </label>
+                      <input
+                        type="text"
+                        name="title"
+                        defaultValue={book.title || ""}
+                        className="border p-2 rounded w-full"
+                        placeholder="Book Title"
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <div className="flex flex-col gap-2">
+                      <label htmlFor="title">
+                        <Typography as="p" variant="p" className="font-bold">
+                          Subtitle
+                        </Typography>
+                      </label>
+                      <input
+                        type="text"
+                        name="subtitle"
+                        defaultValue={book.subtitle || ""}
+                        className="border p-2 rounded w-full"
+                        placeholder="Subtitle"
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <div className="flex flex-col gap-2">
+                      <label htmlFor="title">
+                        <Typography as="p" variant="p" className="font-bold">
+                          Author*
+                        </Typography>
+                      </label>
+                      <input
+                        type="text"
+                        name="author"
+                        defaultValue={book.author || ""}
+                        className="border p-2 rounded w-full"
+                        placeholder="Author"
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <div className="flex flex-col gap-2">
+                      <label htmlFor="title">
+                        <Typography as="p" variant="p" className="font-bold">
+                          Language
+                        </Typography>
+                      </label>
+                      <input
+                        type="text"
+                        name="language"
+                        defaultValue={book.language || ""}
+                        className="border p-2 rounded w-full"
+                        placeholder="Language"
+                        onChange={handleChange}
+                      />
+                    </div>
+
+                    <div className="flex flex-col gap-2">
+                      <label htmlFor="title">
+                        <Typography as="p" variant="p" className="font-bold">
+                          Description
+                        </Typography>
+                      </label>
+                      <textarea
+                        defaultValue={book.description || ""}
+                        name="description"
+                        className="border p-2 rounded w-full h-full"
+                        placeholder="Description"
+                        rows={10}
+                        onChange={handleChange}
+                      />
+                    </div>
+                    <div className="flex flex-col gap-2">
+                      <label htmlFor="title">
+                        <Typography as="p" variant="p" className="font-bold">
+                          ISBN
+                        </Typography>
+                      </label>
+                      <input
+                        type="text"
+                        name="isbn"
+                        placeholder="ISBN"
+                        defaultValue={book.isbn}
+                        onChange={handleChange}
+                        className="border p-2 rounded"
+                      />
+                    </div>
                   </>
                 )}
               </div>
             </div>
           </div>
           <div className="flex md:flex-col flex-row gap-2 flex-wrap justify-center">
-            {updatedBookData.date_added && (
-              <AddedOn date={new Date(updatedBookData.date_added)} />
-            )}
-            <Condition condition={updatedBookData.book_condition} />
+            {book.date_added && <AddedOn date={new Date(book.date_added)} />}
+            <BookCondition condition={book.book_condition} />
             {ownedByUser && (
               <>
                 <ToggleButton

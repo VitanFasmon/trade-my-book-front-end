@@ -38,12 +38,12 @@ const Book = () => {
   });
   return (
     <section
-      className="flex flex-col gap-8 items-center h-full py-8"
+      className="flex flex-col gap-8 items-center min-h-full py-8"
       style={{ backgroundImage: `url(${shapeImage})` }}
     >
       {bookData && (
         <>
-          <div className="flex flex-col gap-8 items-center py-8 bg-white p-8 rounded-xl max-w-[800px] w-full h-fit shadow-2xl border-2 border-lightGray justify-center">
+          <div className="flex flex-col gap-8 items-center py-8 bg-white p-8 rounded-xl max-w-[800px] md:max-w-[1200px] w-full h-fit shadow-2xl border-2 border-lightGray justify-center">
             <LargeBook
               bookData={bookData}
               onDeleteBookButtonClick={onDeleteBookButtonClick}

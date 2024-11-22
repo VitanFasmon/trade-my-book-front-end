@@ -158,6 +158,7 @@ const ShowBooks = () => {
                   <MediumBook
                     bookData={book}
                     goodToTrade={!!user}
+                    showLocation
                     sendBookDataToParent={onTradeBookButtonClick}
                   />
                   {index < books.length - 1 && <Separator />}

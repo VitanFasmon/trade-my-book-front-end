@@ -148,10 +148,8 @@ const TradingOffer = ({
           <div className="flex lg:flex-row flex-col gap-2 items-center lg:items-stretch	h-full justify-between">
             <div className="flex flex-col gap-2 w-full items-center justify-between">
               <div className="flex flex-col gap-2 w-full h-full items-center">
-                <Typography as="p" variant="p">
-                  {`${otherUser?.name}'s book`}
-                </Typography>
                 <MediumBook
+                  showLocation
                   bookData={
                     requestedBook.added_by_user_id == user.user_id
                       ? offeredBook
@@ -216,9 +214,6 @@ const TradingOffer = ({
             </div>
             <div className="flex flex-col gap-2 w-full items-center justify-between">
               <div className="flex flex-col gap-2 w-full h-full items-center">
-                <Typography as="p" variant="p">
-                  Your book
-                </Typography>
                 <MediumBook
                   bookData={
                     requestedBook.added_by_user_id == user.user_id

@@ -20,6 +20,7 @@ interface MediumBookProps {
   bookData: BookData;
   ownedByUser?: boolean;
   goodToTrade?: boolean;
+  showLocation?: boolean;
   onDeleteBookButtonClick?: (book_id: number | undefined) => void;
   sendBookDataToParent?: (bookData: BookData) => void;
 }
@@ -29,6 +30,7 @@ const MediumBook = ({
   goodToTrade,
   onDeleteBookButtonClick,
   sendBookDataToParent,
+  showLocation = false,
 }: MediumBookProps) => {
   const [tradable, setTradable] = useState<boolean>(bookData.tradable || false);
   const [addedBy, setAddedBy] = useState<PublicUserData | null>(null);
@@ -52,7 +54,7 @@ const MediumBook = ({
         : null;
       if (!response?.data) return;
       setAddedBy(response.data);
-      goodToTrade &&
+      showLocation &&
         !ownedByUser &&
         fetchLocationData(response?.data.location_id);
     } catch (error) {

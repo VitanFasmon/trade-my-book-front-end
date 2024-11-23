@@ -11,6 +11,7 @@ import { useParams } from "react-router";
 import Typography from "../components/Typography";
 import { formatDateString, numberRatingToStars } from "../util/util";
 import LoadingSpinner from "../components/LoadingSpinner";
+import TradingHistoryCompact from "../components/trades/TradingHistoryCompact";
 const User = () => {
   const userId = Number(useParams().userId) || null;
   const [userData, setUserData] = useState<PublicUserData | null>(null);
@@ -66,10 +67,10 @@ const User = () => {
   }, []);
   return (
     <section
-      className="flex flex-col gap-2 items-center h-full py-8"
+      className="flex flex-col gap-2 items-center min-h-full py-8"
       style={{ backgroundImage: `url(${shapeImage})` }}
     >
-      <div className="flex flex-col gap-8 items-center bg-white p-8 rounded-xl max-w-[800px] w-full h-[500px] shadow-2xl border-2 border-lightGray justify-center">
+      <div className="flex flex-col gap-8 items-center bg-white p-8 rounded-xl max-w-[800px] w-full min-h-[500px] h-fit shadow-2xl border-2 border-lightGray justify-center">
         {userData ? (
           <>
             <div className="flex flex-col items-center mb-6">
@@ -130,6 +131,7 @@ const User = () => {
                 </Typography>
               </div>
             </div>
+            {userId && <TradingHistoryCompact userId={userId} />}
           </>
         ) : (
           <LoadingSpinner />

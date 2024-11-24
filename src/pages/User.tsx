@@ -7,17 +7,25 @@ import {
   getAverageRatingByUserId,
   getLocationById,
 } from "../data/apiService";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import Typography from "../components/Typography";
 import { formatDateString, numberRatingToStars } from "../util/util";
 import LoadingSpinner from "../components/LoadingSpinner";
 import TradingHistoryCompact from "../components/trades/TradingHistoryCompact";
+import ShowAvailableUserBooks from "../components/displayBooks/ShowAvailableUserBooks";
+import useAuthStore from "../store/useAuthStore";
+import { Routes } from "../navigation/routes";
 const User = () => {
+  const { user } = useAuthStore();
   const userId = Number(useParams().userId) || null;
   const [userData, setUserData] = useState<PublicUserData | null>(null);
   const [acceptedTradeIds, setAcceptedTradeIds] = useState<number[] | null>();
   const [userLocation, setUserLocation] = useState<LocationData | null>(null);
   const [averageRating, setAverageRating] = useState<number | null>(null);
+  const navigate = useNavigate();
+  if (user?.user_id === userId) {
+    navigate(Routes.Profile);
+  }
   const fetchUserData = async () => {
     try {
       const response = userId ? await fetchUserDataById(userId) : null;
@@ -64,7 +72,7 @@ const User = () => {
   };
   useEffect(() => {
     fetchUserData();
-  }, []);
+  }, [userId]);
   return (
     <section
       className="flex flex-col gap-2 items-center min-h-full py-8"
@@ -132,6 +140,7 @@ const User = () => {
               </div>
             </div>
             {userId && <TradingHistoryCompact userId={userId} />}
+            {userId && <ShowAvailableUserBooks userId={userId} />}
           </>
         ) : (
           <LoadingSpinner />

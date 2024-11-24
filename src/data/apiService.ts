@@ -9,6 +9,7 @@ import {
   LocationData,
   LocationResponse,
   LoginData,
+  PublicTradeData,
   PublicUserData,
   RatingData,
   TradeData,
@@ -224,6 +225,12 @@ const getBooksByUserId = async (): Promise<ApiResponse<BookData[]>> => {
   const url = `${API_URL}/books/user`;
   return getRequest(url, true);
 };
+const getPublicBooksByUserId = async (
+  userId: number
+): Promise<ApiResponse<BookData[]>> => {
+  const url = `${API_URL}/books/user/${userId}`;
+  return getRequest(url, true);
+};
 const deleteBookByBookId = async (bookId: number): Promise<ApiResponse> => {
   const url = `${API_URL}/books/${bookId}`;
   return deleteRequest(url, true);
@@ -301,6 +308,12 @@ const getTradeById = async (
   return getRequest(url, true);
 };
 
+const getPublicTradeById = async (
+  tradeId: number
+): Promise<ApiResponse<PublicTradeData>> => {
+  const url = `${API_URL}/trade/public/${tradeId}`;
+  return getRequest(url, true);
+};
 const acceptTrade = async (
   tradeId: number
 ): Promise<ApiResponse<TradeData>> => {
@@ -397,6 +410,7 @@ export {
   addBook,
   getBooksByLocation,
   getBooksByUserId,
+  getPublicBooksByUserId,
   fetchUserData,
   fetchUserDataByEmail,
   fetchUserDataById,
@@ -412,6 +426,7 @@ export {
   initiateTrade,
   getTradesByUser,
   getTradeById,
+  getPublicTradeById,
   acceptTrade,
   rejectTrade,
   cancelTrade,

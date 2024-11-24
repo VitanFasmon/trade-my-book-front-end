@@ -157,6 +157,12 @@ type TradeData = {
   user_from: number;
   user_to: number;
 };
+type PublicTradeData = {
+  trade_id: number;
+  user_from: number;
+  user_to: number;
+  trade_date: string;
+};
 type CommentData = {
   comment_id: number;
   trade_id: number;
@@ -191,6 +197,7 @@ export type {
   GoogleBook,
   TradeRequestData,
   TradeData,
+  PublicTradeData,
   EmailConfirmationResponse,
   CommentData,
   RatingData,

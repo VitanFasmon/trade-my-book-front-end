@@ -77,7 +77,6 @@ const MapParent = ({ defaultCenter, defaultZoom, edit }: MapParentProps) => {
             <PlaceAutocomplete onPlaceSelect={setSelectedPlace} />
           </div>
         )}
-
         <div className="rounded-lg h-[400px] md:w-[760px] w-[300px] border p-2">
           <Map
             mapId={"bf51a910020fa25a"}

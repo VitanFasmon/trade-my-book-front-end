@@ -19,6 +19,8 @@ import PhoneNumberInput from "../components/PhoneNumberInput";
 import { useErrorToast, useSuccessToast } from "../components/Toast";
 import shapeImage from "../assets/images/shape2.svg";
 import { formatAddress, numberRatingToStars } from "../util/util";
+import TradingHistoryCompact from "../components/trades/TradingHistoryCompact";
+import ShowAvailableUserBooks from "../components/displayBooks/ShowAvailableUserBooks";
 
 const UserProfile = () => {
   const { user, updateUserData } = useAuthStore();
@@ -66,13 +68,12 @@ const UserProfile = () => {
     if (!user?.location_id) return;
     try {
       const response = await getLocationById(user?.location_id);
-      if (response.data) {
-        setExistingLocationData({
-          address: JSON.parse(response.data?.address),
-          lat: response.data?.latitude,
-          lng: response.data?.longitude,
-        });
-      }
+      if (!response.data) return;
+      setExistingLocationData({
+        address: JSON.parse(response.data?.address),
+        lat: response.data?.latitude,
+        lng: response.data?.longitude,
+      });
     } catch (error) {
       console.error("Error fetching location:", error);
     }

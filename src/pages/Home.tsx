@@ -1,11 +1,11 @@
 import Hero from "../components/sections/Hero";
-import ShowBooks from "../components/ShowBooks";
+import SearchAllTradableBooks from "../components/displayBooks/SearchAllTradableBooks";
 
 const Home = () => {
   return (
     <section className="bg-lightGray">
       <Hero />
-      <ShowBooks />
+      <SearchAllTradableBooks />
     </section>
   );
 };

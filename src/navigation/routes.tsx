@@ -1,3 +1,4 @@
+import SearchAllTradableBooks from "../pages/SearchAllTradableBooks";
 import ProtectedRoute from "../components/ProtectedRoutes";
 import AddBook from "../pages/AddBook";
 import Book from "../pages/Book";
@@ -27,6 +28,7 @@ export const Routes = {
   Trade: "/trades",
   User: "/user",
   Book: "/book",
+  Search: "/search",
   PageNotFound: "*",
 };
 
@@ -35,6 +37,7 @@ const routerChildren = [
   { path: Routes.Registration, element: <Register /> },
   { path: Routes.Login, element: <Login /> },
   { path: Routes.Confirmed, element: <Confirmed /> },
+  { path: Routes.Search, element: <SearchAllTradableBooks /> },
   {
     path: Routes.Profile,
     element: <ProtectedRoute />,

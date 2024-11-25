@@ -44,7 +44,7 @@ const Button = ({
   disabled,
   target,
 }: ButtonProps) => {
-  const classNames = `${ButtonTypesClassNames[type]} ${className} font-bold px-4 py-2 transition-colors duration-300 flex items-center align-center justify-center`;
+  const classNames = `${ButtonTypesClassNames[type]} ${className} font-bold px-4 py-2 transition-colors duration-300 flex items-center align-center justify-center `;
   return (
     <>
       {link ? (

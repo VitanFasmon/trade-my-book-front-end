@@ -89,8 +89,8 @@ const AddBook = () => {
       style={{ backgroundImage: `url(${shapeImage})` }}
     >
       <div className="flex flex-col gap-8 p-8 items-center mb-8 max-w-[800px] bg-white rounded-xl shadow-2xl border-2 border-lightGray">
-        <Typography as="h1" variant="h2">
-          Search for a book you want to add
+        <Typography as="h1" variant="h2" className="text-center">
+          Search for a book you want to add from Google Books
         </Typography>
         <SearchGoogleBooks onSelectBookClick={onSelectBookClick} />
         {selectedBook && !addManually && (

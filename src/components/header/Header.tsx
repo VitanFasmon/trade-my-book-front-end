@@ -1,8 +1,8 @@
 import bookshelf from "../../assets/images/bookshelf.jpg";
 import Typography from "../Typography";
-const Hero = () => {
+const Header = () => {
   return (
-    <section
+    <header
       style={{
         backgroundImage: `url(${bookshelf})`,
       }}
@@ -16,7 +16,7 @@ const Hero = () => {
           Because you need books.
         </Typography>
       </div>
-    </section>
+    </header>
   );
 };
-export default Hero;
+export default Header;

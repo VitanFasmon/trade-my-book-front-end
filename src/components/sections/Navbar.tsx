@@ -9,13 +9,13 @@ import { checkScreenSize } from "../../util/util";
 import hamburgerIcon from "../../assets/icons/hamburger.png";
 const Navbar = () => {
   const { isAuthenticated, user } = useAuthStore();
-  const [isLargeScreen, setIsLargeScreen] = useState(checkScreenSize("md"));
+  const [isLargeScreen, setIsLargeScreen] = useState(checkScreenSize("lg"));
   const [menuOpen, setMenuOpen] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
-      setIsLargeScreen(checkScreenSize("md"));
-      if (checkScreenSize("md")) {
+      setIsLargeScreen(checkScreenSize("lg"));
+      if (checkScreenSize("lg")) {
         setMenuOpen(false);
       }
     };
@@ -44,11 +44,16 @@ const Navbar = () => {
       </Button>
       {isLargeScreen && (
         <ul className="flex flex-row gap-4">
-          {isAuthenticated && (
+          {isAuthenticated ? (
             <>
               <li>
                 <Button type="planePrimary" link href={Routes.Home}>
                   Home
+                </Button>
+              </li>
+              <li>
+                <Button type="planePrimary" link href={Routes.Search}>
+                  Search Books
                 </Button>
               </li>
               <li>
@@ -69,6 +74,28 @@ const Navbar = () => {
               <li>
                 <Button type="planePrimary" link href={Routes.TradingHistory}>
                   Trading History
+                </Button>
+              </li>
+            </>
+          ) : (
+            <>
+              <li>
+                <Button
+                  link
+                  type="planePrimary"
+                  href={`${Routes.Home}#howItWorks`}
+                >
+                  How it works
+                </Button>
+              </li>
+              <li>
+                <Button link type="planePrimary" href={`${Routes.Home}#whyUs`}>
+                  Why Us
+                </Button>
+              </li>
+              <li>
+                <Button link type="planePrimary" href={`${Routes.Home}#faqs`}>
+                  FAQs
                 </Button>
               </li>
             </>
@@ -119,11 +146,16 @@ const Navbar = () => {
           {menuOpen && (
             <div className="absolute top-16 right-0 w-full bg-white shadow-md z-50 p-4">
               <ul className="flex flex-col gap-4">
-                {isAuthenticated && (
+                {isAuthenticated ? (
                   <>
                     <li>
                       <Button type="planePrimary" link href={Routes.Home}>
                         Home
+                      </Button>
+                    </li>
+                    <li>
+                      <Button type="planePrimary" link href={Routes.Search}>
+                        Search Books
                       </Button>
                     </li>
                     <li>
@@ -152,6 +184,36 @@ const Navbar = () => {
                         href={Routes.TradingHistory}
                       >
                         Trading History
+                      </Button>
+                    </li>
+                  </>
+                ) : (
+                  <>
+                    <li>
+                      <Button
+                        link
+                        type="planePrimary"
+                        href={`${Routes.Home}#howItWorks`}
+                      >
+                        How it works
+                      </Button>
+                    </li>
+                    <li>
+                      <Button
+                        link
+                        type="planePrimary"
+                        href={`${Routes.Home}#whyUs`}
+                      >
+                        Why Us
+                      </Button>
+                    </li>
+                    <li>
+                      <Button
+                        link
+                        type="planePrimary"
+                        href={`${Routes.Home}#faqs`}
+                      >
+                        FAQs
                       </Button>
                     </li>
                   </>

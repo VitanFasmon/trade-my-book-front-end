@@ -3,6 +3,7 @@ import Navbar from "./components/sections/Navbar";
 import Footer from "./components/sections/Footer";
 import { Outlet } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
+import ScrollToHash from "./navigation/ScrollToHash";
 
 function App() {
   return (
@@ -13,6 +14,7 @@ function App() {
         autoClose={5000}
         closeButton
       />
+      <ScrollToHash />
       <Navbar />
       <Outlet />
       <Footer />

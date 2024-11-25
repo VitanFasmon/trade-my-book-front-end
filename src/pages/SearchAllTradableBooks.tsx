@@ -1,19 +1,19 @@
 import { useEffect, useState } from "react";
-import MediumBook from "../book/MediumBook";
-import Separator from "../Separator";
-import Sort from "../Sort";
-import { BookData } from "../../types/dataTypes";
-import { getLocationById, searchBooks } from "../../data/apiService";
-import SearchBooksAdvance from "../searchBooks/SearchBooksAdvance";
-import useAuthStore from "../../store/useAuthStore";
-import useLocationStore from "../../store/useLocationStore";
-import ConditionSlider from "../ConditionSlider";
-import MaxDistanceInput from "../MaxDistanceInput";
-import Typography from "../Typography";
+import MediumBook from "../components/book/MediumBook";
+import Separator from "../components/Separator";
+import Sort from "../components/Sort";
+import { BookData } from "../types/dataTypes";
+import { getLocationById, searchBooks } from "../data/apiService";
+import SearchBooksAdvance from "../components/searchBooks/SearchBooksAdvance";
+import useAuthStore from "../store/useAuthStore";
+import useLocationStore from "../store/useLocationStore";
+import ConditionSlider from "../components/ConditionSlider";
+import MaxDistanceInput from "../components/MaxDistanceInput";
+import Typography from "../components/Typography";
 import { useNavigate } from "react-router";
-import { Routes } from "../../navigation/routes";
-import LoadingSpinner from "../LoadingSpinner";
-import shapeImage from "../../assets/images/shape2.svg";
+import { Routes } from "../navigation/routes";
+import LoadingSpinner from "../components/LoadingSpinner";
+import shapeImage from "../assets/images/shape2.svg";
 
 const SearchAllTradableBooks = () => {
   const [books, setBooks] = useState<BookData[]>([]);

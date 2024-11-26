@@ -59,9 +59,7 @@ const Register = () => {
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
-    if (step === 1 && !locationData)
-      newErrors.address = "Please enter a location.";
-    if (step === 2) {
+    if (step === 1) {
       if (!formData.name) newErrors.name = "Name is required.";
       if (!formData.email) newErrors.email = "Email is required.";
       if (!formData.phone_number)
@@ -70,6 +68,9 @@ const Register = () => {
       if (formData.password !== repeatPassword)
         newErrors.repeatPassword = "Passwords do not match.";
     }
+
+    if (step === 2 && !locationData)
+      newErrors.address = "Please enter a full address.";
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -121,25 +122,6 @@ const Register = () => {
           </Typography>
           <form className="flex flex-col gap-2 max-w-[800px] w-full justify-center align-center items-center">
             {step === 1 && (
-              <div className=" max-w-[800px] flex flex-col gap-2  justify-center align-center items-center text-center">
-                <Typography as="p" variant="p">
-                  We need your address, so that other people that trade with you
-                  will be able to send you your traded books and in order to
-                  show you books near your location.
-                </Typography>
-                <div className="w-full flex justify-center">
-                  <MapParent edit />
-                </div>
-                {errors.address && (
-                  <p className="text-red-500">{errors.address}</p>
-                )}
-                <Button type="primary" onClick={handleNextStep}>
-                  Next Step
-                </Button>
-              </div>
-            )}
-
-            {step === 2 && (
               <div className=" max-w-[800px] flex flex-col gap-2 w-full h-full">
                 <input
                   type="text"
@@ -200,19 +182,36 @@ const Register = () => {
                 {errors.repeatPassword && (
                   <p className="text-red-500">{errors.repeatPassword}</p>
                 )}
-
-                <div className="flex ">
+                <Button type="primary" onClick={handleNextStep}>
+                  Next Step
+                </Button>
+              </div>
+            )}
+            {step === 2 && (
+              <div className=" max-w-[800px] flex flex-col gap-2  justify-center align-center items-center text-center">
+                <Typography as="p" variant="p">
+                  We need your address, so that other people that trade with you
+                  will be able to send you your traded books and in order to
+                  show you books near your location.
+                </Typography>
+                <div className="w-full flex justify-center">
+                  <MapParent edit />
+                </div>
+                {errors.address && (
+                  <p className="text-red-500">{errors.address}</p>
+                )}
+                <div className="flex">
                   <Button
                     type="secondary"
                     onClick={handleBack}
-                    className="w-full rounded-r-none"
+                    className="w-full min-w-28 rounded-r-none"
                   >
                     Back
                   </Button>
                   <Button
                     type="primary"
                     onClick={handleSubmit}
-                    className="w-full rounded-l-none"
+                    className="w-full min-w-28 rounded-l-none"
                   >
                     Register
                   </Button>

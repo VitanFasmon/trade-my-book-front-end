@@ -104,6 +104,17 @@ const Login: React.FC = () => {
               </Typography>
             </Button>
           </form>
+          <Typography as="p" variant="p" className="flex items-center">
+            Don't have an account?{" "}
+            <Button
+              type="planePrimary"
+              link
+              href={Routes.Registration}
+              className="px-1"
+            >
+              Sign Up
+            </Button>
+          </Typography>
         </div>
       ) : (
         <ActivateAccount email={formData.email} />

@@ -1,17 +1,21 @@
 import Typography from "../Typography";
 import shapeImage from "../../assets/images/shape2.svg";
 import { Routes } from "../../navigation/routes";
+import SlideFadeIn from "../slideFadeIn/SlideFadeIn";
 interface HowItWorksProps {
   hideSignUp: boolean;
 }
 const HowItWorks = ({ hideSignUp }: HowItWorksProps) => {
   return (
     <section
-      className="flex justify-start w-full"
+      className="flex justify-start  w-full"
       style={{ backgroundImage: `url(${shapeImage})` }}
       id="howItWorks"
     >
-      <div className="flex flex-col gap-2 px-8 py-12 max-w-[800px] bg-lightGray">
+      <SlideFadeIn
+        direction="left"
+        className="flex flex-col gap-2 px-8 py-12 max-w-[800px] bg-lightGray"
+      >
         <Typography as="h2" variant="h2" className="text-center p-2">
           How It Works
         </Typography>
@@ -60,7 +64,7 @@ const HowItWorks = ({ hideSignUp }: HowItWorksProps) => {
           Once your trade is confirmed, swap books via mail or meet up locally.
           Don’t forget to rate and leave feedback for your trading partner.
         </Typography>
-      </div>
+      </SlideFadeIn>
     </section>
   );
 };

@@ -1,13 +1,24 @@
 import Typography from "../Typography";
 import shapeImage from "../../assets/images/shape2dark.svg";
+import useIntersectionObserver from "../../hooks/useIntersectionObserver";
+import { useEffect, useRef } from "react";
+import SlideFadeIn from "../slideFadeIn/SlideFadeIn";
 const WhyUs = () => {
+  const ref = useRef<HTMLDivElement>(null);
+  const isIntersecting = useIntersectionObserver(ref);
+  useEffect(() => {
+    console.log(isIntersecting);
+  }, [isIntersecting]);
   return (
     <section
       className="flex justify-end bg-primary w-full"
       style={{ backgroundImage: `url(${shapeImage})` }}
       id="whyUs"
     >
-      <div className="flex flex-col gap-2 px-8 py-12 max-w-[800px] text-white bg-primary">
+      <SlideFadeIn
+        direction="right"
+        className="flex flex-col gap-2 px-8 py-12 max-w-[800px] text-white bg-primary "
+      >
         <Typography as="h2" variant="h2" className="text-center p-2">
           Why TradeMyBook?
         </Typography>
@@ -47,7 +58,7 @@ const WhyUs = () => {
           Keep track of your trading history, added books, and more with a
           simple and intuitive interface.
         </Typography>
-      </div>
+      </SlideFadeIn>
     </section>
   );
 };

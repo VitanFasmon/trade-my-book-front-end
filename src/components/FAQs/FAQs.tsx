@@ -1,5 +1,6 @@
 import Typography from "../Typography";
 import shapeImage from "../../assets/images/shape2.svg";
+import SlideFadeIn from "../slideFadeIn/SlideFadeIn";
 const FAQs = () => {
   return (
     <section
@@ -7,7 +8,10 @@ const FAQs = () => {
       style={{ backgroundImage: `url(${shapeImage})` }}
       id="faqs"
     >
-      <div className="flex flex-col gap-2 px-8 py-12 max-w-[800px] bg-lightGray">
+      <SlideFadeIn
+        direction="left"
+        className="flex flex-col gap-2 px-8 py-12 max-w-[800px] bg-lightGray"
+      >
         <Typography as="h2" variant="h2" className="text-center p-2">
           FAQs
         </Typography>
@@ -35,7 +39,7 @@ const FAQs = () => {
           there will be no bad apples. But we also believe that sometimes in
           life, if we take a leap of faith, to be part of something beautiful.
         </Typography>
-      </div>
+      </SlideFadeIn>
     </section>
   );
 };

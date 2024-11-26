@@ -22,6 +22,30 @@ module.exports = {
         gray: "#9c978f",
         lightGray: "#f0f0f0",
       },
+      keyframes: {
+        "fade-in": {
+          "0%": { opacity: 0 },
+          "100%": { opacity: 1 },
+        },
+        "fade-out": {
+          "0%": { opacity: 1 },
+          "100%": { opacity: 0 },
+        },
+        "slide-fade-left": {
+          "0%": { transform: "translateX(100%)", opacity: 0 },
+          "100%": { transform: "translateX(0)", opacity: 1 },
+        },
+        "slide-fade-right": {
+          "0%": { transform: "translateX(-100%)", opacity: 0 },
+          "100%": { transform: "translateX(0)", opacity: 1 },
+        },
+      },
+      animation: {
+        "fade-in": "fade-in 2s ease-in-out",
+        "fade-out": "fade-out 2s ease-in-out",
+        "slide-fade-left": "slide-fade-left 2s ease-in-out",
+        "slide-fade-right": "slide-fade-right 2s ease-in-out",
+      },
     },
   },
 };

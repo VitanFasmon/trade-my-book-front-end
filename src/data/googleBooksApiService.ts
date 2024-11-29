@@ -1,5 +1,5 @@
 const BOOKS_API_URL = "https://www.googleapis.com/books/v1/volumes";
-const API_KEY = "AIzaSyAz2ZZrl9tFP_0VaBrNXYVSmzyl2fB68UM";
+const API_KEY = process.env.REACT_APP_GOOGLE_MAPS_API_KEY as string;
 
 const getGoogleBooksByQuery = async (
   intitle?: string,

@@ -11,8 +11,8 @@ import ActivateAccount from "../components/ActivateAccount";
 import shapeImage from "../assets/images/shape2.svg";
 const Login: React.FC = () => {
   const [formData, setFormData] = useState<LoginData>({
-    email: "john@example.com",
-    password: "password123",
+    email: "",
+    password: "",
   });
   const { showErrorToast } = useErrorToast();
   const [errors, setErrors] = useState<Record<string, string>>({});

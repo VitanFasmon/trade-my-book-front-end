@@ -24,7 +24,7 @@ const Trade = () => {
     }
   };
   const onAddCommentClick = async () => {
-    if (!trade?.trade_id || !comment || comment.length == 0) {
+    if (!trade?.trade_id || !comment || comment.length === 0) {
       return;
     }
     try {

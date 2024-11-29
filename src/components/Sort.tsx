@@ -50,13 +50,13 @@ const Sort = ({
         type="outlinedSecondary"
         className="bg-lightGray"
         onClick={() => {
-          sortDirection == "desc"
+          sortDirection === "desc"
             ? setSortDirection("asc")
             : setSortDirection("desc");
           onChange && onChange();
         }}
       >
-        {sortDirection == "desc" ? "▼" : "▲"}
+        {sortDirection === "desc" ? "▼" : "▲"}
       </Button>
     </div>
   );

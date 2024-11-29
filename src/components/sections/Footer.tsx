@@ -9,7 +9,7 @@ import Typography from "../Typography";
 import useAuthStore from "../../store/useAuthStore";
 
 const Footer = () => {
-  const { user } = useAuthStore();
+  const { isAuthenticated } = useAuthStore();
   return (
     <footer className="flex flex-col lg:flex-row bg-primary justify-between items-center lg:items-start">
       <div className="flex justify-center p-8">
@@ -31,7 +31,7 @@ const Footer = () => {
             Features
           </h3>
           <ul className="flex flex-col gap-4   items-center md:items-start">
-            {user ? (
+            {isAuthenticated ? (
               <>
                 <li>
                   <Button

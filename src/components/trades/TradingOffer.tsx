@@ -49,7 +49,7 @@ const TradingOffer = ({
   const getOtherUserData = async () => {
     try {
       const otherUserId =
-        user?.user_id == trade.user_from ? trade.user_to : trade.user_from;
+        user?.user_id === trade.user_from ? trade.user_to : trade.user_from;
       const response = await fetchUserDataById(otherUserId);
       setOtherUser(response.data || null);
     } catch (error) {
@@ -89,11 +89,10 @@ const TradingOffer = ({
   const checkIfAlreadyRated = async () => {
     try {
       const response = await getRatingsByTradeId(trade.trade_id);
-      if (!response.data || response.data?.length == 0) return;
+      if (!response.data || response.data?.length === 0) return;
       const ratings = response.data;
       ratings.forEach((rating) => {
         if (rating.user_id !== user?.user_id) {
-          //each user rates the other
           setAlreadyRated(true);
           setUserRating(rating.rating);
           return;
@@ -110,7 +109,7 @@ const TradingOffer = ({
       if (trade.status != "accepted") return;
       if (!user) return;
       const otherUserId =
-        user?.user_id == trade.user_from ? trade.user_to : trade.user_from;
+        user?.user_id === trade.user_from ? trade.user_to : trade.user_from;
       if (isUpdate) {
         await updateRating({
           user_id: otherUserId,
@@ -151,7 +150,7 @@ const TradingOffer = ({
                 <MediumBook
                   showLocation
                   bookData={
-                    requestedBook.added_by_user_id == user.user_id
+                    requestedBook.added_by_user_id === user.user_id
                       ? offeredBook
                       : requestedBook
                   }
@@ -185,9 +184,9 @@ const TradingOffer = ({
                 </Button>
               )}
 
-              {trade.status == "pending" ? (
+              {trade.status === "pending" ? (
                 <>
-                  {trade.user_to == user.user_id ? (
+                  {trade.user_to === user.user_id ? (
                     <>
                       <Button type="secondary" onClick={onAcceptTradeClick}>
                         Accept
@@ -216,13 +215,13 @@ const TradingOffer = ({
               <div className="flex flex-col gap-2 w-full h-full items-center">
                 <MediumBook
                   bookData={
-                    requestedBook.added_by_user_id == user.user_id
+                    requestedBook.added_by_user_id === user.user_id
                       ? requestedBook
                       : offeredBook
                   }
                 />
               </div>
-              {trade.status == "accepted" && (
+              {trade.status === "accepted" && (
                 <>
                   {alreadyRated ? (
                     <div className="flex items-center gap-2">

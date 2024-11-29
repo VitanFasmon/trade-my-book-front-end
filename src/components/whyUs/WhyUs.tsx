@@ -4,11 +4,6 @@ import useIntersectionObserver from "../../hooks/useIntersectionObserver";
 import { useEffect, useRef } from "react";
 import SlideFadeIn from "../slideFadeIn/SlideFadeIn";
 const WhyUs = () => {
-  const ref = useRef<HTMLDivElement>(null);
-  const isIntersecting = useIntersectionObserver(ref);
-  useEffect(() => {
-    console.log(isIntersecting);
-  }, [isIntersecting]);
   return (
     <section
       className="flex justify-end bg-primary w-full"

@@ -17,7 +17,6 @@ const useIntersectionObserver = (
     if (ref.current) {
       observer.observe(ref.current);
     }
-    console.log(observer);
     return () => {
       if (ref.current) {
         observer.unobserve(ref.current);

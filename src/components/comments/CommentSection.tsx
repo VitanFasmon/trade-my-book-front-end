@@ -45,7 +45,9 @@ const CommentSection = ({ trade, refresh }: CommentSectionProps) => {
               <div className="border p-2 rounded-xl" key={crypto.randomUUID()}>
                 <div className="flex flex-row gap-2 justify-between">
                   <Typography as="p" variant="p" className="font-bold">
-                    {user?.user_id == comment.user_id ? "You" : otherUser?.name}
+                    {user?.user_id === comment.user_id
+                      ? "You"
+                      : otherUser?.name}
                   </Typography>
                   <p>{getTimeDifference(new Date(comment.date_posted))}</p>
                 </div>

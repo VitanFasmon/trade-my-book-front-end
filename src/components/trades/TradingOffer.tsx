@@ -106,7 +106,7 @@ const TradingOffer = ({
   const onConfirmRateTradeClick = async (isUpdate: boolean) => {
     setEnableRating(false);
     try {
-      if (trade.status != "accepted") return;
+      if (trade.status !== "accepted") return;
       if (!user) return;
       const otherUserId =
         user?.user_id === trade.user_from ? trade.user_to : trade.user_from;

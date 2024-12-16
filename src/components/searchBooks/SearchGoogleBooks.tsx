@@ -90,14 +90,14 @@ const SearchGoogleBooks = ({ onSelectBookClick }: SearchGoogleBooksProps) => {
   };
 
   return (
-    <section className="flex flex-col gap-2 p-4 max-w-[800px] md:w-[800px] bg-lightGray">
-      <div className="flex flex-row gap-2">
+    <section className="flex flex-col gap-2 p-4 max-w-[800px] md:w-[800px] bg-lightGray w-full">
+      <div className="flex md:flex-row flex-col gap-2 w-full">
         <input
           type="text"
           placeholder="Author"
           value={author}
           onChange={(e) => setAuthor(e.target.value)}
-          className="w-1/3 border-2 bg-lightGray border-secondary rounded-lg p-2 text-primary font-bold placeholder:text-gray placeholder:font-bold"
+          className="md:w-1/3 w-full border-2 bg-lightGray border-secondary rounded-lg p-2 text-primary font-bold placeholder:text-gray placeholder:font-bold"
           onKeyUp={handleKeyPress}
         />
         <input
@@ -110,7 +110,7 @@ const SearchGoogleBooks = ({ onSelectBookClick }: SearchGoogleBooksProps) => {
         />
         <Button
           type="primary"
-          className="w-1/3"
+          className="md:w-1/3 w-full"
           onClick={() => {
             handleSearch();
           }}

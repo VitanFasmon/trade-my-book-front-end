@@ -139,7 +139,7 @@ const UserProfile = () => {
       className="flex flex-col items-center min-h-full"
       style={{ backgroundImage: `url(${shapeImage})` }}
     >
-      <div className="w-[800px] my-8 flex flex-col gap-2 bg-white p-4 rounded-xl shadow-2xl border-2 border-lightGray">
+      <div className="md:w-[800px] w-full my-8 flex flex-col gap-2 bg-white p-4 rounded-xl shadow-2xl border-2 border-lightGray">
         <div className="flex flex-row justify-between gap-2">
           <Typography as="h2" variant="h2">
             {edit ? (

@@ -14,7 +14,7 @@ const SlideFadeIn = ({ children, className, direction }: SlideFadeInProps) => {
     <div
       ref={ref}
       className={`${className} ${
-        isIntersecting ? "animate-slide-fade-" + direction : "invisible"
+        isIntersecting ? "animate-slide-fade-" + direction : ""
       }`}
     >
       {children}

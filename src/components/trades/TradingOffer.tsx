@@ -156,21 +156,22 @@ const TradingOffer = ({
                   }
                 />
               </div>
-              {otherUserRating ? (
-                <>
+              {trade.status === "accepted" &&
+                (otherUserRating ? (
+                  <>
+                    <Typography as="p" variant="p">
+                      {`${otherUser?.name} rated this trade: ${
+                        otherUserRating
+                          ? numberRatingToStars(otherUserRating)
+                          : "N/A"
+                      }`}
+                    </Typography>
+                  </>
+                ) : (
                   <Typography as="p" variant="p">
-                    {`${otherUser?.name} rated this trade: ${
-                      otherUserRating
-                        ? numberRatingToStars(otherUserRating)
-                        : "N/A"
-                    }`}
+                    {`${otherUser?.name} has not rated this trade yet.`}
                   </Typography>
-                </>
-              ) : (
-                <Typography as="p" variant="p">
-                  {`${otherUser?.name} has not rated this trade yet.`}
-                </Typography>
-              )}
+                ))}
             </div>
             <div className="flex flex-col gap-2 h-full justify-center items-center md:w-64">
               {!standalone && (

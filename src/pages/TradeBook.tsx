@@ -70,6 +70,7 @@ const TradeBook = () => {
   const handleOnCancelButtonClick = () => {
     setOfferedBook(null);
     setDetailsConfirmed(false);
+    navigate(Routes.Search);
   };
   useEffect(() => {
     getUserLocationByLocationId();
@@ -83,7 +84,7 @@ const TradeBook = () => {
               <Typography as="h2" variant="h2">
                 You will receive:
               </Typography>
-              <MediumBook bookData={requestedBook} />
+              <MediumBook bookData={requestedBook} showLocation />
             </div>
             <div className="flex flex-col items-center justify-center min-w-48 p-2 gap-2">
               <Button type="danger" onClick={handleOnCancelButtonClick}>
@@ -92,9 +93,15 @@ const TradeBook = () => {
             </div>
             <div className="flex flex-col gap-2 items-center w-full">
               <Typography as="h2" variant="h2">
-                You will loose:
+                You will lose:
               </Typography>
-              {offeredBook && <MediumBook bookData={offeredBook} />}
+              {offeredBook ? (
+                <MediumBook bookData={offeredBook} />
+              ) : (
+                <Typography as="h3" variant="h3">
+                  Select a book you want to give away
+                </Typography>
+              )}
             </div>
           </div>
           {offeredBook && (
